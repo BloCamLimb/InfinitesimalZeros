@@ -1,0 +1,16 @@
+[
+{
+  "modid": "infinitesimalzeros",
+  "name": "Infinitesimal Zeros",
+  "description": "All the particles, for all the matter.",
+  "version": "1.12.2-r1",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["BloCamLimb"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
