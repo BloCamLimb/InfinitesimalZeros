@@ -1,29 +1,33 @@
 package infinitesimalzeros.common;
 
 import infinitesimalzeros.InfinitesimalZeros;
-import infinitesimalzeros.common.registry.ItemRender;
-import infinitesimalzeros.common.registry.RegistryBlocks;
-import infinitesimalzeros.common.registry.RegistryItems;
-import infinitesimalzeros.common.registry.RegistryRecipes;
-import infinitesimalzeros.common.registry.RegistrySounds;
-import net.minecraft.block.Block;
+import infinitesimalzeros.common.item.MetaItems;
+import infinitesimalzeros.common.render.ColorItemRenderer;
+import infinitesimalzeros.common.unification.MaterialBasis;
+import infinitesimalzeros.common.util.handlers.PacketHandler;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class CommonProxy {
 	
 	public void preInit() {
 		MinecraftForge.EVENT_BUS.register(this);
-		new ItemRender();
+		MaterialBasis.runMaterialHandlers();
+		MaterialBasis.freezeRegistry();
+		
+		/*InfinitesimalZeros.logger.info("Init Items");
+		MetaItems.init();*/
+		
+		InfinitesimalZeros.logger.info("Packet Initializing...");
+		PacketHandler.Init();
 	}
 	
 	public void Init() {
-		
+		registerColors();
 	}
 	
 	public void postInit() {
@@ -33,27 +37,14 @@ public class CommonProxy {
 	public void registerOreDictEntries() {
 		
 	}
-    
-	@SubscribeEvent
-    public void registerItems(RegistryEvent.Register<Item> event) {
-        RegistryItems.registerItems(event.getRegistry());
-        InfinitesimalZeros.proxy.registerOreDictEntries();
-    }
-
-    @SubscribeEvent
-    public void registerBlocks(RegistryEvent.Register<Block> event) {
-        RegistryBlocks.init();
-        RegistryBlocks.initRenderRegistry();
-    }
-
-    @SubscribeEvent
-    public void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-        RegistryRecipes.initMainRecipes();
-    }
-
-    @SubscribeEvent
-    public void registerSounds(RegistryEvent.Register<SoundEvent> event) {
-        RegistrySounds.init();
-    }
+	
+	
+	public void registerItemRenderer(Item item, int meta, String id){}
+	
+	public void registerColors() {
+		MetaItems.registerColors();
+		ColorItemRenderer render = new ColorItemRenderer();
+		render.renderItem();
+	}
 
 }

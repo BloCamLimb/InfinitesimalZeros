@@ -1,0 +1,178 @@
+package infinitesimalzeros.common.util.handlers;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import infinitesimalzeros.InfinitesimalZeros;
+import infinitesimalzeros.api.Range4D;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
+import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+
+public class PacketHandler {
+	
+	public static SimpleNetworkWrapper network = NetworkRegistry.INSTANCE.newSimpleChannel("InfinitesimalZeros");
+	
+	public static void Init() {
+		
+	}
+	
+	public static EntityPlayer getPlayer(MessageContext context) {
+		return context.getServerHandler().player;
+	}
+
+	public static void handlePacket(Runnable runnable, EntityPlayer player) {
+		if(player instanceof EntityPlayerMP) {
+			((WorldServer)player.world).addScheduledTask(runnable);
+		}
+	}
+	
+	/**
+	 * Encodes an Object[] of data into a DataOutputStream.
+	 * @param dataValues - an Object[] of data to encode
+	 * @param output - the output stream to write to
+	 */
+	public static void encode(Object[] dataValues, ByteBuf output) {
+		try {
+			for(Object data : dataValues)
+			{
+				if(data instanceof Byte)
+				{
+					output.writeByte((Byte)data);
+				}
+				else if(data instanceof Integer)
+				{
+					output.writeInt((Integer)data);
+				}
+				else if(data instanceof Short)
+				{
+					output.writeShort((Short)data);
+				}
+				else if(data instanceof Long)
+				{
+					output.writeLong((Long)data);
+				}
+				else if(data instanceof Boolean)
+				{
+					output.writeBoolean((Boolean)data);
+				}
+				else if(data instanceof Double)
+				{
+					output.writeDouble((Double)data);
+				}
+				else if(data instanceof Float)
+				{
+					output.writeFloat((Float)data);
+				}
+				else if(data instanceof String)
+				{
+					writeString(output, (String)data);
+				}
+				else if(data instanceof EnumFacing)
+				{
+					output.writeInt(((EnumFacing)data).ordinal());
+				}
+				else if(data instanceof ItemStack)
+				{
+					writeStack(output, (ItemStack)data);
+				}
+				else if(data instanceof NBTTagCompound)
+				{
+					writeNBT(output, (NBTTagCompound)data);
+				}
+				else if(data instanceof int[])
+				{
+					for(int i : (int[])data)
+					{
+						output.writeInt(i);
+					}
+				}
+				else if(data instanceof byte[])
+				{
+					for(byte b : (byte[])data)
+					{
+						output.writeByte(b);
+					}
+				}
+				else if(data instanceof ArrayList)
+				{
+					encode(((ArrayList<?>)data).toArray(), output);
+				}
+				else if (data instanceof NonNullList){
+					encode(((NonNullList) data).toArray(), output);
+				}
+				else {
+					throw new RuntimeException("Un-encodable data passed to encode(): " + data + ", full data: " + Arrays.toString(dataValues));
+				}
+			}
+		} catch(Exception e) {
+			InfinitesimalZeros.logger.error("Error while encoding packet data.");
+			e.printStackTrace();
+		}
+	}
+	
+	public static void writeString(ByteBuf output, String s)
+	{
+		ByteBufUtils.writeUTF8String(output, s);
+	}
+	
+	public static String readString(ByteBuf input)
+	{
+		return ByteBufUtils.readUTF8String(input);
+	}
+	
+	public static void writeStack(ByteBuf output, ItemStack stack)
+	{
+		ByteBufUtils.writeItemStack(output, stack);
+	}
+	
+	public static ItemStack readStack(ByteBuf input)
+	{
+		return ByteBufUtils.readItemStack(input);
+	}
+	
+	public static void writeNBT(ByteBuf output, NBTTagCompound nbtTags)
+	{
+		ByteBufUtils.writeTag(output, nbtTags);
+	}
+	
+	public static NBTTagCompound readNBT(ByteBuf input)
+	{
+		return ByteBufUtils.readTag(input);
+	}
+	
+	public static void sendTo(IMessage message, EntityPlayerMP player)
+	{
+		network.sendTo(message, player);
+	}
+	
+	public static void sendToReceivers(IMessage message, Range4D range)
+	{
+		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+
+		if(server != null)
+		{
+			for(EntityPlayerMP player : (List<EntityPlayerMP>)server.getPlayerList().getPlayers())
+			{
+				if(player.dimension == range.dimensionId && Range4D.getChunkRange(player).intersects(range))
+				{
+					sendTo(message, player);
+				}
+			}
+		}
+	}
+
+}

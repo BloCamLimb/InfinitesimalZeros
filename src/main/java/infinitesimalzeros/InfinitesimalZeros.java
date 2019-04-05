@@ -1,5 +1,8 @@
 package infinitesimalzeros;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
 import infinitesimalzeros.common.CommonProxy;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -26,6 +29,8 @@ public class InfinitesimalZeros {
 
 	@Instance(MODID)
 	public static InfinitesimalZeros instance;
+	
+	public static Logger logger = (Logger) LogManager.getLogger("InfinitesimalZeros");
 
 	@SidedProxy(clientSide = "infinitesimalzeros.client.ClientProxy", serverSide = "infinitesimalzeros.common.CommonProxy")
 	public static CommonProxy proxy;
