@@ -1,1 +1,1 @@
-# Infinitesimal-Zeros
+# InfinitesimalZeros
