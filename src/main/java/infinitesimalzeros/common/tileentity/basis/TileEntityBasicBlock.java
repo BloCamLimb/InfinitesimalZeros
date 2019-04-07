@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.api.Range4D;
 import infinitesimalzeros.common.network.PacketDataRequest.DataRequestMessage;
@@ -44,7 +45,7 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 		super.onLoad();
 		if(world.isRemote)
 		{
-			PacketHandler.network.sendToServer((IMessage) new DataRequestMessage(Coord4D.get(this)));
+			//PacketHandler.network.sendToServer((IMessage) new DataRequestMessage(Coord4D.get(this)));
 		}
 	}
 	
@@ -63,7 +64,7 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 			{
 				for(EntityPlayer player : playersUsing)
 				{
-					PacketHandler.network.sendTo(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), (EntityPlayerMP)player);
+					//PacketHandler.network.sendTo(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), (EntityPlayerMP)player);
 				}
 			}
 		}
@@ -150,7 +151,7 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 
 		if(world.isRemote)
 		{
-			PacketHandler.network.sendToServer(new DataRequestMessage(Coord4D.get(this)));
+			//PacketHandler.network.sendToServer(new DataRequestMessage(Coord4D.get(this)));
 		}
 	}
 	
@@ -182,7 +183,7 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 
 		if(!(facing == clientFacing || world.isRemote))
 		{
-			PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
+			//PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
 			markDirty();
 			clientFacing = facing;
 		}

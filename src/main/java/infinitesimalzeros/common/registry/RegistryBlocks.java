@@ -7,6 +7,7 @@ import infinitesimalzeros.common.block.BlockTileEntityCore;
 import infinitesimalzeros.common.block.BlockTileEntityCore.MachineSets;
 import infinitesimalzeros.common.block.NanaBlock;
 import infinitesimalzeros.common.block.NanaFurnace;
+import infinitesimalzeros.common.item.ItemBlockMachine;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -32,7 +33,7 @@ public class RegistryBlocks {
 	public static void registerBlocks(IForgeRegistry<Block> registry) {
 		registry.register(init(TEBlockA, "Machine_A"));
 		//registry.register(init(TEBlockB, "Machine_B"));
-		RegistryItems.ITEMS.add(new ItemBlock(TEBlockA).setRegistryName(TEBlockA.getRegistryName()));
+		RegistryItems.ITEMS.add(new ItemBlockMachine(TEBlockA).setRegistryName(TEBlockA.getRegistryName()));
 		//RegistryItems.ITEMS.add(new ItemBlock(TEBlockB).setRegistryName(TEBlockB.getRegistryName()));
 	}
 	

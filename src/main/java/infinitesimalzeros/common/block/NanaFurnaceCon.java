@@ -41,7 +41,7 @@ public class NanaFurnaceCon extends Container {
 		}
 	}
 	
-	/*@Override
+	@Override
 	public void detectAndSendChanges() 
 	{
 		super.detectAndSendChanges();
@@ -60,7 +60,7 @@ public class NanaFurnaceCon extends Container {
 		this.burnTime = this.tileentity.getField(0);
 		this.currentBurnTime = this.tileentity.getField(1);
 		this.totalCookTime = this.tileentity.getField(3);
-	}*/
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -75,7 +75,7 @@ public class NanaFurnaceCon extends Container {
 		return this.tileentity.isUsableByPlayer(playerIn);
 	}
 	
-	/*@Override
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) 
 	{
 		ItemStack stack = ItemStack.EMPTY;
@@ -100,18 +100,6 @@ public class NanaFurnaceCon extends Container {
 					if(!this.mergeItemStack(stack1, 0, 2, false)) 
 					{
 						return ItemStack.EMPTY;
-					}
-					else if(NanaFurnaceTE.isItemFuel(stack1))
-					{
-						if(!this.mergeItemStack(stack1, 2, 3, false)) return ItemStack.EMPTY;
-					}
-					else if(NanaFurnaceTE.isItemFuel(stack1))
-					{
-						if(!this.mergeItemStack(stack1, 2, 3, false)) return ItemStack.EMPTY;
-					}
-					else if(NanaFurnaceTE.isItemFuel(stack1))
-					{
-						if(!this.mergeItemStack(stack1, 2, 3, false)) return ItemStack.EMPTY;
 					}
 					else if(index >= 4 && index < 31)
 					{
@@ -140,6 +128,6 @@ public class NanaFurnaceCon extends Container {
 			slot.onTake(playerIn, stack1);
 		}
 		return stack;
-	}*/
+	}
 
 }

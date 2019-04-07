@@ -57,7 +57,7 @@ public abstract class TileEntityMachine extends TileEntityElectricBlock implemen
 
 				if(updateDelay == 0 && clientActive != isActive)
 				{
-					PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
+					//PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
 				}
 			}
 		}
@@ -76,7 +76,7 @@ public abstract class TileEntityMachine extends TileEntityElectricBlock implemen
 
 		if(clientActive != active && updateDelay == 0)
 		{
-			PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
+			//PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
 
 			updateDelay = 10;
 			clientActive = active;

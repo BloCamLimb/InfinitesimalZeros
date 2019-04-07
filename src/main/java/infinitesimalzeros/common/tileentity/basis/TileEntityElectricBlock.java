@@ -1,5 +1,6 @@
 package infinitesimalzeros.common.tileentity.basis;
 
+import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.common.capability.Capabilities;
 import infinitesimalzeros.common.capability.CapabilityWrapperManager;
 import infinitesimalzeros.common.integration.forgeenergy.ForgeEnergyIntegration;
@@ -121,7 +122,7 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
 	public void readFromNBT(NBTTagCompound nbtTags)
 	{
 		super.readFromNBT(nbtTags);
-
+		
 		electricityStored = nbtTags.getDouble("electricityStored");
 	}
 
@@ -129,7 +130,7 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
 	public NBTTagCompound writeToNBT(NBTTagCompound nbtTags)
 	{
 		super.writeToNBT(nbtTags);
-
+		
 		nbtTags.setDouble("electricityStored", getEnergy());
 		
 		return nbtTags;

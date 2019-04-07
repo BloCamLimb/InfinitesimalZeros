@@ -37,9 +37,19 @@ public class RegistryEventHandler {
             item.registerSubItems();
         }
     }
-
+	
+    @SubscribeEvent
+    public static void registerBlocks(RegistryEvent.Register<Block> event) {
+    	InfinitesimalZeros.logger.info("Blocks Initilizing...");
+        RegistryBlocks.registerBlocks(event.getRegistry());;
+        RegistryBlocks.initRenderRegistry();
+        TileEntityHandler.registerTileEntity();
+        NetworkRegistry.INSTANCE.registerGuiHandler(InfinitesimalZeros.instance, new GUIHandler());
+        event.getRegistry().registerAll(RegistryBlocks.BLOCKS.toArray(new Block[0]));
+    }
+    
 	@SubscribeEvent
-	public static void registerItemModels(ModelRegistryEvent event) {
+	public static void registerModels(ModelRegistryEvent event) {
 		MetaItems.registerModels();
 
 		for(Item item : RegistryItems.ITEMS)
@@ -58,16 +68,6 @@ public class RegistryEventHandler {
 			}
 		}
 	}
-	
-    @SubscribeEvent
-    public static void registerBlocks(RegistryEvent.Register<Block> event) {
-    	InfinitesimalZeros.logger.info("Blocks Initilizing...");
-        RegistryBlocks.registerBlocks(event.getRegistry());;
-        RegistryBlocks.initRenderRegistry();
-        NetworkRegistry.INSTANCE.registerGuiHandler(InfinitesimalZeros.instance, new GUIHandler());
-        TileEntityHandler.registerTileEntity();
-        event.getRegistry().registerAll(RegistryBlocks.BLOCKS.toArray(new Block[0]));
-    }
 
     @SubscribeEvent
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {

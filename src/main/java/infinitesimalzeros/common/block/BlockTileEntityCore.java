@@ -1,22 +1,24 @@
 package infinitesimalzeros.common.block;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
 import com.google.common.base.Predicate;
 
-import infinitesimalzeros.common.tileentity.TileEntitySmelter;
-import infinitesimalzeros.common.tileentity.basis.TileEntityBasicBlock;
-import infinitesimalzeros.common.util.IZUtils;
-import infinitesimalzeros.common.util.interfaces.IActiveState;
-import infinitesimalzeros.common.util.interfaces.ISustainedData;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.common.block.state.BlockStateFacing;
 import infinitesimalzeros.common.block.state.BlockStateMachine;
 import infinitesimalzeros.common.block.state.BlockStateMachine.MachineBlockPredicate;
 import infinitesimalzeros.common.registry.RegistryItems;
+import infinitesimalzeros.common.tileentity.TileEntitySmelter;
+import infinitesimalzeros.common.tileentity.basis.TileEntityBasicBlock;
+import infinitesimalzeros.common.tileentity.basis.TileEntityContainerBlock;
+import infinitesimalzeros.common.tileentity.basis.TileEntityElectricBlock;
+import infinitesimalzeros.common.util.IZUtils;
+import infinitesimalzeros.common.util.interfaces.IActiveState;
+import infinitesimalzeros.common.util.interfaces.IEnergizedItem;
+import infinitesimalzeros.common.util.interfaces.ISustainedData;
+import infinitesimalzeros.common.util.interfaces.ISustainedInventory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
@@ -33,13 +35,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumFacing.Plane;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.NonNullList;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -160,6 +162,11 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 			}
 
 			return null;
+		}
+		
+		public static MachineTypes get(ItemStack stack)
+		{
+			return get(Block.getBlockFromItem(stack.getItem()), stack.getItemDamage());
 		}
 		
 		public TileEntity create() {
@@ -324,7 +331,6 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 		TileEntityBasicBlock tileEntity = (TileEntityBasicBlock)world.getTileEntity(pos);
 		ItemStack itemStack = new ItemStack(this, 1, state.getBlock().getMetaFromState(state));
 
-		// Force to generate NBT Tag
 		if(itemStack.getTagCompound() == null) {
 			
 			itemStack.setTagCompound(new NBTTagCompound());
@@ -335,11 +341,17 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 			((ISustainedData)tileEntity).writeSustainedData(itemStack);
 		}
 		
-		/*if(tileEntity instanceof NanaFurnaceTE ) {
-		  
+		if(tileEntity instanceof TileEntityContainerBlock && ((TileEntityContainerBlock)tileEntity).inventory.size() > 0)
+		{
 			ISustainedInventory inventory = (ISustainedInventory)itemStack.getItem();
 			inventory.setInventory(((ISustainedInventory)tileEntity).getInventory(), itemStack);
-		}*/
+		}
+		
+		if(tileEntity instanceof TileEntityElectricBlock)
+		{
+			IEnergizedItem energizedItem = (IEnergizedItem)itemStack.getItem();
+			energizedItem.setEnergy(itemStack, ((TileEntityElectricBlock)tileEntity).getEnergy());
+		}
 		
 		return itemStack;
 	}

@@ -21,13 +21,12 @@ public class CommonProxy {
 		
 		/*InfinitesimalZeros.logger.info("Init Items");
 		MetaItems.init();*/
-		
-		InfinitesimalZeros.logger.info("Packet Initializing...");
-		PacketHandler.Init();
 	}
 	
 	public void Init() {
 		registerColors();
+		InfinitesimalZeros.logger.info("Packet Initializing...");
+		//PacketHandler.Init();
 	}
 	
 	public void postInit() {

@@ -6,6 +6,10 @@ import java.util.List;
 
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Range4D;
+import infinitesimalzeros.common.network.PacketDataRequest;
+import infinitesimalzeros.common.network.PacketDataRequest.DataRequestMessage;
+import infinitesimalzeros.common.network.PacketTileEntity;
+import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -21,13 +25,16 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class PacketHandler {
 	
 	public static SimpleNetworkWrapper network = NetworkRegistry.INSTANCE.newSimpleChannel("InfinitesimalZeros");
 	
 	public static void Init() {
-		
+		network.registerMessage(PacketTileEntity.class, TileEntityMessage.class, 5, Side.CLIENT);
+		network.registerMessage(PacketTileEntity.class, TileEntityMessage.class, 5, Side.SERVER);
+		network.registerMessage(PacketDataRequest.class, DataRequestMessage.class, 7, Side.SERVER);
 	}
 	
 	public static EntityPlayer getPlayer(MessageContext context) {
