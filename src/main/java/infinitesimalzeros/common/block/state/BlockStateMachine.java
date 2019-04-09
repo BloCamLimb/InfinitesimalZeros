@@ -16,21 +16,24 @@ public class BlockStateMachine extends ExtendedBlockState {
 	public static final PropertyBool activeProperty = PropertyBool.create("active");
 	
 	public BlockStateMachine(BlockTileEntityCore block, PropertyEnum<?> typeProperty) {
-		super(block, new IProperty[] {BlockStateFacing.facingProperty, typeProperty, activeProperty}, new IUnlistedProperty[] {});
+		
+		super(block, new IProperty[] { BlockStateFacing.facingProperty, typeProperty, activeProperty }, new IUnlistedProperty[] {});
 	}
 	
 	public static class MachineBlockPredicate implements Predicate<MachineTypes> {
 		
 		public MachineSets machineBlock;
-
+		
 		public MachineBlockPredicate(MachineSets type) {
+			
 			machineBlock = type;
 		}
-
+		
 		@Override
 		public boolean apply(MachineTypes input) {
+			
 			return input.block == machineBlock;
 		}
 	}
-
+	
 }

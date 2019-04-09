@@ -14,75 +14,73 @@ public class IZUtils {
 	
 	/**
 	 * Updates a block's light value and marks it for a render update.
+	 * 
 	 * @param world - world the block is in
-	 * @param pos Position of the block
+	 * @param pos   Position of the block
 	 */
-	public static void updateBlock(World world, BlockPos pos)
-	{
-		if(!(world.getTileEntity(pos) instanceof IActiveState) || ((IActiveState)world.getTileEntity(pos)).renderUpdate())
-		{
+	public static void updateBlock(World world, BlockPos pos) {
+		
+		if(!(world.getTileEntity(pos) instanceof IActiveState) || ((IActiveState) world.getTileEntity(pos)).renderUpdate()) {
 			world.markBlockRangeForRenderUpdate(pos, pos);
 		}
-
-		if(!(world.getTileEntity(pos) instanceof IActiveState) || ((IActiveState)world.getTileEntity(pos)).lightUpdate())
-		{
+		
+		if(!(world.getTileEntity(pos) instanceof IActiveState) || ((IActiveState) world.getTileEntity(pos)).lightUpdate()) {
 			updateAllLightTypes(world, pos);
 		}
 	}
 	
 	/**
 	 * Updates all light types at the given coordinates.
+	 * 
 	 * @param world - the world to perform the lighting update in
-	 * @param pos - coordinates of the block to update
+	 * @param pos   - coordinates of the block to update
 	 */
-	public static void updateAllLightTypes(World world, BlockPos pos)
-	{
+	public static void updateAllLightTypes(World world, BlockPos pos) {
+		
 		world.checkLightFor(EnumSkyBlock.BLOCK, pos);
 		world.checkLightFor(EnumSkyBlock.SKY, pos);
 	}
 	
 	/**
 	 * Marks the chunk this TileEntity is in as modified. Call this method to be sure NBT is written by the defined tile entity.
+	 * 
 	 * @param tileEntity - TileEntity to save
 	 */
-	public static void saveChunk(TileEntity tileEntity)
-	{
-		if(tileEntity == null || tileEntity.isInvalid() || tileEntity.getWorld() == null)
-		{
+	public static void saveChunk(TileEntity tileEntity) {
+		
+		if(tileEntity == null || tileEntity.isInvalid() || tileEntity.getWorld() == null) {
 			return;
 		}
-
+		
 		tileEntity.getWorld().markChunkDirty(tileEntity.getPos(), tileEntity);
 	}
 	
 	/**
 	 * Checks if a machine is in it's active state.
+	 * 
 	 * @param world World of the machine to check
-	 * @param pos The position of the machine
+	 * @param pos   The position of the machine
 	 * @return if machine is active
 	 */
-	public static boolean isActive(IBlockAccess world, BlockPos pos)
-	{
+	public static boolean isActive(IBlockAccess world, BlockPos pos) {
+		
 		TileEntity tileEntity = world.getTileEntity(pos);
-
-		if(tileEntity != null)
-		{
-			if(tileEntity instanceof IActiveState)
-			{
-				return ((IActiveState)tileEntity).getActive();
+		
+		if(tileEntity != null) {
+			if(tileEntity instanceof IActiveState) {
+				return ((IActiveState) tileEntity).getActive();
 			}
 		}
-
+		
 		return false;
 	}
 	
-	public static ResourceLocation getResource(ResourceType type, String name)
-	{
+	public static ResourceLocation getResource(ResourceType type, String name) {
+		
 		return new ResourceLocation("infinitesimalzeros", type.getPrefix() + name);
 	}
 	
-	public enum ResourceType
-	{
+	public enum ResourceType {
 		GUI("gui"),
 		GUI_ELEMENT("gui/elements"),
 		SOUND("sound"),
@@ -91,23 +89,23 @@ public class IZUtils {
 		TEXTURE_ITEMS("textures/items"),
 		MODEL("models"),
 		INFUSE("infuse");
-
+		
 		private String prefix;
-
-		ResourceType(String s)
-		{
+		
+		ResourceType(String s) {
+			
 			prefix = s;
 		}
-
-		public String getPrefix()
-		{
+		
+		public String getPrefix() {
+			
 			return prefix + "/";
 		}
 	}
 	
-	public static TileEntity getTileEntitySafe(IBlockAccess worldIn, BlockPos pos)
-	{
-		return worldIn instanceof ChunkCache ? ((ChunkCache)worldIn).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : worldIn.getTileEntity(pos);
+	public static TileEntity getTileEntitySafe(IBlockAccess worldIn, BlockPos pos) {
+		
+		return worldIn instanceof ChunkCache ? ((ChunkCache) worldIn).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : worldIn.getTileEntity(pos);
 	}
-
+	
 }

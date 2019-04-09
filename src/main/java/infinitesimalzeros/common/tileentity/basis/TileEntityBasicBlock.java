@@ -38,53 +38,50 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 	public boolean doAutoSync = true;
 	
 	public List<ITileComponent> components = new ArrayList<>();
-
+	
 	@Override
 	public void onLoad() {
+		
 		super.onLoad();
-		if(world.isRemote)
-		{
+		if(world.isRemote) {
 			PacketHandler.network.sendToServer((IMessage) new DataRequestMessage(Coord4D.get(this)));
 		}
 	}
 	
 	@Override
 	public void update() {
-		for(ITileComponent component : components)
-		{
+		
+		for(ITileComponent component : components) {
 			component.tick();
 		}
 		
 		onUpdate();
 		
-		if(!world.isRemote)
-		{
-			if(doAutoSync && playersUsing.size() > 0)
-			{
-				for(EntityPlayer player : playersUsing)
-				{
-					PacketHandler.network.sendTo(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), (EntityPlayerMP)player);
+		if(!world.isRemote) {
+			if(doAutoSync && playersUsing.size() > 0) {
+				for(EntityPlayer player : playersUsing) {
+					PacketHandler.network.sendTo(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), (EntityPlayerMP) player);
 				}
 			}
 		}
-
+		
 		ticker++;
 	}
 	
 	@Override
-	public void updateContainingBlockInfo()
-	{
+	public void updateContainingBlockInfo() {
+		
 		super.updateContainingBlockInfo();
 		
 	}
-
-	public void open(EntityPlayer player)
-	{
+	
+	public void open(EntityPlayer player) {
+		
 		playersUsing.add(player);
 	}
-
-	public void close(EntityPlayer player)
-	{
+	
+	public void close(EntityPlayer player) {
+		
 		playersUsing.remove(player);
 	}
 	
@@ -110,61 +107,55 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 		
 		return compound;
 	}
-
-	@Override
-	public void handlePacketData(ByteBuf dataStream)
-	{
-		
-		if(FMLCommonHandler.instance().getEffectiveSide().isClient())
-		{
-			facing = EnumFacing.getFront(dataStream.readInt());
 	
-			if(clientFacing != facing)
-			{
+	@Override
+	public void handlePacketData(ByteBuf dataStream) {
+		
+		if(FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+			facing = EnumFacing.getFront(dataStream.readInt());
+			
+			if(clientFacing != facing) {
 				IZUtils.updateBlock(world, getPos());
 				world.notifyNeighborsOfStateChange(getPos(), world.getBlockState(getPos()).getBlock(), true);
 				clientFacing = facing;
 			}
-	
-			for(ITileComponent component : components)
-			{
+			
+			for(ITileComponent component : components) {
 				component.read(dataStream);
 			}
 		}
 	}
 	
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
-	{
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		
 		return capability == Capabilities.TILE_NETWORK_CAPABILITY || super.hasCapability(capability, facing);
 	}
-
+	
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing)
-	{
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		
 		if(capability == Capabilities.TILE_NETWORK_CAPABILITY)
-			return (T)this;
+			return (T) this;
 		return super.getCapability(capability, facing);
 	}
 	
 	@Override
-	public void invalidate()
-	{
+	public void invalidate() {
+		
 		super.invalidate();
 		
-		for(ITileComponent component : components)
-		{
+		for(ITileComponent component : components) {
 			component.invalidate();
 		}
 	}
-
+	
 	@Override
-	public void validate()
-	{
+	public void validate() {
+		
 		super.validate();
-
-		if(world.isRemote)
-		{
+		
+		if(world.isRemote) {
 			PacketHandler.network.sendToServer(new DataRequestMessage(Coord4D.get(this)));
 		}
 	}
@@ -173,30 +164,28 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 	
 	@Override
 	public TileNetworkList getNetworkedData(TileNetworkList data) {
+		
 		data.add(facing == null ? -1 : facing.ordinal());
-
-		for(ITileComponent component : components)
-		{
+		
+		for(ITileComponent component : components) {
 			component.write(data);
 		}
-
+		
 		return data;
 	}
-
-	public boolean canSetFacing(int facing)
-	{
+	
+	public boolean canSetFacing(int facing) {
+		
 		return true;
 	}
 	
-	public void setFacing(short direction)
-	{
-		if(canSetFacing(direction))
-		{
+	public void setFacing(short direction) {
+		
+		if(canSetFacing(direction)) {
 			facing = EnumFacing.getFront(direction);
 		}
-
-		if(!(facing == clientFacing || world.isRemote))
-		{
+		
+		if(!(facing == clientFacing || world.isRemote)) {
 			PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
 			markDirty();
 			clientFacing = facing;
@@ -204,16 +193,16 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 	}
 	
 	@Override
-	public NBTTagCompound getUpdateTag()
-	{
+	public NBTTagCompound getUpdateTag() {
+		
 		// Forge writes only x/y/z/id info to a new NBT Tag Compound. This is fine, we have a custom network system
 		// to send other data so we don't use this one (yet).
 		return super.getUpdateTag();
 	}
-
+	
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag) 
-	{
+	public void handleUpdateTag(NBTTagCompound tag) {
+		
 		// The super implementation of handleUpdateTag is to call this readFromNBT. But, the given TagCompound
 		// only has x/y/z/id data, so our readFromNBT will set a bunch of default values which are wrong.
 		// So simply call the super's readFromNBT, to let Forge do whatever it wants, but don't treat this like

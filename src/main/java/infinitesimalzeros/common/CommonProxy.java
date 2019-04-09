@@ -16,15 +16,18 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class CommonProxy {
 	
 	public void preInit() {
+		
 		MinecraftForge.EVENT_BUS.register(this);
 		MaterialBasis.runMaterialHandlers();
 		MaterialBasis.freezeRegistry();
 		Capabilities.register();
-		/*InfinitesimalZeros.logger.info("Init Items");
-		MetaItems.init();*/
+		/*
+		 * InfinitesimalZeros.logger.info("Init Items"); MetaItems.init();
+		 */
 	}
 	
 	public void Init() {
+		
 		registerColors();
 		InfinitesimalZeros.logger.info("Packet Initializing...");
 		PacketHandler.Init();
@@ -38,13 +41,13 @@ public class CommonProxy {
 		
 	}
 	
-	
-	public void registerItemRenderer(Item item, int meta, String id){}
+	public void registerItemRenderer(Item item, int meta, String id) {}
 	
 	public void registerColors() {
+		
 		MetaItems.registerColors();
 		ColorItemRenderer render = new ColorItemRenderer();
 		render.renderItem();
 	}
-
+	
 }

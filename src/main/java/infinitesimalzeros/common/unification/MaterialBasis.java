@@ -19,37 +19,45 @@ public abstract class MaterialBasis implements Comparable<MaterialBasis> {
 	public final MaterialSetIcon materialIconSet;
 	
 	public static void freezeRegistry() {
+		
 		MATERIAL_REGISTRY.freezeRegistry();
 	}
-
+	
 	public MaterialBasis(int metaItemSubId, String name, int materialRGB, MaterialSetIcon materialIconSet) {
+		
 		this.materialRGB = materialRGB;
-        this.materialIconSet = materialIconSet;
-        registerMaterial(metaItemSubId, name);
+		this.materialIconSet = materialIconSet;
+		registerMaterial(metaItemSubId, name);
 	}
 	
 	public static void runMaterialHandlers() {
-	    materialHandlers.forEach(IMaterialHandler::onMaterialsInit);
-    }
+		
+		materialHandlers.forEach(IMaterialHandler::onMaterialsInit);
+	}
 	
 	public static void registerMaterialHandler(IMaterialHandler materialHandler) {
-	    materialHandlers.add(materialHandler);
-    }
+		
+		materialHandlers.add(materialHandler);
+	}
 	
-    protected void registerMaterial(int metaItemSubId, String name) {
-        MATERIAL_REGISTRY.register(metaItemSubId, name, this);
-    }
-    
+	protected void registerMaterial(int metaItemSubId, String name) {
+		
+		MATERIAL_REGISTRY.register(metaItemSubId, name, this);
+	}
+	
 	public String getUnlocalizedName() {
-	    return "material." + toString();
-    }
+		
+		return "material." + toString();
+	}
 	
 	public int compareTo(MaterialBasis material) {
+		
 		return toString().compareTo(material.toString());
 	}
-    
+	
 	@SideOnly(Side.CLIENT)
 	public String getLocalizedName() {
+		
 		return I18n.format(getUnlocalizedName());
 	}
 }

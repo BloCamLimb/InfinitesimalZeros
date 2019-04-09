@@ -19,7 +19,7 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
 	
 	/** How much energy is stored in this block. */
 	public double electricityStored;
-
+	
 	/** Maximum amount of energy this machine can hold. */
 	public double BASE_MAX_ENERGY;
 	
@@ -27,6 +27,7 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
 	public double maxEnergy;
 	
 	public TileEntityElectricBlock(String name, double baseMaxEnergy) {
+		
 		super(name);
 		BASE_MAX_ENERGY = baseMaxEnergy;
 		maxEnergy = BASE_MAX_ENERGY;
@@ -34,6 +35,7 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
 	
 	@Override
 	public void onLoad() {
+		
 		super.onLoad();
 	}
 	
@@ -43,186 +45,182 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
 	}
 	
 	@Override
-	public boolean sideIsOutput(EnumFacing side) 
-	{
+	public boolean sideIsOutput(EnumFacing side) {
+		
 		return false;
 	}
-
+	
 	@Override
-	public boolean sideIsConsumer(EnumFacing side) 
-	{
+	public boolean sideIsConsumer(EnumFacing side) {
+		
 		return true;
 	}
-
+	
 	@Override
-	public double getMaxOutput()
-	{
+	public double getMaxOutput() {
+		
 		return 0;
 	}
-
+	
 	@Override
-	public double getEnergy()
-	{
+	public double getEnergy() {
+		
 		return electricityStored;
 	}
-
+	
 	@Override
-	public void setEnergy(double energy)
-	{
+	public void setEnergy(double energy) {
+		
 		electricityStored = Math.max(Math.min(energy, getMaxEnergy()), 0);
 		IZUtils.saveChunk(this);
 	}
-
+	
 	@Override
-	public double getMaxEnergy()
-	{
+	public double getMaxEnergy() {
+		
 		return maxEnergy;
 	}
-
+	
 	@Override
-	public void handlePacketData(ByteBuf dataStream)
-	{
+	public void handlePacketData(ByteBuf dataStream) {
+		
 		super.handlePacketData(dataStream);
 		
-		if(FMLCommonHandler.instance().getEffectiveSide().isClient())
-		{
+		if(FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			setEnergy(dataStream.readDouble());
 		}
 	}
-
+	
 	@Override
-	public TileNetworkList getNetworkedData(TileNetworkList data)
-	{
+	public TileNetworkList getNetworkedData(TileNetworkList data) {
+		
 		super.getNetworkedData(data);
 		
 		data.add(getEnergy());
 		
 		return data;
 	}
-
+	
 	@Override
-	public void onChunkUnload()
-	{
+	public void onChunkUnload() {
+		
 		super.onChunkUnload();
 	}
-
+	
 	@Override
-	public void invalidate()
-	{
+	public void invalidate() {
+		
 		super.invalidate();
 	}
 	
 	@Override
-	public void validate()
-	{
+	public void validate() {
+		
 		super.validate();
 	}
 	
 	@Override
-	public void readFromNBT(NBTTagCompound nbtTags)
-	{
+	public void readFromNBT(NBTTagCompound nbtTags) {
+		
 		super.readFromNBT(nbtTags);
 		
 		electricityStored = nbtTags.getDouble("electricityStored");
 	}
-
+	
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbtTags)
-	{
+	public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
+		
 		super.writeToNBT(nbtTags);
 		
 		nbtTags.setDouble("electricityStored", getEnergy());
 		
 		return nbtTags;
 	}
-
+	
 	/**
 	 * Gets the scaled energy level for the GUI.
+	 * 
 	 * @param i - multiplier
 	 * @return scaled energy
 	 */
-	public int getScaledEnergyLevel(int i)
-	{
-		return (int)(getEnergy()*i / getMaxEnergy());
+	public int getScaledEnergyLevel(int i) {
+		
+		return (int) (getEnergy() * i / getMaxEnergy());
 	}
 	
 	@Override
-	public boolean canOutputEnergy(EnumFacing side)
-	{
+	public boolean canOutputEnergy(EnumFacing side) {
+		
 		return sideIsOutput(side);
 	}
 	
 	@Override
-	public boolean canReceiveEnergy(EnumFacing side)
-	{
+	public boolean canReceiveEnergy(EnumFacing side) {
+		
 		return sideIsConsumer(side);
 	}
 	
 	@Override
 	@Method(modid = "redstoneflux")
-	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate)
-	{
-		return (int)Math.round(Math.min(Integer.MAX_VALUE, receiveEnergy(from, maxReceive, simulate)));
-	}
-
-	@Override
-	@Method(modid = "redstoneflux")
-	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate)
-	{
-		return (int)Math.round(Math.min(Integer.MAX_VALUE, transEnergy(from, maxExtract, simulate)));
-	}
-
-	@Override
-	@Method(modid = "redstoneflux")
-	public boolean canConnectEnergy(EnumFacing from)
-	{
-		return sideIsConsumer(from) || sideIsOutput(from);
-	}
-
-	@Override
-	@Method(modid = "redstoneflux")
-	public int getEnergyStored(EnumFacing from)
-	{
-		return (int)Math.round(Math.min(Integer.MAX_VALUE, getEnergy()));
-	}
-
-	@Override
-	@Method(modid = "redstoneflux")
-	public int getMaxEnergyStored(EnumFacing from)
-	{
-		return (int)Math.round(Math.min(Integer.MAX_VALUE, getMaxEnergy()));
+	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
+		
+		return (int) Math.round(Math.min(Integer.MAX_VALUE, receiveEnergy(from, maxReceive, simulate)));
 	}
 	
 	@Override
-	public double receiveEnergy(EnumFacing side, double amount, boolean simulate)
-	{
-		double toUse = Math.min(getMaxEnergy()-getEnergy(), amount);
-
-		if(toUse < 0.0001 || (side != null && !sideIsConsumer(side)))
-		{
+	@Method(modid = "redstoneflux")
+	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
+		
+		return (int) Math.round(Math.min(Integer.MAX_VALUE, transEnergy(from, maxExtract, simulate)));
+	}
+	
+	@Override
+	@Method(modid = "redstoneflux")
+	public boolean canConnectEnergy(EnumFacing from) {
+		
+		return sideIsConsumer(from) || sideIsOutput(from);
+	}
+	
+	@Override
+	@Method(modid = "redstoneflux")
+	public int getEnergyStored(EnumFacing from) {
+		
+		return (int) Math.round(Math.min(Integer.MAX_VALUE, getEnergy()));
+	}
+	
+	@Override
+	@Method(modid = "redstoneflux")
+	public int getMaxEnergyStored(EnumFacing from) {
+		
+		return (int) Math.round(Math.min(Integer.MAX_VALUE, getMaxEnergy()));
+	}
+	
+	@Override
+	public double receiveEnergy(EnumFacing side, double amount, boolean simulate) {
+		
+		double toUse = Math.min(getMaxEnergy() - getEnergy(), amount);
+		
+		if(toUse < 0.0001 || (side != null && !sideIsConsumer(side))) {
 			return 0;
 		}
 		
-		if(!simulate)
-		{
+		if(!simulate) {
 			setEnergy(getEnergy() + toUse);
 		}
-
+		
 		return toUse;
 	}
 	
 	@Override
-	public double transEnergy(EnumFacing side, double amount, boolean simulate)
-	{
+	public double transEnergy(EnumFacing side, double amount, boolean simulate) {
+		
 		double toGive = Math.min(getEnergy(), amount);
-
-		if(toGive < 0.0001 || (side != null && !sideIsOutput(side)))
-		{
+		
+		if(toGive < 0.0001 || (side != null && !sideIsOutput(side))) {
 			return 0;
 		}
 		
-		if(!simulate)
-		{
+		if(!simulate) {
 			setEnergy(getEnergy() - toGive);
 		}
 		
@@ -230,33 +228,27 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
 	}
 	
 	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
-	{
-		return capability == Capabilities.ENERGY_STORAGE_CAPABILITY
-				|| capability == Capabilities.ENERGY_ACCEPTOR_CAPABILITY
-				|| capability == Capabilities.ENERGY_OUTPUTTER_CAPABILITY
-
-				|| capability == CapabilityEnergy.ENERGY
-				|| super.hasCapability(capability, facing);
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		
+		return capability == Capabilities.ENERGY_STORAGE_CAPABILITY || capability == Capabilities.ENERGY_ACCEPTOR_CAPABILITY || capability == Capabilities.ENERGY_OUTPUTTER_CAPABILITY
+				
+				|| capability == CapabilityEnergy.ENERGY || super.hasCapability(capability, facing);
 	}
 	
 	private CapabilityWrapperManager<IEnergyWrapper, ForgeEnergyIntegration> forgeEnergyManager = new CapabilityWrapperManager<>(IEnergyWrapper.class, ForgeEnergyIntegration.class);
-
+	
 	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing)
-	{
-		if(capability == Capabilities.ENERGY_STORAGE_CAPABILITY || capability == Capabilities.ENERGY_ACCEPTOR_CAPABILITY ||
-				capability == Capabilities.ENERGY_OUTPUTTER_CAPABILITY)
-		{
-			return (T)this;
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		
+		if(capability == Capabilities.ENERGY_STORAGE_CAPABILITY || capability == Capabilities.ENERGY_ACCEPTOR_CAPABILITY || capability == Capabilities.ENERGY_OUTPUTTER_CAPABILITY) {
+			return (T) this;
 		}
 		
-		if(capability == CapabilityEnergy.ENERGY)
-		{
-			return (T)forgeEnergyManager.getWrapper(this, facing);
+		if(capability == CapabilityEnergy.ENERGY) {
+			return (T) forgeEnergyManager.getWrapper(this, facing);
 		}
 		
 		return super.getCapability(capability, facing);
 	}
-
+	
 }

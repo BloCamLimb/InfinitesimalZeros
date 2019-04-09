@@ -5,8 +5,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 public class ItemHandlerWrapper extends SidedInvWrapper {
-	public ItemHandlerWrapper(ISidedInventory inv, EnumFacing side) 
-	{
+	
+	public ItemHandlerWrapper(ISidedInventory inv, EnumFacing side) {
+		
 		super(inv, side);
 	}
 }

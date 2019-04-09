@@ -5,6 +5,4 @@ import mezz.jei.api.ISubtypeRegistry.ISubtypeInterpreter;
 
 public class JEICore implements IModPlugin {
 	
-
-
 }

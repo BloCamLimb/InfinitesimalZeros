@@ -49,8 +49,9 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public abstract class BlockTileEntityCore extends BlockContainer {
-
+	
 	public BlockTileEntityCore() {
+		
 		super(Material.IRON);
 		this.setSoundType(SoundType.METAL);
 		this.setHardness(25.0F);
@@ -61,22 +62,26 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 	
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+		
 		return null;
 	}
 	
 	@Override
 	protected BlockStateContainer createBlockState() {
+		
 		return new BlockStateMachine(this, getTypeProperty());
 	}
 	
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
+		
 		MachineTypes type = MachineTypes.get(getMachineBlock(), meta & 0xF);
 		return getDefaultState().withProperty(getTypeProperty(), type);
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state) {
+		
 		MachineTypes type = state.getValue(getTypeProperty());
 		return type.meta;
 	}
@@ -86,14 +91,12 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 		
 		TileEntity tileEntity = IZUtils.getTileEntitySafe(worldIn, pos);
 		
-		if(tileEntity instanceof TileEntityBasicBlock && ((TileEntityBasicBlock)tileEntity).facing != null)
-		{
-			state = state.withProperty(BlockStateFacing.facingProperty, ((TileEntityBasicBlock)tileEntity).facing);
+		if(tileEntity instanceof TileEntityBasicBlock && ((TileEntityBasicBlock) tileEntity).facing != null) {
+			state = state.withProperty(BlockStateFacing.facingProperty, ((TileEntityBasicBlock) tileEntity).facing);
 		}
 		
-		if(tileEntity instanceof IActiveState)
-		{
-			state = state.withProperty(BlockStateMachine.activeProperty, ((IActiveState)tileEntity).getActive());
+		if(tileEntity instanceof IActiveState) {
+			state = state.withProperty(BlockStateMachine.activeProperty, ((IActiveState) tileEntity).getActive());
 		}
 		
 		return state;
@@ -105,13 +108,13 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 		Machine_Set_B;
 		
 		PropertyEnum<MachineTypes> machineTypeProperty;
-
+		
 		public PropertyEnum<MachineTypes> getProperty() {
 			
 			if(machineTypeProperty == null) {
 				machineTypeProperty = PropertyEnum.create("type", MachineTypes.class, new MachineBlockPredicate(this));
 			}
-
+			
 			return machineTypeProperty;
 		}
 		
@@ -134,61 +137,62 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 		
 		MachineTypes(MachineSets block, int meta, String name, int guiId, Class<? extends TileEntity> tile, boolean electric, boolean hasActiveTexture, Predicate<EnumFacing> predicate) {
 			
-			this.block=block;
-			this.meta=meta;
-			this.name=name;
-			this.guiId=guiId;
-			tileClass=tile;
-			isElectric=electric;
-			this.hasActiveTexture=hasActiveTexture;
-			facingPredicate=predicate;
+			this.block = block;
+			this.meta = meta;
+			this.name = name;
+			this.guiId = guiId;
+			tileClass = tile;
+			isElectric = electric;
+			this.hasActiveTexture = hasActiveTexture;
+			facingPredicate = predicate;
 			
 		}
 		
 		public static MachineTypes get(MachineSets block, int meta) {
 			
-			for(MachineTypes type : values())
-			{
-				if(type.meta == meta && type.block == block)
-				{
+			for(MachineTypes type : values()) {
+				
+				if(type.meta == meta && type.block == block) {
 					return type;
 				}
 			}
-
+			
 			return null;
 		}
 		
 		public static MachineTypes get(Block block, int meta) {
 			
-			if(block instanceof BlockTileEntityCore)
-			{
-				return get(((BlockTileEntityCore)block).getMachineBlock(), meta);
+			if(block instanceof BlockTileEntityCore) {
+				return get(((BlockTileEntityCore) block).getMachineBlock(), meta);
 			}
-
+			
 			return null;
 		}
 		
-		public static MachineTypes get(ItemStack stack)
-		{
+		public static MachineTypes get(ItemStack stack) {
+			
 			return get(Block.getBlockFromItem(stack.getItem()), stack.getItemDamage());
 		}
 		
 		public TileEntity create() {
+			
 			try {
 				return tileClass.newInstance();
-			} catch(Exception e) {
+			} catch (Exception e) {
 				return null;
 			}
 		}
-
+		
 		@Override
 		public String getName() {
+			
 			return name().toLowerCase(Locale.ROOT);
 		}
 		
 	}
 	
 	public PropertyEnum<MachineTypes> getTypeProperty() {
+		
 		return getMachineBlock().getProperty();
 	}
 	
@@ -205,6 +209,7 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 	
 	@Override
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
+		
 		for(MachineTypes type : MachineTypes.values()) {
 			if(type.block == getMachineBlock()) {
 				items.add(new ItemStack(this, 1, type.meta));
@@ -215,28 +220,27 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		
-		TileEntityBasicBlock tileEntity = (TileEntityBasicBlock)worldIn.getTileEntity(pos);
+		TileEntityBasicBlock tileEntity = (TileEntityBasicBlock) worldIn.getTileEntity(pos);
 		int side = MathHelper.floor((placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
 		
 		int height = Math.round(placer.rotationPitch);
 		int change = 3;
-
+		
 		if(tileEntity == null) {
 			return;
 		}
-
+		
 		if(tileEntity.canSetFacing(0) && tileEntity.canSetFacing(1)) {
 			
 			if(height >= 65) {
 				
 				change = 1;
-			} 
-			else if(height <= -65) {
+			} else if(height <= -65) {
 				
 				change = 0;
 			}
 		}
-
+		
 		if(change != 0 && change != 1) {
 			
 			switch(side) {
@@ -263,19 +267,19 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 	
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-
+		
 		if(worldIn.isRemote) {
 			return true;
 		}
 		
-		TileEntityBasicBlock tileEntity = (TileEntityBasicBlock)worldIn.getTileEntity(pos);
+		TileEntityBasicBlock tileEntity = (TileEntityBasicBlock) worldIn.getTileEntity(pos);
 		int metadata = state.getBlock().getMetaFromState(state);
 		ItemStack stack = playerIn.getHeldItem(hand);
 		
 		if(!stack.isEmpty() && stack.getItem() == RegistryItems.neutron) {
 			
 			dismantleMachine(state, worldIn, pos);
-
+			
 			return true;
 		}
 		
@@ -284,7 +288,10 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 			MachineTypes type = MachineTypes.get(getMachineBlock(), metadata);
 			
 			if(!playerIn.isSneaking() && type.guiId >= 0) {
+				
 				playerIn.openGui(InfinitesimalZeros.instance, type.guiId, worldIn, pos.getX(), pos.getY(), pos.getZ());
+				
+				return true;
 			}
 			
 		}
@@ -295,18 +302,18 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 	public ItemStack dismantleMachine(IBlockState state, World world, BlockPos pos) {
 		
 		ItemStack itemStack = getPickBlock(state, null, world, pos, null);
-
+		
 		world.setBlockToAir(pos);
-
+		
 		float motion = 0.7F;
 		double motionX = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
 		double motionY = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
 		double motionZ = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
-
+		
 		EntityItem entityItem = new EntityItem(world, pos.getX() + motionX, pos.getY() + motionY, pos.getZ() + motionZ, itemStack);
-
+		
 		world.spawnEntity(entityItem);
-
+		
 		return itemStack;
 		
 	}
@@ -314,29 +321,29 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 	@Override
 	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
 		
-		if(/*!player.capabilities.isCreativeMode &&*/ !world.isRemote /*&& willHarvest*/) {
+		if(/* !player.capabilities.isCreativeMode && */ !world.isRemote /* && willHarvest */) {
 			
-			TileEntityBasicBlock tileEntity = (TileEntityBasicBlock)world.getTileEntity(pos);
-
+			TileEntityBasicBlock tileEntity = (TileEntityBasicBlock) world.getTileEntity(pos);
+			
 			float motion = 0.7F;
 			double motionX = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
 			double motionY = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
 			double motionZ = (world.rand.nextFloat() * motion) + (1.0F - motion) * 0.5D;
-
+			
 			EntityItem entityItem = new EntityItem(world, pos.getX() + motionX, pos.getY() + motionY, pos.getZ() + motionZ, getPickBlock(state, null, world, pos, player));
-
+			
 			world.spawnEntity(entityItem);
 		}
-
+		
 		return world.setBlockToAir(pos);
 	}
 	
 	@Override
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
 		
-		TileEntityBasicBlock tileEntity = (TileEntityBasicBlock)world.getTileEntity(pos);
+		TileEntityBasicBlock tileEntity = (TileEntityBasicBlock) world.getTileEntity(pos);
 		ItemStack itemStack = new ItemStack(this, 1, state.getBlock().getMetaFromState(state));
-
+		
 		if(itemStack.getTagCompound() == null) {
 			
 			itemStack.setTagCompound(new NBTTagCompound());
@@ -344,19 +351,19 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 		
 		if(tileEntity instanceof ISustainedData) {
 			
-			((ISustainedData)tileEntity).writeSustainedData(itemStack);
+			((ISustainedData) tileEntity).writeSustainedData(itemStack);
 		}
 		
-		if(tileEntity instanceof TileEntityContainerBlock && ((TileEntityContainerBlock)tileEntity).inventory.size() > 0)
-		{
-			ISustainedInventory inventory = (ISustainedInventory)itemStack.getItem();
-			inventory.setInventory(((ISustainedInventory)tileEntity).getInventory(), itemStack);
+		if(tileEntity instanceof TileEntityContainerBlock && ((TileEntityContainerBlock) tileEntity).inventory.size() > 0) {
+			
+			ISustainedInventory inventory = (ISustainedInventory) itemStack.getItem();
+			inventory.setInventory(((ISustainedInventory) tileEntity).getInventory(), itemStack);
 		}
 		
-		if(tileEntity instanceof TileEntityElectricBlock)
-		{
-			IEnergizedItem energizedItem = (IEnergizedItem)itemStack.getItem();
-			energizedItem.setEnergy(itemStack, ((TileEntityElectricBlock)tileEntity).getEnergy());
+		if(tileEntity instanceof TileEntityElectricBlock) {
+			
+			IEnergizedItem energizedItem = (IEnergizedItem) itemStack.getItem();
+			energizedItem.setEnergy(itemStack, ((TileEntityElectricBlock) tileEntity).getEnergy());
 		}
 		
 		return itemStack;
@@ -373,11 +380,11 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 		
 		return MachineTypes.get(getMachineBlock(), metadata).create();
 	}
-
+	
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta) {
+		
 		return null;
 	}
 	
-
 }

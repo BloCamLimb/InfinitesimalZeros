@@ -22,8 +22,8 @@ public enum OrePrefix {
 	public final String categoryName;
 	public final long materialAmount;
 	
-    public final boolean isUnificationEnabled;
-    public final boolean isRecyclingDisallowed;
+	public final boolean isUnificationEnabled;
+	public final boolean isRecyclingDisallowed;
 	
 	public final @Nullable MaterialIconType materialIconType;
 	public final @Nullable Predicate<MaterialBasis> generationCondition;
@@ -31,49 +31,57 @@ public enum OrePrefix {
 	public byte maxStackSize = 64;
 	
 	public static class Flags {
-        public static final long ENABLE_UNIFICATION = GTUtility.createFlag(0);
-        public static final long DISALLOW_RECYCLING = GTUtility.createFlag(3);
-    }
+		
+		public static final long ENABLE_UNIFICATION = GTUtility.createFlag(0);
+		public static final long DISALLOW_RECYCLING = GTUtility.createFlag(3);
+	}
 	
 	OrePrefix(String categoryName, long materialAmount, MaterialBasis material, MaterialIconType materialIconType, long flags, Predicate<MaterialBasis> condition) {
-        this.categoryName = categoryName;
-        this.materialAmount = materialAmount;
-        this.isUnificationEnabled = (flags & ENABLE_UNIFICATION) != 0;
-        this.isRecyclingDisallowed = (flags & DISALLOW_RECYCLING) != 0;
-        this.materialIconType = materialIconType;
-        this.generationCondition = condition;
-    }
+		
+		this.categoryName = categoryName;
+		this.materialAmount = materialAmount;
+		this.isUnificationEnabled = (flags & ENABLE_UNIFICATION) != 0;
+		this.isRecyclingDisallowed = (flags & DISALLOW_RECYCLING) != 0;
+		this.materialIconType = materialIconType;
+		this.generationCondition = condition;
+	}
 	
 	private final Set<MaterialBasis> ignoredMaterials = new HashSet<>();
 	
-    public static OrePrefix getPrefix(String prefixName) {
-        return getPrefix(prefixName, null);
-    }
-
-    public static OrePrefix getPrefix(String prefixName, @Nullable OrePrefix replacement) {
-        try {
-            return Enum.valueOf(OrePrefix.class, prefixName);
-        } catch (IllegalArgumentException invalidPrefixName) {
-            return replacement;
-        }
-    }
+	public static OrePrefix getPrefix(String prefixName) {
+		
+		return getPrefix(prefixName, null);
+	}
 	
-    public boolean doGenerateItem(MaterialBasis material) {
-        return generationCondition != null && !isIgnored(material) && generationCondition.test(material);
-    }
-    
-    public boolean isIgnored(MaterialBasis material) {
-        return ignoredMaterials.contains(material);
-    }
-
-    @SideOnly(Side.CLIENT)
-    public String getLocalNameForItem(MaterialBasis material) {
-        String specfiedUnlocalized = "item." + material.toString() + "." + this.name();
-        if (I18n.hasKey(specfiedUnlocalized)) return I18n.format(specfiedUnlocalized);
-        String unlocalized = "item.material.oreprefix." + this.name();
-        String matLocalized = material.getLocalizedName();
-        String formatted = I18n.format(unlocalized, matLocalized);
-        return formatted.equals(unlocalized) ? matLocalized : formatted;
-    }
-
+	public static OrePrefix getPrefix(String prefixName, @Nullable OrePrefix replacement) {
+		
+		try {
+			return Enum.valueOf(OrePrefix.class, prefixName);
+		} catch (IllegalArgumentException invalidPrefixName) {
+			return replacement;
+		}
+	}
+	
+	public boolean doGenerateItem(MaterialBasis material) {
+		
+		return generationCondition != null && !isIgnored(material) && generationCondition.test(material);
+	}
+	
+	public boolean isIgnored(MaterialBasis material) {
+		
+		return ignoredMaterials.contains(material);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public String getLocalNameForItem(MaterialBasis material) {
+		
+		String specfiedUnlocalized = "item." + material.toString() + "." + this.name();
+		if(I18n.hasKey(specfiedUnlocalized))
+			return I18n.format(specfiedUnlocalized);
+		String unlocalized = "item.material.oreprefix." + this.name();
+		String matLocalized = material.getLocalizedName();
+		String formatted = I18n.format(unlocalized, matLocalized);
+		return formatted.equals(unlocalized) ? matLocalized : formatted;
+	}
+	
 }

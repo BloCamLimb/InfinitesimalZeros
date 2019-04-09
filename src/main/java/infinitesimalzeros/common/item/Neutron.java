@@ -14,20 +14,19 @@ import java.util.HashMap;
 import org.lwjgl.opengl.GL11;
 
 public class Neutron extends Item {
-
+	
 	private static final String name = "neutron";
 	public HashMap<String, Integer> colorMap = new HashMap<>();
 	
-	
 	public Neutron() {
+		
 		super();
-        this.setCreativeTab(CreativeTabs.MATERIALS);
+		this.setCreativeTab(CreativeTabs.MATERIALS);
 	}
-	
-
 	
 	@Override
 	public String getItemStackDisplayName(ItemStack stack) {
+		
 		String ss = "any";
 		NBTTagCompound nbt = stack.getTagCompound();
 		if(nbt == null) {
@@ -36,10 +35,8 @@ public class Neutron extends Item {
 		if(nbt.getString("meta") != "") {
 			ss = nbt.getString("meta").toLowerCase();
 		}
-		String sss = I18n.format("material."+ss, ss);
-		return super.getItemStackDisplayName(stack)+" ("+sss+")";
+		String sss = I18n.format("material." + ss, ss);
+		return super.getItemStackDisplayName(stack) + " (" + sss + ")";
 	}
-	
-	
 	
 }

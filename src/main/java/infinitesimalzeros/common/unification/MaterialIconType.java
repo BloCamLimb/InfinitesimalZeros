@@ -9,11 +9,12 @@ public enum MaterialIconType {
 	
 	dust,
 	ingot;
-
-    public ResourceLocation getItemModelPath(MaterialSetIcon materialIconSet) {
-        String iconSet = materialIconSet.name().toLowerCase();
-        String iconType = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name());
-        return new ResourceLocation(InfinitesimalZeros.MODID, "material_sets/" + iconSet + "/" + iconType);
-    }
-
+	
+	public ResourceLocation getItemModelPath(MaterialSetIcon materialIconSet) {
+		
+		String iconSet = materialIconSet.name().toLowerCase();
+		String iconType = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, name());
+		return new ResourceLocation(InfinitesimalZeros.MODID, "material_sets/" + iconSet + "/" + iconType);
+	}
+	
 }

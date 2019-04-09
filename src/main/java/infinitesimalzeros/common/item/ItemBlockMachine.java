@@ -20,9 +20,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional.Method;
 
 public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISustainedInventory, IEnergyContainerItem {
-
-	public ItemBlockMachine(Block block)
-	{
+	
+	public ItemBlockMachine(Block block) {
+		
 		super(block);
 		setHasSubtypes(true);
 		setNoRepair();
@@ -31,47 +31,43 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISust
 	
 	@Override
 	public int getMetadata(int i) {
+		
 		return i;
 	}
 	
 	@Override
-	public String getUnlocalizedName(ItemStack itemstack)
-	{
-		if(MachineTypes.get(itemstack) != null)
-		{
+	public String getUnlocalizedName(ItemStack itemstack) {
+		
+		if(MachineTypes.get(itemstack) != null) {
 			return getUnlocalizedName() + "." + MachineTypes.get(itemstack).name;
 		}
-
+		
 		return "null";
 	}
 	
 	@Override
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState) {
-
+		
 		boolean place = true;
 		
 		MachineTypes type = MachineTypes.get(stack);
 		
 		if(place && super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState)) {
 			
-			TileEntityBasicBlock tileEntity = (TileEntityBasicBlock)world.getTileEntity(pos);
+			TileEntityBasicBlock tileEntity = (TileEntityBasicBlock) world.getTileEntity(pos);
 			
-			if(tileEntity instanceof ISustainedData)
-			{
-				if(stack.getTagCompound() != null)
-				{
-					((ISustainedData)tileEntity).readSustainedData(stack);
+			if(tileEntity instanceof ISustainedData) {
+				if(stack.getTagCompound() != null) {
+					((ISustainedData) tileEntity).readSustainedData(stack);
 				}
 			}
 			
-			if(tileEntity instanceof ISustainedInventory)
-			{
-				((ISustainedInventory)tileEntity).setInventory(getInventory(stack));
+			if(tileEntity instanceof ISustainedInventory) {
+				((ISustainedInventory) tileEntity).setInventory(getInventory(stack));
 			}
-
-			if(tileEntity instanceof TileEntityElectricBlock)
-			{
-				((TileEntityElectricBlock)tileEntity).electricityStored = getEnergy(stack);
+			
+			if(tileEntity instanceof TileEntityElectricBlock) {
+				((TileEntityElectricBlock) tileEntity).electricityStored = getEnergy(stack);
 			}
 			
 			return true;
@@ -80,125 +76,116 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISust
 		return false;
 	}
 	
-	public void setInventory(NBTTagList nbtTags, Object... data)
-	{
-		if(data[0] instanceof ItemStack)
-		{
-			ItemDataUtils.setList((ItemStack)data[0], "Items", nbtTags);
+	public void setInventory(NBTTagList nbtTags, Object... data) {
+		
+		if(data[0] instanceof ItemStack) {
+			ItemDataUtils.setList((ItemStack) data[0], "Items", nbtTags);
 		}
 	}
-
-	public NBTTagList getInventory(Object... data)
-	{
-		if(data[0] instanceof ItemStack)
-		{
-			return ItemDataUtils.getList((ItemStack)data[0], "Items");
+	
+	public NBTTagList getInventory(Object... data) {
+		
+		if(data[0] instanceof ItemStack) {
+			return ItemDataUtils.getList((ItemStack) data[0], "Items");
 		}
-
+		
 		return null;
 	}
-
+	
 	@Override
-	public double getEnergy(ItemStack itemStack)
-	{
-		if(!MachineTypes.get(itemStack).isElectric)
-		{
+	public double getEnergy(ItemStack itemStack) {
+		
+		if(!MachineTypes.get(itemStack).isElectric) {
 			return 0;
 		}
-
+		
 		return ItemDataUtils.getDouble(itemStack, "energyStored");
 	}
-
+	
 	@Override
-	public void setEnergy(ItemStack itemStack, double amount)
-	{
-		if(!MachineTypes.get(itemStack).isElectric)
-		{
+	public void setEnergy(ItemStack itemStack, double amount) {
+		
+		if(!MachineTypes.get(itemStack).isElectric) {
 			return;
 		}
 		
 		ItemDataUtils.setDouble(itemStack, "energyStored", Math.max(Math.min(amount, getMaxEnergy(itemStack)), 0));
 	}
-
+	
 	@Override
-	public double getMaxEnergy(ItemStack itemStack)
-	{
+	public double getMaxEnergy(ItemStack itemStack) {
+		
 		MachineTypes machineType = MachineTypes.get(Block.getBlockFromItem(itemStack.getItem()), itemStack.getItemDamage());
-
-		return 50000/*IZUtils.getMaxEnergy(itemStack, machineType.baseEnergy)*/;
+		
+		return 50000/* IZUtils.getMaxEnergy(itemStack, machineType.baseEnergy) */;
 	}
-
+	
 	@Override
-	public double getMaxTransfer(ItemStack itemStack)
-	{
-		return getMaxEnergy(itemStack)*0.005;
+	public double getMaxTransfer(ItemStack itemStack) {
+		
+		return getMaxEnergy(itemStack) * 0.005;
 	}
-
+	
 	@Override
-	public boolean canReceive(ItemStack itemStack)
-	{
+	public boolean canReceive(ItemStack itemStack) {
+		
 		return MachineTypes.get(itemStack).isElectric;
 	}
-
+	
 	@Override
-	public boolean canSend(ItemStack itemStack)
-	{
+	public boolean canSend(ItemStack itemStack) {
+		
 		return false;
 	}
-
+	
 	@Override
 	@Method(modid = "redstoneflux")
-	public int receiveEnergy(ItemStack theItem, int energy, boolean simulate)
-	{
-		if(canReceive(theItem))
-		{
-			double energyNeeded = getMaxEnergy(theItem)-getEnergy(theItem);
+	public int receiveEnergy(ItemStack theItem, int energy, boolean simulate) {
+		
+		if(canReceive(theItem)) {
+			double energyNeeded = getMaxEnergy(theItem) - getEnergy(theItem);
 			double toReceive = Math.min(energy, energyNeeded);
-
-			if(!simulate)
-			{
+			
+			if(!simulate) {
 				setEnergy(theItem, getEnergy(theItem) + toReceive);
 			}
-
-			return (int)Math.round(toReceive);
+			
+			return (int) Math.round(toReceive);
 		}
-
+		
 		return 0;
 	}
-
+	
 	@Override
 	@Method(modid = "redstoneflux")
-	public int extractEnergy(ItemStack theItem, int energy, boolean simulate)
-	{
-		if(canSend(theItem))
-		{
+	public int extractEnergy(ItemStack theItem, int energy, boolean simulate) {
+		
+		if(canSend(theItem)) {
 			double energyRemaining = getEnergy(theItem);
 			double toSend = energyRemaining;
-
-			if(!simulate)
-			{
+			
+			if(!simulate) {
 				setEnergy(theItem, getEnergy(theItem) - toSend);
 			}
-
-			return (int)Math.round(toSend);
+			
+			return (int) Math.round(toSend);
 		}
-
+		
 		return 0;
 	}
-
+	
 	@Override
 	@Method(modid = "redstoneflux")
-	public int getEnergyStored(ItemStack theItem)
-	{
-		return (int)(getEnergy(theItem));
+	public int getEnergyStored(ItemStack theItem) {
+		
+		return (int) (getEnergy(theItem));
 	}
-
+	
 	@Override
 	@Method(modid = "redstoneflux")
-	public int getMaxEnergyStored(ItemStack theItem)
-	{
-		return (int)(getMaxEnergy(theItem));
+	public int getMaxEnergyStored(ItemStack theItem) {
+		
+		return (int) (getMaxEnergy(theItem));
 	}
-
-
+	
 }

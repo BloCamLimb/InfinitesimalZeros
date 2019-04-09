@@ -15,24 +15,23 @@ import net.minecraft.client.Minecraft;
 
 public class ColorItemRenderer {
 	
-	
 	@SideOnly(Side.CLIENT)
-    protected int getColorForItemStack(ItemStack stack, int tintIndex) {
+	protected int getColorForItemStack(ItemStack stack, int tintIndex) {
+		
 		int s = 0xFFFFFF;
 		NBTTagCompound nbt = stack.getTagCompound();
 		nbt = new NBTTagCompound();
 		String name = nbt.getString("meta");
 		try {
 			s = NeutronColor.valueOf(name).getColor();
-		}catch(Exception e) {}
+		} catch (Exception e) {}
 		return s;
-    }
+	}
 	
 	@SideOnly(Side.CLIENT)
 	public void renderItem() {
+		
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(this::getColorForItemStack, RegistryItems.neutron);
 	}
 	
-
-
 }

@@ -16,7 +16,7 @@ public abstract class TileEntityMachine extends TileEntityElectricBlock implemen
 	public int updateDelay;
 	
 	public boolean isActive;
-
+	
 	public boolean clientActive;
 	
 	public double prevEnergy;
@@ -25,8 +25,8 @@ public abstract class TileEntityMachine extends TileEntityElectricBlock implemen
 	
 	public double energyPerTick;
 	
-	public TileEntityMachine(String name, double maxEnergy, double baseEnergyUsage, int upgradeSlot)
-	{
+	public TileEntityMachine(String name, double maxEnergy, double baseEnergyUsage, int upgradeSlot) {
+		
 		super(name, maxEnergy);
 		
 		energyPerTick = BASE_ENERGY_PER_TICK = baseEnergyUsage;
@@ -34,120 +34,112 @@ public abstract class TileEntityMachine extends TileEntityElectricBlock implemen
 	}
 	
 	@Override
-	public void onUpdate()
-	{
+	public void onUpdate() {
+		
 		super.onUpdate();
 		
-		if(world.isRemote && updateDelay > 0)
-		{
+		if(world.isRemote && updateDelay > 0) {
 			updateDelay--;
-
-			if(updateDelay == 0 && clientActive != isActive)
-			{
+			
+			if(updateDelay == 0 && clientActive != isActive) {
 				isActive = clientActive;
 				IZUtils.updateBlock(world, getPos());
 			}
 		}
-
-		if(!world.isRemote)
-		{
-			if(updateDelay > 0)
-			{
+		
+		if(!world.isRemote) {
+			if(updateDelay > 0) {
 				updateDelay--;
-
-				if(updateDelay == 0 && clientActive != isActive)
-				{
-					//PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
+				
+				if(updateDelay == 0 && clientActive != isActive) {
+					// PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
 				}
 			}
 		}
 	}
 	
 	@Override
-	public boolean canSetFacing(int facing)
-	{
+	public boolean canSetFacing(int facing) {
+		
 		return facing != 0 && facing != 1;
 	}
 	
 	@Override
-	public void setActive(boolean active)
-	{
+	public void setActive(boolean active) {
+		
 		isActive = active;
-
-		if(clientActive != active && updateDelay == 0)
-		{
-			//PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
-
+		
+		if(clientActive != active && updateDelay == 0) {
+			// PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
+			
 			updateDelay = 10;
 			clientActive = active;
 		}
 	}
-
+	
 	@Override
-	public boolean getActive()
-	{
+	public boolean getActive() {
+		
 		return isActive;
 	}
-
+	
 	@Override
-	public boolean renderUpdate()
-	{
-		return true;
-	}
-
-	@Override
-	public boolean lightUpdate()
-	{
+	public boolean renderUpdate() {
+		
 		return true;
 	}
 	
 	@Override
-	public void handlePacketData(ByteBuf dataStream)
-	{
+	public boolean lightUpdate() {
+		
+		return true;
+	}
+	
+	@Override
+	public void handlePacketData(ByteBuf dataStream) {
+		
 		super.handlePacketData(dataStream);
-
-		if(FMLCommonHandler.instance().getEffectiveSide().isClient())
-		{
+		
+		if(FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			clientActive = dataStream.readBoolean();
 			energyPerTick = dataStream.readDouble();
 			maxEnergy = dataStream.readDouble();
-	
-			if(updateDelay == 0 && clientActive != isActive)
-			{
+			
+			if(updateDelay == 0 && clientActive != isActive) {
 				updateDelay = 10;
 				isActive = clientActive;
 				IZUtils.updateBlock(world, getPos());
 			}
 		}
 	}
-
+	
 	@Override
-	public TileNetworkList getNetworkedData(TileNetworkList data)
-	{
+	public TileNetworkList getNetworkedData(TileNetworkList data) {
+		
 		super.getNetworkedData(data);
-
+		
 		data.add(isActive);
 		data.add(energyPerTick);
 		data.add(maxEnergy);
-
+		
 		return data;
 	}
-
+	
 	@Override
-	public void readFromNBT(NBTTagCompound nbtTags)
-	{
+	public void readFromNBT(NBTTagCompound nbtTags) {
+		
 		super.readFromNBT(nbtTags);
-
+		
 		isActive = nbtTags.getBoolean("isActive");
 	}
-
+	
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbtTags)
-	{
+	public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
+		
 		super.writeToNBT(nbtTags);
-
+		
 		nbtTags.setBoolean("isActive", isActive);
-
+		
 		return nbtTags;
 	}
 	

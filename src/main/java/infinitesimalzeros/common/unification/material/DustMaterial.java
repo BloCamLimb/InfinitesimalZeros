@@ -5,10 +5,11 @@ import infinitesimalzeros.common.unification.MaterialSetIcon;
 
 public class DustMaterial extends MaterialBasis {
 	
-    public long burnTime;
-
+	public long burnTime;
+	
 	public DustMaterial(int metaItemSubId, String name, int materialRGB, MaterialSetIcon materialIconSet) {
-        super(metaItemSubId, name, materialRGB, materialIconSet);
-    }
-
+		
+		super(metaItemSubId, name, materialRGB, materialIconSet);
+	}
+	
 }

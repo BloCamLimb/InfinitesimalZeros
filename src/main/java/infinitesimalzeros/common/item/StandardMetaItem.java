@@ -1,15 +1,16 @@
 package infinitesimalzeros.common.item;
 
-public class StandardMetaItem extends MetaItem<MetaItem<?>.MetaValueItem>{
+public class StandardMetaItem extends MetaItem<MetaItem<?>.MetaValueItem> {
 	
-    public StandardMetaItem(short metaItemOffset) {
-        super(metaItemOffset);
-    }
-
-    @Override
-    protected MetaValueItem constructMetaValueItem(short metaValue, String unlocalizedName) {
-        return new MetaValueItem(metaValue, unlocalizedName);
-    }
-
-
+	public StandardMetaItem(short metaItemOffset) {
+		
+		super(metaItemOffset);
+	}
+	
+	@Override
+	protected MetaValueItem constructMetaValueItem(short metaValue, String unlocalizedName) {
+		
+		return new MetaValueItem(metaValue, unlocalizedName);
+	}
+	
 }

@@ -6,11 +6,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 public interface IMaterialHandler {
-
-    void onMaterialsInit();
-
-    @Retention(RetentionPolicy.RUNTIME)
-    @Target(ElementType.TYPE)
-    public @interface RegisterMaterialHandler {}
-    
+	
+	void onMaterialsInit();
+	
+	@Retention(RetentionPolicy.RUNTIME)
+	@Target(ElementType.TYPE)
+	public @interface RegisterMaterialHandler {}
+	
 }

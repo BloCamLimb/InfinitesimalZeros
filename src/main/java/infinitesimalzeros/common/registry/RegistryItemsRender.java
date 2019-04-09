@@ -16,14 +16,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @EventBusSubscriber
 public class RegistryItemsRender {
-
+	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
-    public static void registerItemModels(ModelRegistryEvent event) {
-        registerItemModel(RegistryItems.neutron);
-    }
-    private static void registerItemModel(Item item) {
-        ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
-    }
-
+	public static void registerItemModels(ModelRegistryEvent event) {
+		
+		registerItemModel(RegistryItems.neutron);
+	}
+	
+	private static void registerItemModel(Item item) {
+		
+		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+	}
+	
 }

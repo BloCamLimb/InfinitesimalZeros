@@ -14,5 +14,5 @@ public abstract class TileEntityElectricMachine extends TileEntityBasicMachine {
 		inventory = NonNullList.withSize(4, ItemStack.EMPTY);
 		
 	}
-
+	
 }

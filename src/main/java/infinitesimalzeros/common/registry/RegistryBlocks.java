@@ -23,6 +23,7 @@ public class RegistryBlocks {
 	public static final Block TEBlockB = BlockTileEntityCore.getBlockMachine(MachineSets.Machine_Set_B);
 	
 	public static Block init(Block block, String name) {
+		
 		return block.setUnlocalizedName(name).setRegistryName("infinitesimalzeros:" + name);
 	}
 	
@@ -31,12 +32,12 @@ public class RegistryBlocks {
 	}
 	
 	public static void registerBlocks(IForgeRegistry<Block> registry) {
+		
 		registry.register(init(TEBlockA, "Machine_A"));
 		registry.register(init(TEBlockB, "Machine_B"));
 		RegistryItems.ITEMS.add(new ItemBlockMachine(TEBlockA).setRegistryName(TEBlockA.getRegistryName()));
 		RegistryItems.ITEMS.add(new ItemBlockMachine(TEBlockB).setRegistryName(TEBlockB.getRegistryName()));
 	}
 	
-	public static void registerItemBlocks(IForgeRegistry<Item> registry) {
-	}
+	public static void registerItemBlocks(IForgeRegistry<Item> registry) {}
 }
