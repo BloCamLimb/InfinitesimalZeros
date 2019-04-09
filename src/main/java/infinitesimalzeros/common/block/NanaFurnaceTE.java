@@ -1,5 +1,6 @@
 package infinitesimalzeros.common.block;
 
+import infinitesimalzeros.common.tileentity.basis.TileEntityBasicBlock;
 import infinitesimalzeros.common.util.handlers.PacketHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -29,7 +30,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class NanaFurnaceTE extends TileEntity implements ITickable, IInventory {
+public class NanaFurnaceTE extends TileEntityBasicBlock implements ITickable, IInventory {
 	
 	public EnumFacing facing = EnumFacing.NORTH;
 
@@ -373,6 +374,12 @@ public class NanaFurnaceTE extends TileEntity implements ITickable, IInventory {
 
 	@Override
 	public void clear() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onUpdate() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,6 +1,7 @@
 package infinitesimalzeros.common;
 
 import infinitesimalzeros.InfinitesimalZeros;
+import infinitesimalzeros.common.capability.Capabilities;
 import infinitesimalzeros.common.item.MetaItems;
 import infinitesimalzeros.common.render.ColorItemRenderer;
 import infinitesimalzeros.common.unification.MaterialBasis;
@@ -18,7 +19,7 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(this);
 		MaterialBasis.runMaterialHandlers();
 		MaterialBasis.freezeRegistry();
-		
+		Capabilities.register();
 		/*InfinitesimalZeros.logger.info("Init Items");
 		MetaItems.init();*/
 	}
@@ -26,7 +27,7 @@ public class CommonProxy {
 	public void Init() {
 		registerColors();
 		InfinitesimalZeros.logger.info("Packet Initializing...");
-		//PacketHandler.Init();
+		PacketHandler.Init();
 	}
 	
 	public void postInit() {

@@ -20,16 +20,29 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional.Method;
 
 public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISustainedInventory, IEnergyContainerItem {
-	
-	public Block metaBlock;
 
 	public ItemBlockMachine(Block block)
 	{
 		super(block);
-		metaBlock = block;
 		setHasSubtypes(true);
 		setNoRepair();
 		setMaxStackSize(1);
+	}
+	
+	@Override
+	public int getMetadata(int i) {
+		return i;
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack itemstack)
+	{
+		if(MachineTypes.get(itemstack) != null)
+		{
+			return getUnlocalizedName() + "." + MachineTypes.get(itemstack).name;
+		}
+
+		return "null";
 	}
 	
 	@Override

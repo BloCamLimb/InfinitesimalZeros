@@ -11,6 +11,7 @@ import infinitesimalzeros.common.network.PacketDataRequest.DataRequestMessage;
 import infinitesimalzeros.common.network.PacketTileEntity;
 import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -37,13 +38,33 @@ public class PacketHandler {
 		network.registerMessage(PacketDataRequest.class, DataRequestMessage.class, 7, Side.SERVER);
 	}
 	
-	public static EntityPlayer getPlayer(MessageContext context) {
-		return context.getServerHandler().player;
+	public static EntityPlayer getPlayer(MessageContext context)
+	{
+		if(FMLCommonHandler.instance().getEffectiveSide().isServer())
+		{
+			return context.getServerHandler().player;
+		}
+		else {
+			return Minecraft.getMinecraft().player;
+		}
 	}
 
 	public static void handlePacket(Runnable runnable, EntityPlayer player) {
-		if(player instanceof EntityPlayerMP) {
-			((WorldServer)player.world).addScheduledTask(runnable);
+		
+		if(player == null || player.world.isRemote)
+		{
+			Minecraft.getMinecraft().addScheduledTask(runnable);
+		}
+		else if(player != null && !player.world.isRemote)
+		{
+			if (player.world instanceof WorldServer) {
+				((WorldServer) player.world).addScheduledTask(runnable);
+			} else {
+				MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+				if (server != null){
+					server.addScheduledTask(runnable);
+				}
+			}
 		}
 	}
 	

@@ -19,5 +19,9 @@ public class Capabilities {
 	
 	@CapabilityInject(ITileNetwork.class)
 	public static Capability<ITileNetwork> TILE_NETWORK_CAPABILITY = null;
+	
+	public static void register() {
+		DefaultTileNetwork.register();
+	}
 
 }

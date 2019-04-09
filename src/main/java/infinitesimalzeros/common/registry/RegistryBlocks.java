@@ -32,9 +32,9 @@ public class RegistryBlocks {
 	
 	public static void registerBlocks(IForgeRegistry<Block> registry) {
 		registry.register(init(TEBlockA, "Machine_A"));
-		//registry.register(init(TEBlockB, "Machine_B"));
+		registry.register(init(TEBlockB, "Machine_B"));
 		RegistryItems.ITEMS.add(new ItemBlockMachine(TEBlockA).setRegistryName(TEBlockA.getRegistryName()));
-		//RegistryItems.ITEMS.add(new ItemBlock(TEBlockB).setRegistryName(TEBlockB.getRegistryName()));
+		RegistryItems.ITEMS.add(new ItemBlockMachine(TEBlockB).setRegistryName(TEBlockB.getRegistryName()));
 	}
 	
 	public static void registerItemBlocks(IForgeRegistry<Item> registry) {

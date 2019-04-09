@@ -22,6 +22,9 @@ public class NanaFurnaceCon extends Container {
 		this.tileentity = tileentity;
 		IItemHandler handler = tileentity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 		
+		tileentity.open(player.player);
+		tileentity.openInventory(player.player);
+		
 		this.addSlotToContainer(new SlotItemHandler(handler, 0, 26, 11));
 		this.addSlotToContainer(new SlotItemHandler(handler, 1, 26, 59));
 		this.addSlotToContainer(new SlotItemHandler(handler, 2, 7, 35));
@@ -39,6 +42,13 @@ public class NanaFurnaceCon extends Container {
 		{
 			this.addSlotToContainer(new Slot(player, x, 8 + x * 18, 142));
 		}
+	}
+	
+	@Override
+	public void onContainerClosed(EntityPlayer playerIn) {
+		super.onContainerClosed(playerIn);
+		tileentity.close(playerIn);
+		tileentity.closeInventory(playerIn);
 	}
 	
 	@Override

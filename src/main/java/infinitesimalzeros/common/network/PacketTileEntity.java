@@ -1,13 +1,17 @@
 package infinitesimalzeros.common.network;
 
+import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.common.capability.Capabilities;
 import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
+import infinitesimalzeros.common.tileentity.basis.TileEntityElectricBlock;
 import infinitesimalzeros.common.util.CapabilityUtils;
 import infinitesimalzeros.common.util.handlers.PacketHandler;
 import infinitesimalzeros.common.util.interfaces.ITileNetwork;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -30,12 +34,14 @@ public class PacketTileEntity implements IMessageHandler<TileEntityMessage, IMes
 		
 		PacketHandler.handlePacket(() ->
 		{
+			
             TileEntity tileEntity = message.coord4D.getTileEntity(player.world);
-
+            
             if(CapabilityUtils.hasCapability(tileEntity, Capabilities.TILE_NETWORK_CAPABILITY, null))
             {
+            	
                 ITileNetwork network = CapabilityUtils.getCapability(tileEntity, Capabilities.TILE_NETWORK_CAPABILITY, null);
-
+                
                 try {
                     network.handlePacketData(message.storedBuffer);
                 } catch(Exception e) {
@@ -78,6 +84,7 @@ public class PacketTileEntity implements IMessageHandler<TileEntityMessage, IMes
 			}
 			
 			PacketHandler.encode(parameters.toArray(), dataStream);
+			
 		}
 	
 		@Override

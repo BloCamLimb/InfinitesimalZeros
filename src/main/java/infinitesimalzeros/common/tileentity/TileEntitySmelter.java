@@ -1,6 +1,9 @@
 package infinitesimalzeros.common.tileentity;
 
+import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.common.tileentity.basis.TileEntityElectricMachine;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntitySmelter extends TileEntityElectricMachine {
 
@@ -8,5 +11,4 @@ public class TileEntitySmelter extends TileEntityElectricMachine {
 		super("Smelter", 50000, 60, 200);
 	}
 	
-
 }

@@ -1,5 +1,7 @@
 package infinitesimalzeros.common.block;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -11,6 +13,7 @@ import infinitesimalzeros.common.block.state.BlockStateMachine;
 import infinitesimalzeros.common.block.state.BlockStateMachine.MachineBlockPredicate;
 import infinitesimalzeros.common.registry.RegistryItems;
 import infinitesimalzeros.common.tileentity.TileEntitySmelter;
+import infinitesimalzeros.common.tileentity.TileEntitySmelterAdv;
 import infinitesimalzeros.common.tileentity.basis.TileEntityBasicBlock;
 import infinitesimalzeros.common.tileentity.basis.TileEntityContainerBlock;
 import infinitesimalzeros.common.tileentity.basis.TileEntityElectricBlock;
@@ -117,6 +120,7 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 	// All machine types, matched their set and meta.
 	public static enum MachineTypes implements IStringSerializable {
 		Smelter(MachineSets.Machine_Set_A, 0, "NanaSmelter", 0, TileEntitySmelter.class, true, true, Plane.HORIZONTAL),
+		Smelter_Adv(MachineSets.Machine_Set_A, 1, "SmelterAdv", 0, TileEntitySmelterAdv.class, true, true, Plane.HORIZONTAL),
 		Ori_Furnace(MachineSets.Machine_Set_B, 0, "OriSmelter", 0, NanaFurnaceTE.class, true, true, Plane.HORIZONTAL);
 		
 		public MachineSets block;
@@ -202,7 +206,9 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 	@Override
 	public void getSubBlocks(CreativeTabs itemIn, NonNullList<ItemStack> items) {
 		for(MachineTypes type : MachineTypes.values()) {
-			items.add(new ItemStack(this, 1, type.meta));
+			if(type.block == getMachineBlock()) {
+				items.add(new ItemStack(this, 1, type.meta));
+			}
 		}
 	}
 	

@@ -4,27 +4,26 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.api.Range4D;
-import infinitesimalzeros.common.network.PacketDataRequest.DataRequestMessage;
+import infinitesimalzeros.common.capability.Capabilities;
 import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
+import infinitesimalzeros.common.network.PacketDataRequest.DataRequestMessage;
 import infinitesimalzeros.common.network.TileNetworkList;
 import infinitesimalzeros.common.util.IZUtils;
 import infinitesimalzeros.common.util.handlers.PacketHandler;
 import infinitesimalzeros.common.util.interfaces.ITileComponent;
 import infinitesimalzeros.common.util.interfaces.ITileNetwork;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
-import net.minecraftforge.items.ItemStackHandler;
 
 public abstract class TileEntityBasicBlock extends TileEntity implements ITickable, ITileNetwork {
 	
@@ -45,7 +44,7 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 		super.onLoad();
 		if(world.isRemote)
 		{
-			//PacketHandler.network.sendToServer((IMessage) new DataRequestMessage(Coord4D.get(this)));
+			PacketHandler.network.sendToServer((IMessage) new DataRequestMessage(Coord4D.get(this)));
 		}
 	}
 	
@@ -64,7 +63,7 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 			{
 				for(EntityPlayer player : playersUsing)
 				{
-					//PacketHandler.network.sendTo(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), (EntityPlayerMP)player);
+					PacketHandler.network.sendTo(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), (EntityPlayerMP)player);
 				}
 			}
 		}
@@ -115,6 +114,7 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 	@Override
 	public void handlePacketData(ByteBuf dataStream)
 	{
+		
 		if(FMLCommonHandler.instance().getEffectiveSide().isClient())
 		{
 			facing = EnumFacing.getFront(dataStream.readInt());
@@ -131,6 +131,20 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 				component.read(dataStream);
 			}
 		}
+	}
+	
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing)
+	{
+		return capability == Capabilities.TILE_NETWORK_CAPABILITY || super.hasCapability(capability, facing);
+	}
+
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing)
+	{
+		if(capability == Capabilities.TILE_NETWORK_CAPABILITY)
+			return (T)this;
+		return super.getCapability(capability, facing);
 	}
 	
 	@Override
@@ -151,7 +165,7 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 
 		if(world.isRemote)
 		{
-			//PacketHandler.network.sendToServer(new DataRequestMessage(Coord4D.get(this)));
+			PacketHandler.network.sendToServer(new DataRequestMessage(Coord4D.get(this)));
 		}
 	}
 	
@@ -183,10 +197,28 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 
 		if(!(facing == clientFacing || world.isRemote))
 		{
-			//PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
+			PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
 			markDirty();
 			clientFacing = facing;
 		}
+	}
+	
+	@Override
+	public NBTTagCompound getUpdateTag()
+	{
+		// Forge writes only x/y/z/id info to a new NBT Tag Compound. This is fine, we have a custom network system
+		// to send other data so we don't use this one (yet).
+		return super.getUpdateTag();
+	}
+
+	@Override
+	public void handleUpdateTag(NBTTagCompound tag) 
+	{
+		// The super implementation of handleUpdateTag is to call this readFromNBT. But, the given TagCompound
+		// only has x/y/z/id data, so our readFromNBT will set a bunch of default values which are wrong.
+		// So simply call the super's readFromNBT, to let Forge do whatever it wants, but don't treat this like
+		// a full NBT object, don't pass it to our custom read methods.
+		super.readFromNBT(tag);
 	}
 	
 }

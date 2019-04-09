@@ -21,7 +21,7 @@ public class NanaGUI extends GuiContainer {
 	public int aAlpha;
 	public int color;
 	
-	public static int tabExpandSpeed = 1;
+	public static int tabExpandSpeed;
 	
 	public int minWidth = 22;
 	public int maxWidth = 180;
@@ -44,13 +44,9 @@ public class NanaGUI extends GuiContainer {
 		
 		String tileName = this.tileentity.getDisplayName().getFormattedText();
 		this.fontRenderer.drawString(tileName, this.xSize / 2 - this.fontRenderer.getStringWidth(tileName) / 2 + 3, -8, 0xA8DAFF);
-		//this.fontRenderer.drawString(this.player.getDisplayName().getUnformattedText(), 122, this.ySize - 96 + 2, 4210752);
+		//this.fontRenderer.drawString(this.player.getCurrentItem().getDisplayName(), 122, this.ySize - 96 + 2, 4210752);
 		
-		
-		if(fullOpen==true && color!=0) {
-			this.fontRenderer.drawString("YEp", 80, 20, color);
-			this.fontRenderer.drawString(this.tileentity.getEnergy()+"", 80, 10, color);
-		}
+
 		
 	}
 	
@@ -66,6 +62,10 @@ public class NanaGUI extends GuiContainer {
 			int k = this.getBurnLeftScaled(13);
 			this.drawTexturedModalRect(this.guiLeft + 8, this.guiTop + 54 + 12 - k, 176, 12 - k, 14, k + 1);
 		}*/
+		if(fullOpen==true && color!=0) {
+			this.fontRenderer.drawString("Energy", 150, 70, color);
+			this.fontRenderer.drawString(this.tileentity.getEnergy()+"", 180, 70, color);
+		}
 		drawBackground();
 		update();
 		//int l = this.getCookProgressScaled(24);
@@ -91,15 +91,13 @@ public class NanaGUI extends GuiContainer {
 	}
 	
 	@Override
-	public void onGuiClosed() {
-		super.onGuiClosed();
-		fullOpen=false;
-		currentHeight=0;
-		currentWidth=0;
+	public void initGui() {
+		super.initGui();
+		tabExpandSpeed = Math.max(1, Math.round(maxHeight/Minecraft.getDebugFPS()));
 	}
 	
 	public void update() {
-		tabExpandSpeed = Math.max(1, Math.round(maxHeight/Minecraft.getDebugFPS()));
+		
 		if (currentWidth <= maxWidth - tabExpandSpeed) {
 			currentWidth += tabExpandSpeed;
 		} else {
