@@ -1,7 +1,7 @@
 package infinitesimalzeros.common.util.handlers;
 
-import infinitesimalzeros.common.block.NanaFurnaceCon;
-import infinitesimalzeros.common.block.NanaGUI;
+import infinitesimalzeros.client.gui.NanaGUI;
+import infinitesimalzeros.common.container.NanaFurnaceCon;
 import infinitesimalzeros.common.tileentity.TileEntitySmelter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;

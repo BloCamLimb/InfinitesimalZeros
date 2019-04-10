@@ -1,7 +1,5 @@
 package infinitesimalzeros.common.block;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -14,11 +12,13 @@ import infinitesimalzeros.common.block.state.BlockStateMachine.MachineBlockPredi
 import infinitesimalzeros.common.registry.RegistryItems;
 import infinitesimalzeros.common.tileentity.TileEntitySmelter;
 import infinitesimalzeros.common.tileentity.TileEntitySmelterAdv;
+import infinitesimalzeros.common.tileentity.TileEntitySmeltingFactory;
 import infinitesimalzeros.common.tileentity.basis.TileEntityBasicBlock;
 import infinitesimalzeros.common.tileentity.basis.TileEntityContainerBlock;
 import infinitesimalzeros.common.tileentity.basis.TileEntityElectricBlock;
 import infinitesimalzeros.common.util.IZUtils;
 import infinitesimalzeros.common.util.interfaces.IActiveState;
+import infinitesimalzeros.common.util.interfaces.IBoundingBlock;
 import infinitesimalzeros.common.util.interfaces.IEnergizedItem;
 import infinitesimalzeros.common.util.interfaces.ISustainedData;
 import infinitesimalzeros.common.util.interfaces.ISustainedInventory;
@@ -124,6 +124,7 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 	public static enum MachineTypes implements IStringSerializable {
 		Smelter(MachineSets.Machine_Set_A, 0, "NanaSmelter", 0, TileEntitySmelter.class, true, true, Plane.HORIZONTAL),
 		Smelter_Adv(MachineSets.Machine_Set_A, 1, "SmelterAdv", 0, TileEntitySmelterAdv.class, true, true, Plane.HORIZONTAL),
+		Smelting_Factory(MachineSets.Machine_Set_A, 2, "SmelterFactory", 0, TileEntitySmeltingFactory.class, true, true, Plane.HORIZONTAL),
 		Ori_Furnace(MachineSets.Machine_Set_B, 0, "OriSmelter", 0, NanaFurnaceTE.class, true, true, Plane.HORIZONTAL);
 		
 		public MachineSets block;
@@ -261,6 +262,11 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 		
 		tileEntity.setFacing((short) change);
 		
+		if(tileEntity instanceof IBoundingBlock) {
+			
+			((IBoundingBlock) tileEntity).onPlace();
+		}
+		
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 		
 	}
@@ -316,6 +322,18 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 		
 		return itemStack;
 		
+	}
+	
+	@Override
+	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+		
+		TileEntityBasicBlock tileEntity = (TileEntityBasicBlock) worldIn.getTileEntity(pos);
+		
+		if(tileEntity instanceof IBoundingBlock) {
+			((IBoundingBlock) tileEntity).onBreak();
+		}
+		
+		super.breakBlock(worldIn, pos, state);
 	}
 	
 	@Override

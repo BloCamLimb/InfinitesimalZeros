@@ -153,6 +153,11 @@ public class PacketHandler {
 		network.sendTo(message, player);
 	}
 	
+	public static void sendToServer(IMessage message) {
+		
+		network.sendToServer(message);
+	}
+	
 	public static void sendToReceivers(IMessage message, Range4D range) {
 		
 		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
