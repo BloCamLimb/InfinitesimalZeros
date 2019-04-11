@@ -4,6 +4,7 @@ import cofh.redstoneflux.api.IEnergyContainerItem;
 import infinitesimalzeros.common.block.BlockTileEntityCore.MachineTypes;
 import infinitesimalzeros.common.tileentity.basis.TileEntityBasicBlock;
 import infinitesimalzeros.common.tileentity.basis.TileEntityElectricBlock;
+import infinitesimalzeros.common.util.IZUtils;
 import infinitesimalzeros.common.util.ItemDataUtils;
 import infinitesimalzeros.common.util.interfaces.IEnergizedItem;
 import infinitesimalzeros.common.util.interfaces.ISustainedData;
@@ -48,11 +49,32 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISust
 	@Override
 	public boolean placeBlockAt(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, IBlockState newState) {
 		
-		boolean place = true;
+		boolean placeable = true;
 		
 		MachineTypes type = MachineTypes.get(stack);
 		
-		if(place && super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState)) {
+		if(type == MachineTypes.Smelting_Factory) {
+			
+			BlockPos.MutableBlockPos iPos = new BlockPos.MutableBlockPos();
+			
+			for(int x = -1; x <= 1; x++) {
+				
+				for(int y = 0; y <= 3; y++) {
+					
+					for(int z = -1; z <= 1; z++) {
+						
+						iPos.setPos(pos.getX()+x, pos.getY()+y, pos.getZ()+z);
+						Block iBlock = world.getBlockState(iPos).getBlock();
+						
+						if(!world.isValid(iPos) || !world.isBlockLoaded(iPos, false) || !iBlock.isReplaceable(world, iPos)) {
+							placeable = false;
+						}
+					}
+				}
+			}
+		}
+		
+		if(placeable && super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState)) {
 			
 			TileEntityBasicBlock tileEntity = (TileEntityBasicBlock) world.getTileEntity(pos);
 			
@@ -117,7 +139,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISust
 		
 		MachineTypes machineType = MachineTypes.get(Block.getBlockFromItem(itemStack.getItem()), itemStack.getItemDamage());
 		
-		return 50000/* IZUtils.getMaxEnergy(itemStack, machineType.baseEnergy) */;
+		return 10000000;
 	}
 	
 	@Override

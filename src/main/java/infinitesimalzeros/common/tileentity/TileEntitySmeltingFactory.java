@@ -1,7 +1,9 @@
 package infinitesimalzeros.common.tileentity;
 
 import infinitesimalzeros.InfinitesimalZeros;
+import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.common.tileentity.basis.TileEntityElectricMachine;
+import infinitesimalzeros.common.util.IZUtils;
 import infinitesimalzeros.common.util.interfaces.IAdvancedBoundingBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -16,15 +18,40 @@ public class TileEntitySmeltingFactory extends TileEntityElectricMachine impleme
 
 	@Override
 	public void onPlace() {
-		InfinitesimalZeros.logger.info("n");
-		//BlockPos pos = getPos().add(x, y, z);
+		
+		for(int x = -1; x <= 1; x++) {
+			
+			for(int y = 0; y <= 3; y++) {
+				
+				for(int z = -1; z <= 1; z++) {
+					
+					if(x == 0 && y == 0 && z == 0) {
+						
+						continue;
+					}
+					
+					BlockPos pos = getPos().add(x,y,z);
+					IZUtils.constructAdvBoundingBox(world, pos, Coord4D.get(this));
+					world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
+				}
+			}
+		}
 		
 	}
 
 	@Override
 	public void onBreak() {
 		
-		// TODO Auto-generated method stub
+		for(int x = -1; x <= 1; x++) {
+			
+			for(int y = 0; y <= 3; y++) {
+				
+				for(int z = -1; z <= 1; z++) {
+					
+					world.setBlockToAir(getPos().add(x,y,z));
+				}
+			}
+		}
 		
 	}
 

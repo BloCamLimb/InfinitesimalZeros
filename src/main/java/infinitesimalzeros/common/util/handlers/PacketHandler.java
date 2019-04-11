@@ -163,8 +163,11 @@ public class PacketHandler {
 		MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 		
 		if(server != null) {
+			
 			for(EntityPlayerMP player : (List<EntityPlayerMP>) server.getPlayerList().getPlayers()) {
+				
 				if(player.dimension == range.dimensionId && Range4D.getChunkRange(player).intersects(range)) {
+					
 					sendTo(message, player);
 				}
 			}

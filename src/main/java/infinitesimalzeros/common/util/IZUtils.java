@@ -1,5 +1,9 @@
 package infinitesimalzeros.common.util;
 
+import infinitesimalzeros.InfinitesimalZeros;
+import infinitesimalzeros.api.Coord4D;
+import infinitesimalzeros.common.registry.RegistryBlocks;
+import infinitesimalzeros.common.tileentity.TileEntityAdvancedBoundingBox;
 import infinitesimalzeros.common.util.interfaces.IActiveState;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -106,6 +110,16 @@ public class IZUtils {
 	public static TileEntity getTileEntitySafe(IBlockAccess worldIn, BlockPos pos) {
 		
 		return worldIn instanceof ChunkCache ? ((ChunkCache) worldIn).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : worldIn.getTileEntity(pos);
+	}
+	
+	public static void constructAdvBoundingBox(World world, BlockPos pos, Coord4D core) {
+		
+		world.setBlockState(pos, RegistryBlocks.BBBlock.getStateFromMeta(0));
+		
+		if(!world.isRemote) {
+			
+			((TileEntityAdvancedBoundingBox)world.getTileEntity(pos)).setCorePosition(core.getPos());
+		}
 	}
 	
 }

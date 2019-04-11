@@ -22,7 +22,7 @@ public class RegistryBlocks {
 	public static final Block NanaFurnace = new NanaFurnace("nana_furnace");
 	public static final Block TEBlock1 = BlockTileEntityCore.getBlockMachine(MachineSets.Machine_Set_A);
 	public static final Block TEBlock2 = BlockTileEntityCore.getBlockMachine(MachineSets.Machine_Set_B);
-	public static final Block BBBlock = new BlockBoundingBox();
+	public static final Block BBBlock = (BlockBoundingBox)new BlockBoundingBox();
 	
 	public static Block init(Block block, String name) {
 		

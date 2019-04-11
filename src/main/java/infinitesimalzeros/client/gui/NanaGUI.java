@@ -2,7 +2,7 @@ package infinitesimalzeros.client.gui;
 
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.common.container.NanaFurnaceCon;
-import infinitesimalzeros.common.tileentity.TileEntitySmelter;
+import infinitesimalzeros.common.tileentity.TileEntitySmeltingFactory;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,7 +13,7 @@ public class NanaGUI extends GuiContainer {
 	
 	private static final ResourceLocation TEXTURES = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/gu.png");
 	private final InventoryPlayer player;
-	private final TileEntitySmelter tileentity;
+	private final TileEntitySmeltingFactory tileentity;
 	
 	public int backgroundColor = 0xffffff;
 	
@@ -32,7 +32,7 @@ public class NanaGUI extends GuiContainer {
 	public int maxHeight = 220;
 	public int currentHeight = 0;
 	
-	public NanaGUI(InventoryPlayer player, TileEntitySmelter tileentity) {
+	public NanaGUI(InventoryPlayer player, TileEntitySmeltingFactory tileentity) {
 		
 		super(new NanaFurnaceCon(player, tileentity));
 		this.player = player;
@@ -47,8 +47,7 @@ public class NanaGUI extends GuiContainer {
 		// this.fontRenderer.drawString(this.player.getCurrentItem().getDisplayName(),
 		// 122, this.ySize - 96 + 2, 4210752);
 		if(fullOpen == true && color != 0) {
-			this.fontRenderer.drawString("Energy", 150, 70, color);
-			this.fontRenderer.drawString(this.tileentity.getEnergy() + "", 180, 70, color);
+			this.fontRenderer.drawString("Energy "+this.tileentity.getEnergy(), 50, 30, color);
 		}
 	}
 	
@@ -83,7 +82,7 @@ public class NanaGUI extends GuiContainer {
 		
 		// this.drawTexturedModalRect(0, 4, 0, 256 - currentHeight + 4, 4, currentHeight
 		// - 4);
-		this.drawTexturedModalRect(width / 2 - 105, height / 2 - 100, 0, 210 - currentHeight + 4, 220, currentHeight - 4);
+		this.drawTexturedModalRect(width / 2 - 105, height / 2 - 105, 0, 210 - currentHeight + 4, 220, currentHeight - 4);
 		// this.drawTexturedModalRect(0, 0, 0, 0, 4, 4);
 		// this.drawTexturedModalRect(4, 4, 256 - currentWidth + 4, 256 - currentHeight
 		// + 4, currentWidth - 4, currentHeight - 4);

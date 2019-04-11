@@ -3,7 +3,7 @@ package infinitesimalzeros.common.container;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.common.block.SinteringFurnaceRecipes;
 import infinitesimalzeros.common.container.slot.SlotOutput;
-import infinitesimalzeros.common.tileentity.TileEntitySmelter;
+import infinitesimalzeros.common.tileentity.TileEntitySmeltingFactory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -18,15 +18,15 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class NanaFurnaceCon extends Container {
 	
-	private final TileEntitySmelter tileEntity;
+	private final TileEntitySmeltingFactory tileEntity;
 	private int cookTime, totalCookTime, burnTime, currentBurnTime;
 	
-	public NanaFurnaceCon(InventoryPlayer player, TileEntitySmelter tileEntity) {
+	public NanaFurnaceCon(InventoryPlayer player, TileEntitySmeltingFactory tileEntity) {
 		
 		this.tileEntity = tileEntity;
 		
 		tileEntity.open(player.player);
-		//tileEntity.openInventory(player.player);
+		tileEntity.openInventory(player.player);
 		
 		addSlotToContainer(new Slot(tileEntity, 0, 56, 50));
 		addSlotToContainer(new SlotOutput(tileEntity, 1, 106, 50));

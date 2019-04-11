@@ -1,8 +1,12 @@
 package infinitesimalzeros.common.network;
 
 import infinitesimalzeros.api.Coord4D;
+import infinitesimalzeros.common.capability.Capabilities;
 import infinitesimalzeros.common.network.PacketDataRequest.DataRequestMessage;
+import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
+import infinitesimalzeros.common.util.CapabilityUtils;
 import infinitesimalzeros.common.util.handlers.PacketHandler;
+import infinitesimalzeros.common.util.interfaces.ITileNetwork;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -25,23 +29,13 @@ public class PacketDataRequest implements IMessageHandler<DataRequestMessage, IM
 			
 			if(worldServer != null) {
 				TileEntity tileEntity = message.coord4D.getTileEntity(worldServer);
-				
-				/*
-				 * if(tileEntity instanceof TileEntityMultiblock) { ((TileEntityMultiblock<?>)tileEntity).sendStructure = true; }
-				 * 
-				 * if(CapabilityUtils.hasCapability(tileEntity, Capabilities.GRID_TRANSMITTER_CAPABILITY, null)) { IGridTransmitter transmitter =
-				 * CapabilityUtils.getCapability(tileEntity, Capabilities.GRID_TRANSMITTER_CAPABILITY, null);
-				 * 
-				 * transmitter.setRequestsUpdate();
-				 * 
-				 * if(transmitter.hasTransmitterNetwork()) { transmitter.getTransmitterNetwork().addUpdate(player); } }
-				 * 
-				 * if(CapabilityUtils.hasCapability(tileEntity, Capabilities.TILE_NETWORK_CAPABILITY, null)) { ITileNetwork network =
-				 * CapabilityUtils.getCapability(tileEntity, Capabilities.TILE_NETWORK_CAPABILITY, null);
-				 * 
-				 * PacketHandler.network.sendTo(new TileEntityMessage(Coord4D.get(tileEntity), network.getNetworkedData(new TileNetworkList())),
-				 * (EntityPlayerMP)player); }
-				 */
+
+                if(CapabilityUtils.hasCapability(tileEntity, Capabilities.TILE_NETWORK_CAPABILITY, null))
+                {
+                    ITileNetwork network = CapabilityUtils.getCapability(tileEntity, Capabilities.TILE_NETWORK_CAPABILITY, null);
+
+                    PacketHandler.sendTo(new TileEntityMessage(Coord4D.get(tileEntity), network.getNetworkedData(new TileNetworkList())), (EntityPlayerMP)player);
+                }
 			}
 		}, player);
 		

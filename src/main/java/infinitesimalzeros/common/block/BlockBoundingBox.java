@@ -2,6 +2,8 @@ package infinitesimalzeros.common.block;
 
 import java.util.Random;
 
+import javax.annotation.Nullable;
+
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.common.tileentity.TileEntityAdvancedBoundingBox;
 import infinitesimalzeros.common.tileentity.TileEntityBoundingBox;
@@ -13,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -29,12 +32,14 @@ public class BlockBoundingBox extends Block {
 		this.setResistance(999.9F);
 	}
 	
-	private static BlockPos getMainBlockPos(World world, BlockPos pos) {
+	@Nullable
+	private static BlockPos getCoreBlockPos(World world, BlockPos pos) {
 		
 		TileEntity te = world.getTileEntity(pos);
 		
-		if(te instanceof TileEntityBoundingBox && !((TileEntityBoundingBox) te).posCore.equals(pos)) {
-			return ((TileEntityBoundingBox) te).posCore;
+		if(te instanceof TileEntityBoundingBox && !((TileEntityBoundingBox) te).corePos.equals(pos)) {
+			
+			return ((TileEntityBoundingBox) te).corePos;
 		}
 		
 		return null;
@@ -43,15 +48,20 @@ public class BlockBoundingBox extends Block {
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		
+		if(worldIn.isRemote) {
+			return true;
+		}
+		
 		try {
-			BlockPos mainPos = getMainBlockPos(worldIn, pos);
+			BlockPos corePos = getCoreBlockPos(worldIn, pos);
 			
-			if(mainPos != null) {
-				IBlockState state1 = worldIn.getBlockState(mainPos);
-				return state1.getBlock().onBlockActivated(worldIn, mainPos, state1, playerIn, hand, facing, hitX, hitY, hitZ);
+			if(corePos != null) {
+				IBlockState blockState = worldIn.getBlockState(corePos);
+				
+				return blockState.getBlock().onBlockActivated(worldIn, corePos, blockState, playerIn, hand, facing, hitX, hitY, hitZ);
 			}
 		} catch (Exception e) {
-			InfinitesimalZeros.logger.error("Something went wrong", e);
+			InfinitesimalZeros.logger.error(e);
 		}
 		
 		return false;
@@ -69,14 +79,14 @@ public class BlockBoundingBox extends Block {
 	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World worldIn, BlockPos pos, EntityPlayer playerIn) {
 		
 		try {
-			BlockPos mainPos = getMainBlockPos(worldIn, pos);
+			BlockPos corePos = getCoreBlockPos(worldIn, pos);
 			
-			if(mainPos != null) {
-				IBlockState state1 = worldIn.getBlockState(mainPos);
-				return state1.getBlock().getPickBlock(state1, target, worldIn, mainPos, playerIn);
+			if(corePos != null) {
+				IBlockState blockState = worldIn.getBlockState(corePos);
+				return blockState.getBlock().getPickBlock(blockState, target, worldIn, corePos, playerIn);
 			}
 		} catch (Exception e) {
-			InfinitesimalZeros.logger.error("Something went wrong", e);
+			InfinitesimalZeros.logger.error(e);
 		}
 		
 		return ItemStack.EMPTY;
@@ -86,23 +96,23 @@ public class BlockBoundingBox extends Block {
 	public boolean removedByPlayer(IBlockState state, World worldIn, BlockPos pos, EntityPlayer playerIn, boolean willHarvest) {
 		
 		try {
-			BlockPos mainPos = getMainBlockPos(worldIn, pos);
+			BlockPos corePos = getCoreBlockPos(worldIn, pos);
 			
-			if(mainPos != null) {
-				IBlockState state1 = worldIn.getBlockState(mainPos);
-				return state1.getBlock().removedByPlayer(state1, worldIn, mainPos, playerIn, willHarvest);
+			if(corePos != null) {
+				IBlockState blockState = worldIn.getBlockState(corePos);
+				return blockState.getBlock().removedByPlayer(blockState, worldIn, corePos, playerIn, willHarvest);
 			}
 		} catch (Exception e) {
-			InfinitesimalZeros.logger.error("Something went wrong", e);
+			InfinitesimalZeros.logger.error(e);
 		}
 		
 		return false;
 	}
 	
 	@Override
-	public int quantityDropped(Random random) {
+	public EnumBlockRenderType getRenderType(IBlockState state) {
 		
-		return 0;
+		return EnumBlockRenderType.INVISIBLE;
 	}
 	
 	@Override

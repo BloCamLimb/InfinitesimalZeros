@@ -2,6 +2,7 @@ package infinitesimalzeros.common.tileentity;
 
 import cofh.redstoneflux.api.IEnergyProvider;
 import cofh.redstoneflux.api.IEnergyReceiver;
+import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.common.capability.Capabilities;
 import infinitesimalzeros.common.util.interfaces.IAdvancedBoundingBlock;
@@ -10,6 +11,8 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.Optional.Interface;
 import net.minecraftforge.fml.common.Optional.InterfaceList;
@@ -21,9 +24,13 @@ public class TileEntityAdvancedBoundingBox extends TileEntityBoundingBox impleme
 	
 	public IAdvancedBoundingBlock getAdvTile() {
 		
-		TileEntity tile = new Coord4D(posCore, world).getTileEntity(world);
+		TileEntity tile = new Coord4D(corePos, world).getTileEntity(world);
 		
-		if(!world.isBlockLoaded(posCore) || tile == null || !(tile instanceof IAdvancedBoundingBlock)) {
+		if(tile == null) {
+			return null;
+		}
+		
+		if(!(tile instanceof IAdvancedBoundingBlock)) {
 			return null;
 		}
 		
@@ -208,6 +215,12 @@ public class TileEntityAdvancedBoundingBox extends TileEntityBoundingBox impleme
 		}
 		
 		return advTile.hasCustomName();
+	}
+	
+	@Override
+	public ITextComponent getDisplayName() {
+		
+		return new TextComponentString(getName());
 	}
 	
 	@Override

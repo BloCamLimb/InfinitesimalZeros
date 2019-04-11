@@ -1,5 +1,6 @@
 package infinitesimalzeros.common.tileentity;
 
+import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.api.Range4D;
 import infinitesimalzeros.common.capability.Capabilities;
@@ -17,13 +18,13 @@ import net.minecraftforge.common.capabilities.Capability;
 
 public class TileEntityBoundingBox extends TileEntity implements ITileNetwork {
 	
-	public BlockPos posCore = BlockPos.ORIGIN;
+	public BlockPos corePos = BlockPos.ORIGIN;
 	
 	public void setCorePosition(BlockPos pos) {
 		
 		if(!world.isRemote) {
 			
-			posCore = pos;
+			corePos = pos;
 			
 			PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
 		}
@@ -35,6 +36,7 @@ public class TileEntityBoundingBox extends TileEntity implements ITileNetwork {
 		super.validate();
 		
 		if(world.isRemote) {
+			
 			PacketHandler.sendToServer(new DataRequestMessage(Coord4D.get(this)));
 		}
 	}
@@ -44,9 +46,9 @@ public class TileEntityBoundingBox extends TileEntity implements ITileNetwork {
 		
 		super.writeToNBT(compound);
 		
-		compound.setInteger("main-X", posCore.getX());
-		compound.setInteger("main-Y", posCore.getY());
-		compound.setInteger("main-Z", posCore.getZ());
+		compound.setInteger("main-X", corePos.getX());
+		compound.setInteger("main-Y", corePos.getY());
+		compound.setInteger("main-Z", corePos.getZ());
 		
 		return compound;
 	}
@@ -56,27 +58,27 @@ public class TileEntityBoundingBox extends TileEntity implements ITileNetwork {
 		
 		super.readFromNBT(compound);
 		
-		posCore = new BlockPos(compound.getInteger("main-X"), compound.getInteger("main-Y"), compound.getInteger("main-Z"));
+		corePos = new BlockPos(compound.getInteger("main-X"), compound.getInteger("main-Y"), compound.getInteger("main-Z"));
 		
 	}
 	
 	@Override
-	public void handlePacketData(ByteBuf dataStream) throws Exception {
+	public void handlePacketData(ByteBuf dataStream) {
 		
-		if(!world.isRemote) {
+		if(world.isRemote) {
 			
-			posCore = new BlockPos(dataStream.readInt(), dataStream.readInt(), dataStream.readInt());
+			corePos = new BlockPos(dataStream.readInt(), dataStream.readInt(), dataStream.readInt());
 		}
 	}
 	
 	@Override
 	public TileNetworkList getNetworkedData(TileNetworkList data) {
 		
-		data.add(posCore.getX());
-		data.add(posCore.getY());
-		data.add(posCore.getZ());
+		data.add(corePos.getX());
+		data.add(corePos.getY());
+		data.add(corePos.getZ());
 		
-		return null;
+		return data;
 	}
 	
 	@Override
