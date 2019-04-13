@@ -1,35 +1,43 @@
 package infinitesimalzeros.common.container;
 
 import infinitesimalzeros.InfinitesimalZeros;
-import infinitesimalzeros.common.block.SinteringFurnaceRecipes;
 import infinitesimalzeros.common.container.slot.SlotOutput;
-import infinitesimalzeros.common.tileentity.TileEntitySmeltingFactory;
+import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IContainerListener;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class NanaFurnaceCon extends Container {
+public class NanaFurnaceCon extends ContainerBasic {
 	
-	private final TileEntitySmeltingFactory tileEntity;
+	private final TileEntitySmelter tileEntity;
 	private int cookTime, totalCookTime, burnTime, currentBurnTime;
 	
-	public NanaFurnaceCon(InventoryPlayer player, TileEntitySmeltingFactory tileEntity) {
+	public NanaFurnaceCon(InventoryPlayer player, TileEntitySmelter tileEntity) {
+		
+		super(player, tileEntity);
 		
 		this.tileEntity = tileEntity;
 		
 		tileEntity.open(player.player);
-		tileEntity.openInventory(player.player);
+		//tileEntity.openInventory(player.player);
 		
-		addSlotToContainer(new Slot(tileEntity, 0, 56, 50));
-		addSlotToContainer(new SlotOutput(tileEntity, 1, 106, 50));
+		addSlotToContainer(new Slot(inv, 0, 56, 10));
+		addSlotToContainer(new Slot(inv, 1, 76, 10));
+		addSlotToContainer(new Slot(inv, 2, 96, 10));
+		addSlotToContainer(new Slot(inv, 3, 116, 10));
+		addSlotToContainer(new Slot(inv, 4, 56, 30));
+		addSlotToContainer(new Slot(inv, 5, 76, 30));
+		addSlotToContainer(new Slot(inv, 6, 96, 30));
+		addSlotToContainer(new Slot(inv, 7, 116, 30));
+		addSlotToContainer(new Slot(inv, 8, 56, 50));
+		addSlotToContainer(new Slot(inv, 9, 76, 50));
+		addSlotToContainer(new Slot(inv, 10, 96, 50));
+		addSlotToContainer(new SlotOutput(this, inv, 11, 116, 50));
+		slotCount=inv.getSizeInventory();
 		
 		for(int y = 0; y < 3; y++) {
 			for(int x = 0; x < 9; x++) {
@@ -47,10 +55,10 @@ public class NanaFurnaceCon extends Container {
 		
 		super.onContainerClosed(playerIn);
 		tileEntity.close(playerIn);
-		tileEntity.closeInventory(playerIn);
+		//tileEntity.closeInventory(playerIn);
 	}
-	
-	@Override
+
+	/*@Override
 	public void detectAndSendChanges() {
 		
 		super.detectAndSendChanges();
@@ -79,15 +87,11 @@ public class NanaFurnaceCon extends Container {
 	public void updateProgressBar(int id, int data) {
 		
 		this.tileEntity.setField(id, data);
-	}
+	}*/
 	
-	@Override
-	public boolean canInteractWith(EntityPlayer playerIn) {
-		
-		return this.tileEntity.isUsableByPlayer(playerIn);
-	}
 	
-	@Override
+	
+	/*@Override
 	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
 		
 		ItemStack stack = ItemStack.EMPTY;
@@ -104,16 +108,16 @@ public class NanaFurnaceCon extends Container {
 			} else if(index != 2 && index != 1 && index != 0) {
 				Slot slot1 = (Slot) this.inventorySlots.get(index + 1);
 				
-				if(!SinteringFurnaceRecipes.getInstance().getSinteringResult(stack1, slot1.getStack()).isEmpty()) {
+				
 					if(!this.mergeItemStack(stack1, 0, 2, false)) {
 						return ItemStack.EMPTY;
 					} else if(index >= 4 && index < 31) {
 						if(!this.mergeItemStack(stack1, 31, 40, false))
 							return ItemStack.EMPTY;
-					} else if(index >= 31 && index < 40 && !this.mergeItemStack(stack1, 4, 31, false)) {
+					} else if(index >= 31 && !this.mergeItemStack(stack1, 4, 31, false)) {
 						return ItemStack.EMPTY;
 					}
-				}
+				
 			} else if(!this.mergeItemStack(stack1, 4, 40, false)) {
 				return ItemStack.EMPTY;
 			}
@@ -128,6 +132,6 @@ public class NanaFurnaceCon extends Container {
 			slot.onTake(playerIn, stack1);
 		}
 		return stack;
-	}
+	}*/
 	
 }

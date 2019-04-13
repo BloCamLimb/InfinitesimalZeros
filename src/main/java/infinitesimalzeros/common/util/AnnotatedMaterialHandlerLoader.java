@@ -5,8 +5,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Set;
 
+import infinitesimalzeros.api.interfaces.IMaterialHandler;
 import infinitesimalzeros.common.unification.MaterialBasis;
-import infinitesimalzeros.common.util.interfaces.IMaterialHandler;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.discovery.ASMDataTable.ASMData;
 

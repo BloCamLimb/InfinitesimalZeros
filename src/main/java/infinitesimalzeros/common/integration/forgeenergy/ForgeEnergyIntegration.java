@@ -1,6 +1,6 @@
 package infinitesimalzeros.common.integration.forgeenergy;
 
-import infinitesimalzeros.common.util.interfaces.IEnergyWrapper;
+import infinitesimalzeros.api.interfaces.IEnergyWrapper;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.energy.IEnergyStorage;
 
@@ -19,25 +19,25 @@ public class ForgeEnergyIntegration implements IEnergyStorage {
 	@Override
 	public int receiveEnergy(int maxReceive, boolean simulate) {
 		
-		return IZToForge(tileEntity.receiveEnergy(side, forgeToIZ(maxReceive), simulate));
+		return URToForge(tileEntity.receiveEnergy(side, forgeToUR(maxReceive), simulate));
 	}
 	
 	@Override
 	public int extractEnergy(int maxExtract, boolean simulate) {
 		
-		return IZToForge(tileEntity.transEnergy(side, forgeToIZ(maxExtract), simulate));
+		return URToForge(tileEntity.transEnergy(side, forgeToUR(maxExtract), simulate));
 	}
 	
 	@Override
 	public int getEnergyStored() {
 		
-		return Math.min(Integer.MAX_VALUE, IZToForge(tileEntity.getEnergy()));
+		return Math.min(Integer.MAX_VALUE, URToForge(tileEntity.getEnergy()));
 	}
 	
 	@Override
 	public int getMaxEnergyStored() {
 		
-		return Math.min(Integer.MAX_VALUE, IZToForge(tileEntity.getMaxEnergy()));
+		return Math.min(Integer.MAX_VALUE, URToForge(tileEntity.getMaxEnergy()));
 	}
 	
 	@Override
@@ -52,13 +52,13 @@ public class ForgeEnergyIntegration implements IEnergyStorage {
 		return tileEntity.sideIsConsumer(side);
 	}
 	
-	public static double forgeToIZ(int forge) {
+	public static double forgeToUR(int forge) {
 		
 		return forge;
 	}
 	
-	public static int IZToForge(double iz) {
+	public static int URToForge(double ur) {
 		
-		return (int) Math.round(iz);
+		return (int) Math.round(ur);
 	}
 }

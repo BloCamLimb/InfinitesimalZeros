@@ -2,7 +2,7 @@ package infinitesimalzeros.client.gui;
 
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.common.container.NanaFurnaceCon;
-import infinitesimalzeros.common.tileentity.TileEntitySmeltingFactory;
+import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,7 +13,7 @@ public class NanaGUI extends GuiContainer {
 	
 	private static final ResourceLocation TEXTURES = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/gu.png");
 	private final InventoryPlayer player;
-	private final TileEntitySmeltingFactory tileentity;
+	private final TileEntitySmelter tileentity;
 	
 	public int backgroundColor = 0xffffff;
 	
@@ -32,7 +32,7 @@ public class NanaGUI extends GuiContainer {
 	public int maxHeight = 220;
 	public int currentHeight = 0;
 	
-	public NanaGUI(InventoryPlayer player, TileEntitySmeltingFactory tileentity) {
+	public NanaGUI(InventoryPlayer player, TileEntitySmelter tileentity) {
 		
 		super(new NanaFurnaceCon(player, tileentity));
 		this.player = player;
@@ -127,20 +127,6 @@ public class NanaGUI extends GuiContainer {
 		
 	}
 	
-	private int getBurnLeftScaled(int pixels) {
-		
-		int i = this.tileentity.getField(1);
-		if(i == 0)
-			i = 200;
-		return this.tileentity.getField(0) * pixels / i;
-	}
-	
-	private int getCookProgressScaled(int pixels) {
-		
-		int i = this.tileentity.getField(2);
-		int j = this.tileentity.getField(3);
-		return j != 0 && i != 0 ? i * pixels / j : 0;
-	}
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {

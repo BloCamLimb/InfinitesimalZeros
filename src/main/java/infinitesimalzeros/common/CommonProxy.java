@@ -1,11 +1,11 @@
 package infinitesimalzeros.common;
 
 import infinitesimalzeros.InfinitesimalZeros;
-import infinitesimalzeros.common.capability.Capabilities;
-import infinitesimalzeros.common.item.MetaItems;
+import infinitesimalzeros.common.capabilities.Capabilities;
+import infinitesimalzeros.common.core.handler.PacketHandler;
+import infinitesimalzeros.common.items.MetaItems;
 import infinitesimalzeros.common.render.ColorItemRenderer;
 import infinitesimalzeros.common.unification.MaterialBasis;
-import infinitesimalzeros.common.util.handlers.PacketHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;

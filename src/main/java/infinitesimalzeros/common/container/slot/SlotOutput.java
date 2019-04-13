@@ -1,14 +1,14 @@
 package infinitesimalzeros.common.container.slot;
 
+import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class SlotOutput extends Slot {
+public class SlotOutput extends SlotBasic {
 
-	public SlotOutput(IInventory inventoryIn, int index, int xPosition, int yPosition) {
+	public SlotOutput(Container container, IInventory inventoryIn, int index, int xPosition, int yPosition) {
 		
-		super(inventoryIn, index, xPosition, yPosition);
+		super(container, inventoryIn, index, xPosition, yPosition);
 	}
 	
 	@Override

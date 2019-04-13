@@ -1,12 +1,12 @@
 package infinitesimalzeros.common.network;
 
 import infinitesimalzeros.api.Coord4D;
-import infinitesimalzeros.common.capability.Capabilities;
+import infinitesimalzeros.api.interfaces.ITileNetwork;
+import infinitesimalzeros.common.capabilities.Capabilities;
+import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.network.PacketDataRequest.DataRequestMessage;
 import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
 import infinitesimalzeros.common.util.CapabilityUtils;
-import infinitesimalzeros.common.util.handlers.PacketHandler;
-import infinitesimalzeros.common.util.interfaces.ITileNetwork;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;

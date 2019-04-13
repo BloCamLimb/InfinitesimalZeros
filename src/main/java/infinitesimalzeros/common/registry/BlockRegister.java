@@ -1,7 +1,7 @@
 package infinitesimalzeros.common.registry;
 
 import infinitesimalzeros.InfinitesimalZeros;
-import infinitesimalzeros.common.util.interfaces.IModelRender;
+import infinitesimalzeros.api.interfaces.IModelRender;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;

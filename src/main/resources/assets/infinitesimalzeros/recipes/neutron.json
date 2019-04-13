@@ -1,0 +1,26 @@
+{
+	"type" : "forge:ore_shaped",
+	
+	"pattern" : [
+		"I I",
+		" S ",
+		"I I"
+	],
+	
+	"key" : {
+		"I" : {
+			"type" : "forge:ore_dict",
+			"ore" : "ingotIron"
+		},
+		"S" : {
+			"item" : "minecraft:nether_star"
+		}
+	},
+	
+	"result" : {
+		"item" : "infinitesimalzeros:neutron",
+		"nbt" : {
+			"meta":"Iridium"
+		}
+	}
+}

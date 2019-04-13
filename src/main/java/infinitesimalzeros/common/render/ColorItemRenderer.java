@@ -7,10 +7,10 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.BossInfo.Color;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import infinitesimalzeros.common.item.Neutron;
-import infinitesimalzeros.common.item.NeutronColor;
+import infinitesimalzeros.api.interfaces.IModelRender;
+import infinitesimalzeros.common.items.Neutron;
+import infinitesimalzeros.common.items.NeutronColor;
 import infinitesimalzeros.common.registry.RegistryItems;
-import infinitesimalzeros.common.util.interfaces.IModelRender;
 import net.minecraft.client.Minecraft;
 
 public class ColorItemRenderer {

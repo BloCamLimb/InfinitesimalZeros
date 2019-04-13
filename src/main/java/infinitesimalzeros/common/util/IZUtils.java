@@ -1,11 +1,16 @@
 package infinitesimalzeros.common.util;
 
-import infinitesimalzeros.InfinitesimalZeros;
+import java.util.Collection;
+
 import infinitesimalzeros.api.Coord4D;
+import infinitesimalzeros.api.interfaces.IActiveState;
 import infinitesimalzeros.common.registry.RegistryBlocks;
-import infinitesimalzeros.common.tileentity.TileEntityAdvancedBoundingBox;
-import infinitesimalzeros.common.util.interfaces.IActiveState;
+import infinitesimalzeros.common.tileentities.TileEntityAdvancedBoundingBox;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ChunkCache;
@@ -120,6 +125,51 @@ public class IZUtils {
 			
 			((TileEntityAdvancedBoundingBox)world.getTileEntity(pos)).setCorePosition(core.getPos());
 		}
+	}
+	
+	public static ItemStack loadFromNBT(NBTTagCompound nbtTags) {
+		
+		ItemStack r = new ItemStack(nbtTags);
+		return r;
+	}
+	
+	public static NonNullList<ItemStack> readInventory(NBTTagList tagList, int size) {
+		
+		NonNullList inventory = NonNullList.withSize(size, ItemStack.EMPTY);
+		
+		for(int count = 0; count < tagList.tagCount(); count++) {
+			
+			NBTTagCompound itemTag = tagList.getCompoundTagAt(count);
+			byte slotID = itemTag.getByte("Slot");
+			
+			if(slotID >= 0 && slotID < size)
+				inventory.set(slotID, loadFromNBT(itemTag));
+			
+		}
+		
+		return inventory;
+	}
+	
+	public static NBTTagList writeInventory(Collection<ItemStack> inventory) {
+		
+		NBTTagList tagList = new NBTTagList();
+		
+		byte slotCount = 0;
+		
+		for(ItemStack stack : inventory) {
+			
+			if(!stack.isEmpty()) {
+				
+				NBTTagCompound itemTag = new NBTTagCompound();
+				itemTag.setByte("Slot", slotCount);
+				stack.writeToNBT(itemTag);
+				tagList.appendTag(itemTag);
+			}
+			
+			slotCount++;
+		}
+		
+		return tagList;
 	}
 	
 }

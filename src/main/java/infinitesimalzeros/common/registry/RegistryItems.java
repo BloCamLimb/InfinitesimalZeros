@@ -3,7 +3,7 @@ package infinitesimalzeros.common.registry;
 import java.util.ArrayList;
 import java.util.List;
 
-import infinitesimalzeros.common.item.Neutron;
+import infinitesimalzeros.common.items.Neutron;
 import net.minecraft.item.Item;
 import net.minecraftforge.registries.IForgeRegistry;
 

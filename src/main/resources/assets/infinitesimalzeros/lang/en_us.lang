@@ -1,3 +1,10 @@
 
 
 item.infinitesimalzeros.neutron.name=Neutron
+
+material.iridium=Iridium
+material.platinum=Platinum
+material.any=Any Type
+
+tile.Machine1.Smelter.name=Powered Smelter
+tile.Machine1.SmeltingFactory.name=Smelting Factory

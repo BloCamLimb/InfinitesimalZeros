@@ -3,8 +3,8 @@ package infinitesimalzeros.common.unification;
 import java.util.ArrayList;
 import java.util.List;
 
+import infinitesimalzeros.api.interfaces.IMaterialHandler;
 import infinitesimalzeros.common.util.ControlledRegistry;
-import infinitesimalzeros.common.util.interfaces.IMaterialHandler;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

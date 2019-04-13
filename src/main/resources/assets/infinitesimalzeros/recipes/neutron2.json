@@ -1,0 +1,29 @@
+{
+	"type" : "forge:ore_shaped",
+	
+	"pattern" : [
+		"III",
+		" S ",
+		"I I"
+	],
+	
+	"key" : {
+		"I" : {
+			"type" : "forge:ore_dict",
+			"ore" : "ingotIron"
+		},
+		"S" : {
+			"item" : "infinitesimalzeros:neutron",
+			"nbt" : {
+			"meta":"Iridium"
+			}
+		}
+	},
+	
+	"result" : {
+		"item" : "infinitesimalzeros:neutron",
+		"nbt" : {
+			"meta":"Platinum"
+		}
+	}
+}
