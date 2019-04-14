@@ -14,7 +14,7 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Optional.Method;
 
-public abstract class TileEntityElectricBlock extends TileEntityBasicBlock implements IEnergyWrapper {
+public abstract class TileEntityElectricBlock extends TileEntityContainerBlock implements IEnergyWrapper {
 	
 	/** How much energy is stored in this block. */
 	public double electricityStored;
@@ -25,8 +25,9 @@ public abstract class TileEntityElectricBlock extends TileEntityBasicBlock imple
 	/** Actual maximum energy storage, including upgrades */
 	public double maxEnergy;
 	
-	public TileEntityElectricBlock(double baseMaxEnergy) {
+	public TileEntityElectricBlock(String name, double baseMaxEnergy) {
 		
+		super(name);
 		BASE_MAX_ENERGY = baseMaxEnergy;
 		maxEnergy = BASE_MAX_ENERGY;
 	}

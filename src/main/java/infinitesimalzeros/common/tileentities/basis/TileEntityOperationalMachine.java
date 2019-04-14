@@ -5,7 +5,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class TileEntityOperationalMachine extends TileEntityMachine {
+public abstract class TileEntityOperationalMachine extends TileEntityMachine {
 	
 	public int operatingTicks;
 	
@@ -13,9 +13,9 @@ public class TileEntityOperationalMachine extends TileEntityMachine {
 	
 	public int ticksRequired;
 	
-	public TileEntityOperationalMachine(double maxEnergy, double baseEnergyUsage, int upgradeSlot, int baseTicksRequired) {
+	public TileEntityOperationalMachine(String name, double maxEnergy, double baseEnergyUsage, int upgradeSlot, int baseTicksRequired) {
 		
-		super(maxEnergy, baseEnergyUsage, upgradeSlot);
+		super(name, maxEnergy, baseEnergyUsage, upgradeSlot);
 		
 		ticksRequired = BASE_TICKS_REQUIRED = baseTicksRequired;
 	}

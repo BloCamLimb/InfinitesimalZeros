@@ -11,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class NanaGUI extends GuiContainer {
 	
-	private static final ResourceLocation TEXTURES = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/gu.png");
+	private static final ResourceLocation TEXTURES = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/gui.png");
 	private final InventoryPlayer player;
 	private final TileEntitySmelter tileentity;
 	
@@ -25,11 +25,11 @@ public class NanaGUI extends GuiContainer {
 	public static int tabExpandSpeed;
 	
 	public int minWidth = 22;
-	public int maxWidth = 180;
+	public int maxWidth = 256;
 	public int currentWidth = 0;
 	
 	public int minHeight = 22;
-	public int maxHeight = 220;
+	public int maxHeight = 256;
 	public int currentHeight = 0;
 	
 	public NanaGUI(InventoryPlayer player, TileEntitySmelter tileentity) {
@@ -62,7 +62,6 @@ public class NanaGUI extends GuiContainer {
 		 * if(NanaFurnaceTE.isBurning(tileentity)) { int k = this.getBurnLeftScaled(13); this.drawTexturedModalRect(this.guiLeft + 8, this.guiTop + 54 + 12 -
 		 * k, 176, 12 - k, 14, k + 1); }
 		 */
-		
 		drawBackground();
 		update();
 		// int l = this.getCookProgressScaled(24);
@@ -77,16 +76,18 @@ public class NanaGUI extends GuiContainer {
 		float colorB = (backgroundColor & 255) / 255.0F;
 		
 		GlStateManager.color(colorR, colorG, colorB, 1.0F);
-		
+		GlStateManager.pushMatrix();
+		GlStateManager.scale(3.0, 3.0, 3.0);
 		this.mc.renderEngine.bindTexture(TEXTURES);
 		
 		// this.drawTexturedModalRect(0, 4, 0, 256 - currentHeight + 4, 4, currentHeight
 		// - 4);
-		this.drawTexturedModalRect(width / 2 - 105, height / 2 - 105, 0, 210 - currentHeight + 4, 220, currentHeight - 4);
+		//this.drawTexturedModalRect(width /2 - 105, height /2 - 105, 0, 210 - currentHeight + 4, 220, currentHeight - 4);
+		this.drawTexturedModalRect(0, 0, 0, 210 - currentHeight + 4, 220, currentHeight - 4);
 		// this.drawTexturedModalRect(0, 0, 0, 0, 4, 4);
 		// this.drawTexturedModalRect(4, 4, 256 - currentWidth + 4, 256 - currentHeight
 		// + 4, currentWidth - 4, currentHeight - 4);
-		
+		GlStateManager.popMatrix();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 	

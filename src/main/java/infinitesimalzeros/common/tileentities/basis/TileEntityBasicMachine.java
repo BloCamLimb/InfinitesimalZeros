@@ -2,7 +2,7 @@ package infinitesimalzeros.common.tileentities.basis;
 
 import net.minecraft.util.ResourceLocation;
 
-public class TileEntityBasicMachine extends TileEntityOperationalMachine {
+public abstract class TileEntityBasicMachine extends TileEntityOperationalMachine {
 	
 	public ResourceLocation guiLocation;
 	
@@ -16,9 +16,9 @@ public class TileEntityBasicMachine extends TileEntityOperationalMachine {
 	 * @param maxEnergy         - how much energy this machine can store
 	 * @param baseTicksRequired - how many ticks it takes to run a cycle
 	 */
-	public TileEntityBasicMachine(double maxEnergy, double baseEnergyUsage, int upgradeSlot, int baseTicksRequired, ResourceLocation location) {
+	public TileEntityBasicMachine(String name, double maxEnergy, double baseEnergyUsage, int upgradeSlot, int baseTicksRequired, ResourceLocation location) {
 		
-		super(maxEnergy, baseEnergyUsage, upgradeSlot, baseTicksRequired);
+		super(name, maxEnergy, baseEnergyUsage, upgradeSlot, baseTicksRequired);
 		
 		guiLocation = location;
 	}

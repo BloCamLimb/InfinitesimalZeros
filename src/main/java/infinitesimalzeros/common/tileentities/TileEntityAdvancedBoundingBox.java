@@ -2,13 +2,10 @@ package infinitesimalzeros.common.tileentities;
 
 import cofh.redstoneflux.api.IEnergyProvider;
 import cofh.redstoneflux.api.IEnergyReceiver;
+import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.api.interfaces.IAdvancedBoundingBlock;
 import infinitesimalzeros.common.capabilities.Capabilities;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -16,6 +13,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.Optional.Interface;
 import net.minecraftforge.fml.common.Optional.InterfaceList;
 import net.minecraftforge.fml.common.Optional.Method;
+import net.minecraftforge.items.CapabilityItemHandler;
 
 @InterfaceList({ @Interface(iface = "cofh.redstoneflux.api.IEnergyProvider", modid = "redstoneflux"), @Interface(iface = "cofh.redstoneflux.api.IEnergyReceiver", modid = "redstoneflux") })
 
@@ -23,7 +21,7 @@ public class TileEntityAdvancedBoundingBox extends TileEntityBoundingBox impleme
 	
 	public IAdvancedBoundingBlock getAdvTile() {
 		
-		TileEntity tile = new Coord4D(corePos, world).getTileEntity(world);
+		IAdvancedBoundingBlock tile = (IAdvancedBoundingBlock) new Coord4D(corePos, world).getTileEntity(world);
 		
 		if(tile == null) {
 			return null;
@@ -39,7 +37,7 @@ public class TileEntityAdvancedBoundingBox extends TileEntityBoundingBox impleme
 	@Override
 	public ITextComponent getDisplayName() {
 		
-		return new TextComponentString("4");
+		return new TextComponentString(getAdvTile().getName());
 	}
 	
 	@Override
@@ -78,7 +76,7 @@ public class TileEntityAdvancedBoundingBox extends TileEntityBoundingBox impleme
 			return false;
 		}
 		
-		return advTile.canBoundReceiveEnergy(getPos(), from);
+		return false;//advTile.canConnectEnergy(from);
 	}
 	
 	@Override
@@ -113,8 +111,10 @@ public class TileEntityAdvancedBoundingBox extends TileEntityBoundingBox impleme
 		if(capability == Capabilities.TILE_NETWORK_CAPABILITY) {
 			return super.hasCapability(capability, facing);
 		}
-		
 		IAdvancedBoundingBlock advTile = getAdvTile();
+		
+		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && facing==EnumFacing.EAST)
+			return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
 		
 		if(advTile == null) {
 			return super.hasCapability(capability, facing);
@@ -131,6 +131,9 @@ public class TileEntityAdvancedBoundingBox extends TileEntityBoundingBox impleme
 		}
 		
 		IAdvancedBoundingBlock advTile = getAdvTile();
+		
+		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && facing==EnumFacing.EAST)
+			return (T) advTile.getInsertionHandler();
 		
 		if(advTile == null) {
 			return super.getCapability(capability, facing);

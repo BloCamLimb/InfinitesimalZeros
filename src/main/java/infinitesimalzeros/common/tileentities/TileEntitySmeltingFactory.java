@@ -2,13 +2,12 @@ package infinitesimalzeros.common.tileentities;
 
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.api.interfaces.IAdvancedBoundingBlock;
-import infinitesimalzeros.api.interfaces.IInventoryZ;
+import infinitesimalzeros.api.interfaces.IInventoryZero;
 import infinitesimalzeros.api.interfaces.ISustainedInventory;
 import infinitesimalzeros.common.core.handler.InventoryHandler;
 import infinitesimalzeros.common.tileentities.basis.TileEntityElectricMachine;
 import infinitesimalzeros.common.util.IZUtils;
 import infinitesimalzeros.common.util.LangUtils;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -21,9 +20,8 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 
-public class TileEntitySmeltingFactory extends TileEntityElectricMachine implements IAdvancedBoundingBlock, IInventoryZ, ISustainedInventory {
+public class TileEntitySmeltingFactory extends TileEntityElectricMachine implements IAdvancedBoundingBlock, IInventoryZero, ISustainedInventory {
 
 	public int size = 12;
 	
@@ -31,7 +29,7 @@ public class TileEntitySmeltingFactory extends TileEntityElectricMachine impleme
 	
 	public TileEntitySmeltingFactory() {
 		
-		super(3000000, 2000, 15);
+		super("", 3000000, 2000, 15);
 	}
 
 	@Override
@@ -72,12 +70,6 @@ public class TileEntitySmeltingFactory extends TileEntityElectricMachine impleme
 		}
 		
 	}
-
-	@Override
-	public int[] getBoundSlots(BlockPos location, EnumFacing side) {
-		
-		return null;
-	}
 	
 	public boolean isCurrentPos(BlockPos location, EnumFacing side) {
 		
@@ -93,26 +85,6 @@ public class TileEntitySmeltingFactory extends TileEntityElectricMachine impleme
 		return false;
 	}
 
-	@Override
-	public boolean canBoundInsert(BlockPos location, int i, ItemStack itemstack) {
-		
-		return false;
-	}
-
-	@Override
-	public boolean canBoundExtract(BlockPos location, int i, ItemStack itemstack, EnumFacing side) {
-		
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean canBoundReceiveEnergy(BlockPos location, EnumFacing side) {
-		
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
 	@Override
 	public void readFromNBT(NBTTagCompound nbtTags) {
 		
@@ -146,7 +118,7 @@ public class TileEntitySmeltingFactory extends TileEntityElectricMachine impleme
 	@Override
 	public ITextComponent getDisplayName() {
 		
-		return new TextComponentString(LangUtils.localize(getBlockType().getUnlocalizedName() + ".Smelter.name"));
+		return new TextComponentString("");
 	}
 	
 	@Override
@@ -204,6 +176,27 @@ public class TileEntitySmeltingFactory extends TileEntityElectricMachine impleme
 				return (T) extractionHandler;
 		}
 		return super.getCapability(capability, facing);
+	}
+
+	@Override
+	public IItemHandler getInsertionHandler() {
+		
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IItemHandler getExtractionHandler() {
+		
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getName() {
+		
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

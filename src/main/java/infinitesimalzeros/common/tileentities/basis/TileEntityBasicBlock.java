@@ -140,6 +140,7 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 		
 		if(capability == Capabilities.TILE_NETWORK_CAPABILITY)
 			return (T) this;
+		
 		return super.getCapability(capability, facing);
 	}
 	

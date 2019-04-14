@@ -2,7 +2,7 @@ package infinitesimalzeros.common.container;
 
 import javax.annotation.Nonnull;
 
-import infinitesimalzeros.api.interfaces.IInventoryZ;
+import infinitesimalzeros.api.interfaces.IInventoryZero;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -20,7 +20,7 @@ public class ContainerBasic extends Container {
 	public ContainerBasic(InventoryPlayer player, TileEntity tileEntity) {
 		
 		this.tileEntity = tileEntity;
-		if(tileEntity instanceof IInventoryZ)
+		if(tileEntity instanceof IInventoryZero)
 			this.inv = new ContainerCloud(tileEntity);
 	}
 	

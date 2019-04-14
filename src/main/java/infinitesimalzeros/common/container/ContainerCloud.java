@@ -1,6 +1,6 @@
 package infinitesimalzeros.common.container;
 
-import infinitesimalzeros.api.interfaces.IInventoryZ;
+import infinitesimalzeros.api.interfaces.IInventoryZero;
 import infinitesimalzeros.common.util.LangUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -13,12 +13,12 @@ import net.minecraft.util.text.TextComponentString;
 public class ContainerCloud implements IInventory {
 	
 	TileEntity tileEntity;
-	IInventoryZ inv;
+	IInventoryZero inv;
 	
 	public ContainerCloud(TileEntity tileEntity) {
 		
 		this.tileEntity = tileEntity;
-		inv = (IInventoryZ) tileEntity;
+		inv = (IInventoryZero) tileEntity;
 	}
 	
 	@Override

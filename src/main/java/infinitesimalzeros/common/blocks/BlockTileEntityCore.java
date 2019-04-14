@@ -54,7 +54,7 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 		super(Material.IRON);
 		this.setSoundType(SoundType.METAL);
 		this.setHardness(25.0F);
-		this.setResistance(999.9F);
+		this.setResistance(1145141919810.0F);
 	}
 	
 	public abstract MachineSets getMachineBlock();

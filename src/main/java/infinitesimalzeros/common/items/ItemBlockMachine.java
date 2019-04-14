@@ -85,7 +85,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISust
 			}
 			
 			if(tileEntity instanceof ISustainedInventory) {
-				((ISustainedInventory) tileEntity).setInventory(getInventory(stack));
+				((ISustainedInventory) tileEntity).setInventory(getRInventory(stack));
 			}
 			
 			if(tileEntity instanceof TileEntityElectricBlock) {
@@ -105,7 +105,7 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISust
 		}
 	}
 	
-	public NBTTagList getInventory(Object... data) {
+	public NBTTagList getRInventory(Object... data) {
 		
 		if(data[0] instanceof ItemStack) {
 			return ItemDataUtils.getList((ItemStack) data[0], "Items");

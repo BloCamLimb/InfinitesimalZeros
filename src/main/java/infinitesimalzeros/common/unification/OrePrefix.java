@@ -1,5 +1,8 @@
 package infinitesimalzeros.common.unification;
 
+import static infinitesimalzeros.common.unification.OrePrefix.Flags.DISALLOW_RECYCLING;
+import static infinitesimalzeros.common.unification.OrePrefix.Flags.ENABLE_UNIFICATION;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -8,11 +11,9 @@ import javax.annotation.Nullable;
 
 import infinitesimalzeros.common.unification.material.DustMaterial;
 import infinitesimalzeros.common.unification.material.IngotMaterial;
-import infinitesimalzeros.common.util.GTUtility;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import static infinitesimalzeros.common.unification.OrePrefix.Flags.*;
 
 public enum OrePrefix {
 	
@@ -32,8 +33,8 @@ public enum OrePrefix {
 	
 	public static class Flags {
 		
-		public static final long ENABLE_UNIFICATION = GTUtility.createFlag(0);
-		public static final long DISALLOW_RECYCLING = GTUtility.createFlag(3);
+		public static final long ENABLE_UNIFICATION = 1;
+		public static final long DISALLOW_RECYCLING = 2;
 	}
 	
 	OrePrefix(String categoryName, long materialAmount, MaterialBasis material, MaterialIconType materialIconType, long flags, Predicate<MaterialBasis> condition) {

@@ -16,7 +16,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 
-public class TileEntityBoundingBox extends TileEntity implements ITileNetwork {
+public abstract class TileEntityBoundingBox extends TileEntity implements ITileNetwork {
 	
 	public BlockPos corePos = BlockPos.ORIGIN;
 	
@@ -90,9 +90,8 @@ public class TileEntityBoundingBox extends TileEntity implements ITileNetwork {
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		
-		if(capability == Capabilities.TILE_NETWORK_CAPABILITY) {
+		if(capability == Capabilities.TILE_NETWORK_CAPABILITY)
 			return (T) this;
-		}
 		
 		return super.getCapability(capability, facing);
 	}

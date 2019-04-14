@@ -1,7 +1,7 @@
 package infinitesimalzeros.common.tileentities.basis;
 
 import infinitesimalzeros.api.interfaces.IActiveState;
-import infinitesimalzeros.api.interfaces.IInventoryZ;
+import infinitesimalzeros.api.interfaces.IInventoryZero;
 import infinitesimalzeros.common.network.TileNetworkList;
 import infinitesimalzeros.common.util.IZUtils;
 import io.netty.buffer.ByteBuf;
@@ -22,9 +22,9 @@ public abstract class TileEntityMachine extends TileEntityElectricBlock implemen
 	
 	public double energyPerTick;
 	
-	public TileEntityMachine(double maxEnergy, double baseEnergyUsage, int upgradeSlot) {
+	public TileEntityMachine(String name, double maxEnergy, double baseEnergyUsage, int upgradeSlot) {
 		
-		super(maxEnergy);
+		super(name, maxEnergy);
 		
 		energyPerTick = BASE_ENERGY_PER_TICK = baseEnergyUsage;
 		

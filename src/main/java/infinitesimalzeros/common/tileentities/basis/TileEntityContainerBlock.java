@@ -1,29 +1,120 @@
 package infinitesimalzeros.common.tileentities.basis;
 
+import infinitesimalzeros.api.interfaces.IAdvancedBoundingBlock;
+import infinitesimalzeros.api.interfaces.IInventoryZero;
 import infinitesimalzeros.api.interfaces.ISustainedInventory;
+import infinitesimalzeros.common.util.IZUtils;
 import infinitesimalzeros.common.util.InventoryUtils;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraftforge.items.IItemHandler;
 
-public abstract class TileEntityContainerBlock extends TileEntityBasicBlock implements ISustainedInventory, ITickable {
+public abstract class TileEntityContainerBlock extends TileEntityBasicBlock implements IAdvancedBoundingBlock, IInventoryZero, ISustainedInventory, ITickable {
 	
-	/** The inventory slot itemstacks used by this block. */
 	public NonNullList<ItemStack> inventory;
 	
-	/** The full name of this machine. */
+	public int size;
+	
 	public String fullName;
 	
-	/**
-	 * A simple tile entity with a container and facing state.
-	 * 
-	 * @param name - full name of this tile entity
-	 */
+	public IItemHandler insertionHandler;
+	
+	public IItemHandler extractionHandler;
+
 	public TileEntityContainerBlock(String name) {
 		
 		fullName = name;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbtTags) {
+		
+		super.readFromNBT(nbtTags);
+		
+		inventory = IZUtils.readInventory(nbtTags.getTagList("Items", NBT.TAG_COMPOUND), size);
+	}
+	
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
+		
+		super.writeToNBT(nbtTags);
+		
+		nbtTags.setTag("Items", IZUtils.writeInventory(inventory));
+		
+		return nbtTags;
+	}
+
+	@Override
+	public NonNullList<ItemStack> getInventory() {
+		
+		return inventory;
+	}
+	
+	@Override
+	public ITextComponent getDisplayName() {
+		
+		return new TextComponentString(getName());
+	}
+	
+	@Override
+	public void setInventory(NBTTagList nbtTags, Object... data) {
+		
+		if(nbtTags == null || nbtTags.tagCount() == 0) {
+			return;
+		}
+		
+		for(int slots = 0; slots < nbtTags.tagCount(); slots++) {
+			NBTTagCompound tagCompound = (NBTTagCompound) nbtTags.getCompoundTagAt(slots);
+			byte slotID = tagCompound.getByte("Slot");
+			
+			if(slotID >= 0 && slotID < inventory.size()) {
+				inventory.set(slotID, IZUtils.loadFromNBT(tagCompound));
+			}
+		}
+	}
+	
+	@Override
+	public NBTTagList getRInventory(Object... data) {
+		
+		NBTTagList tagList = new NBTTagList();
+		
+
+			for(int slots = 0; slots < inventory.size(); slots++) {
+				if(!inventory.get(slots).isEmpty()) {
+					NBTTagCompound tagCompound = new NBTTagCompound();
+					tagCompound.setByte("Slot", (byte) slots);
+					inventory.get(slots).writeToNBT(tagCompound);
+					tagList.appendTag(tagCompound);
+				}
+			}
+		
+		
+		return tagList;
+	}
+
+	@Override
+	public String getName() {
+		
+		return I18n.format(getBlockType().getUnlocalizedName() + "." + fullName + ".name");
+	}
+	
+	@Override
+	public IItemHandler getInsertionHandler() {
+		
+		return insertionHandler;
+	}
+	
+	@Override
+	public IItemHandler getExtractionHandler() {
+		
+		return extractionHandler;
 	}
 	
 	/*@Override

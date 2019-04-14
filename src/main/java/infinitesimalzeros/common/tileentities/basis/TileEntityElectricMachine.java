@@ -1,15 +1,16 @@
 package infinitesimalzeros.common.tileentities.basis;
 
+import infinitesimalzeros.api.interfaces.IInventoryZero;
+import infinitesimalzeros.common.core.handler.InventoryHandler;
 import infinitesimalzeros.common.util.IZUtils;
 import infinitesimalzeros.common.util.IZUtils.ResourceType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
+import net.minecraftforge.items.IItemHandler;
 
 public abstract class TileEntityElectricMachine extends TileEntityBasicMachine {
 	
-	public TileEntityElectricMachine(double maxEnergy, double perTick, int ticksRequired) {
+	public TileEntityElectricMachine(String name, double maxEnergy, double perTick, int ticksRequired) {
 		
-		super(maxEnergy, perTick, 3, ticksRequired, IZUtils.getResource(ResourceType.GUI, "GuiBasicMachine.png"));
+		super(name, maxEnergy, perTick, 3, ticksRequired, IZUtils.getResource(ResourceType.GUI, "GuiBasicMachine.png"));
 		
 	}
 	
