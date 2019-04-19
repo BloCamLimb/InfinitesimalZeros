@@ -28,7 +28,7 @@ public class TileEntitySmelter extends TileEntityElectricMachine {
 	
 	public TileEntitySmelter() {
 		
-		super("Smelter", 50000, 60, 200);
+		super("Smelter", 5000000, 60, 200);
 		size = 12;
 		inventory = NonNullList.withSize(12, ItemStack.EMPTY);
 		
@@ -81,5 +81,7 @@ public class TileEntitySmelter extends TileEntityElectricMachine {
 		}
 		
 	}
+	
+	
 
 }

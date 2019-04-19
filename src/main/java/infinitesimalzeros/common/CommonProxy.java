@@ -1,17 +1,18 @@
 package infinitesimalzeros.common;
 
 import infinitesimalzeros.InfinitesimalZeros;
+import infinitesimalzeros.client.render.ColorItemRenderer;
 import infinitesimalzeros.common.capabilities.Capabilities;
+import infinitesimalzeros.common.core.handler.GUIHandler;
 import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.items.MetaItems;
-import infinitesimalzeros.common.render.ColorItemRenderer;
+import infinitesimalzeros.common.network.PacketSimpleGui;
 import infinitesimalzeros.common.unification.MaterialBasis;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
-import net.minecraft.world.WorldServer;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.common.network.IGuiHandler;
 
 public class CommonProxy {
 	
@@ -29,6 +30,7 @@ public class CommonProxy {
 	public void Init() {
 		
 		registerColors();
+		
 		InfinitesimalZeros.logger.info("Packet Initializing...");
 		PacketHandler.Init();
 	}

@@ -3,23 +3,26 @@ package infinitesimalzeros.common.container;
 import javax.annotation.Nonnull;
 
 import infinitesimalzeros.api.interfaces.IInventoryZero;
+import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 
 public class ContainerBasic extends Container {
 	
-	public TileEntity tileEntity;
+	public TileEntityBasicBlock tileEntity;
+	
 	public IInventory inv;
+	
 	public int slotCount;
 	
-	public ContainerBasic(InventoryPlayer player, TileEntity tileEntity) {
+	public ContainerBasic(InventoryPlayer player, TileEntityBasicBlock tileEntity) {
 		
 		this.tileEntity = tileEntity;
+		
 		if(tileEntity instanceof IInventoryZero)
 			this.inv = new ContainerCloud(tileEntity);
 	}
@@ -65,8 +68,9 @@ public class ContainerBasic extends Container {
 		
 		super.onContainerClosed(playerIn);
 		
-		if(inv!=null)
-			inv.closeInventory(playerIn);
+		tileEntity.close(playerIn);
+		
+		inv.closeInventory(playerIn);
 	}
 	
 }

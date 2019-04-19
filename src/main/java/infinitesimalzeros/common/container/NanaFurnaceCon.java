@@ -13,9 +13,6 @@ import net.minecraftforge.items.SlotItemHandler;
 
 public class NanaFurnaceCon extends ContainerBasic {
 	
-	private final TileEntitySmelter tileEntity;
-	private int cookTime, totalCookTime, burnTime, currentBurnTime;
-	
 	public NanaFurnaceCon(InventoryPlayer player, TileEntitySmelter tileEntity) {
 		
 		super(player, tileEntity);
@@ -23,7 +20,8 @@ public class NanaFurnaceCon extends ContainerBasic {
 		this.tileEntity = tileEntity;
 		
 		tileEntity.open(player.player);
-		//tileEntity.openInventory(player.player);
+		
+		inv.openInventory(player.player);
 		
 		addSlotToContainer(new Slot(inv, 0, 56, 10));
 		addSlotToContainer(new Slot(inv, 1, 76, 10));
@@ -37,28 +35,28 @@ public class NanaFurnaceCon extends ContainerBasic {
 		addSlotToContainer(new Slot(inv, 9, 76, 50));
 		addSlotToContainer(new Slot(inv, 10, 96, 50));
 		addSlotToContainer(new SlotOutput(this, inv, 11, 116, 50));
-		slotCount=inv.getSizeInventory();
 		
-		for(int y = 0; y < 3; y++) {
-			for(int x = 0; x < 9; x++) {
-				this.addSlotToContainer(new Slot(player, x + y * 9 + 9, 8 + x * 18, 84 + y * 18));
-			}
-		}
+		slotCount = inv.getSizeInventory();
 		
-		for(int x = 0; x < 9; x++) {
-			this.addSlotToContainer(new Slot(player, x, 8 + x * 18, 142));
-		}
+		for(int y = 0; y < 3; y++)
+			for(int x = 0; x < 9; x++)
+				this.addSlotToContainer(new Slot(player, x + y * 9 + 9, x * 19 + 4, 96 + y * 19));
+			
+		
+		
+		for(int x = 0; x < 9; x++)
+			this.addSlotToContainer(new Slot(player, x, 4 + x * 19, 159));
+		
+		
 	}
 	
-	@Override
+	/*@Override
 	public void onContainerClosed(EntityPlayer playerIn) {
 		
 		super.onContainerClosed(playerIn);
-		tileEntity.close(playerIn);
-		//tileEntity.closeInventory(playerIn);
 	}
 
-	/*@Override
+	@Override
 	public void detectAndSendChanges() {
 		
 		super.detectAndSendChanges();

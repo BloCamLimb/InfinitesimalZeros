@@ -3,8 +3,10 @@ package infinitesimalzeros.common.blocks;
 import java.util.Random;
 
 import infinitesimalzeros.InfinitesimalZeros;
+import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.api.interfaces.ISustainedData;
 import infinitesimalzeros.api.interfaces.ISustainedInventory;
+import infinitesimalzeros.client.gui.GuiTestTE;
 import infinitesimalzeros.common.registry.BlockRegister;
 import infinitesimalzeros.common.tileentities.basis.TileEntityContainerBlock;
 import infinitesimalzeros.common.util.IZUtils;
@@ -32,6 +34,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class NanaFurnace extends Block implements ITileEntityProvider {
@@ -73,6 +76,8 @@ public class NanaFurnace extends Block implements ITileEntityProvider {
 		if(!worldIn.isRemote) {
 			playerIn.openGui(InfinitesimalZeros.instance, 1, worldIn, pos.getX(), pos.getY(), pos.getZ());
 		}
+		
+		//FMLCommonHandler.instance().showGuiScreen(new GuiTestTE(playerIn.inventory, (NanaFurnaceTE) worldIn.getTileEntity(pos)));
 		
 		return true;
 	}

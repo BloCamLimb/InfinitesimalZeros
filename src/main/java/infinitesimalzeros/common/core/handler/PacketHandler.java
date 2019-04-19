@@ -8,6 +8,8 @@ import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Range4D;
 import infinitesimalzeros.common.network.PacketDataRequest;
 import infinitesimalzeros.common.network.PacketDataRequest.DataRequestMessage;
+import infinitesimalzeros.common.network.PacketSimpleGui;
+import infinitesimalzeros.common.network.PacketSimpleGui.SimpleGuiMessage;
 import infinitesimalzeros.common.network.PacketTileEntity;
 import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
 import io.netty.buffer.ByteBuf;
@@ -37,6 +39,8 @@ public class PacketHandler {
 		network.registerMessage(PacketTileEntity.class, TileEntityMessage.class, 5, Side.CLIENT);
 		network.registerMessage(PacketTileEntity.class, TileEntityMessage.class, 5, Side.SERVER);
 		network.registerMessage(PacketDataRequest.class, DataRequestMessage.class, 7, Side.SERVER);
+		network.registerMessage(PacketSimpleGui.class, SimpleGuiMessage.class, 18, Side.CLIENT);
+		network.registerMessage(PacketSimpleGui.class, SimpleGuiMessage.class, 18, Side.SERVER);
 	}
 	
 	public static EntityPlayer getPlayer(MessageContext context) {

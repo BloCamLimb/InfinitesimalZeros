@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GUITestTE extends GuiContainer {
+public class GuiTestTE extends GuiContainer {
 	
 	private static final ResourceLocation TEXTURES = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/gu.png");
 	private final InventoryPlayer player;
@@ -32,7 +32,7 @@ public class GUITestTE extends GuiContainer {
 	public int maxHeight = 220;
 	public int currentHeight = 0;
 	
-	public GUITestTE(InventoryPlayer player, NanaFurnaceTE tileentity) {
+	public GuiTestTE(InventoryPlayer player, NanaFurnaceTE tileentity) {
 		
 		super(new ContainerTestTE(player, tileentity));
 		this.player = player;

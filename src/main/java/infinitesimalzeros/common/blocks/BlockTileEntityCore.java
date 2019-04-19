@@ -122,7 +122,7 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 	// All machine types, matched their set and meta.
 	public static enum MachineTypes implements IStringSerializable {
 		Smelter(MachineSets.Machine_Set_A, 0, "NanaSmelter", 0, TileEntitySmelter.class, true, true, Plane.HORIZONTAL),
-		Smelter_Adv(MachineSets.Machine_Set_A, 1, "SmelterAdv", 0, TileEntitySmelterAdv.class, true, true, Plane.HORIZONTAL),
+		Smelter_Adv(MachineSets.Machine_Set_A, 1, "SmelterAdv", 2, TileEntitySmelterAdv.class, true, true, Plane.HORIZONTAL),
 		Smelting_Factory(MachineSets.Machine_Set_A, 2, "SmelterFactory", 0, TileEntitySmeltingFactory.class, true, true, Plane.HORIZONTAL),
 		Ori_Furnace(MachineSets.Machine_Set_B, 0, "OriSmelter", 0, NanaFurnaceTE.class, true, true, Plane.HORIZONTAL);
 		

@@ -1,21 +1,21 @@
 package infinitesimalzeros.common.container;
 
 import infinitesimalzeros.api.interfaces.IInventoryZero;
-import infinitesimalzeros.common.util.LangUtils;
+import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 
 public class ContainerCloud implements IInventory {
 	
-	TileEntity tileEntity;
+	TileEntityBasicBlock tileEntity;
+	
 	IInventoryZero inv;
 	
-	public ContainerCloud(TileEntity tileEntity) {
+	public ContainerCloud(TileEntityBasicBlock tileEntity) {
 		
 		this.tileEntity = tileEntity;
 		inv = (IInventoryZero) tileEntity;
@@ -106,7 +106,7 @@ public class ContainerCloud implements IInventory {
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
 		
-		return !tileEntity.isInvalid()&&tileEntity.getWorld().isBlockLoaded(tileEntity.getPos())&&tileEntity.getDistanceSq(player.posX, player.posY, player.posZ) < 64;
+		return !tileEntity.isInvalid() && tileEntity.getWorld().isBlockLoaded(tileEntity.getPos()) && tileEntity.getDistanceSq(player.posX, player.posY, player.posZ) < 64;
 	}
 	
 	@Override
