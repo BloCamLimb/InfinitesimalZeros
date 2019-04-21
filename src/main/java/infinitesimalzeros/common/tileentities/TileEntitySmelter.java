@@ -1,34 +1,23 @@
 package infinitesimalzeros.common.tileentities;
 
-import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
-import infinitesimalzeros.api.interfaces.IAdvancedBoundingBlock;
-import infinitesimalzeros.api.interfaces.IInventoryZero;
-import infinitesimalzeros.api.interfaces.ISustainedInventory;
 import infinitesimalzeros.common.core.handler.InventoryHandler;
+import infinitesimalzeros.common.registry.RegistryItems;
 import infinitesimalzeros.common.tileentities.basis.TileEntityElectricMachine;
 import infinitesimalzeros.common.util.IZUtils;
-import infinitesimalzeros.common.util.LangUtils;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.Constants.NBT;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntitySmelter extends TileEntityElectricMachine {
 	
 	public TileEntitySmelter() {
 		
-		super("Smelter", 5000000, 60, 200);
+		super("Smelter", 5000000, 600, 30);
 		size = 12;
 		inventory = NonNullList.withSize(12, ItemStack.EMPTY);
 		
@@ -37,10 +26,49 @@ public class TileEntitySmelter extends TileEntityElectricMachine {
 		
 	}
 
+	@Override
+	@SideOnly(Side.CLIENT)
+	public AxisAlignedBB getRenderBoundingBox() {
+		
+		return INFINITE_EXTENT_AABB;
+	}
 
 	@Override
 	public void doGraphicalUpdates(int slot) {
 		
+	}
+	
+	@Override
+	public void onUpdate() {
+		
+		super.onUpdate();
+		
+		if(!inventory.get(0).isEmpty() && getEnergy() >= energyPerTick) {
+			setActive(true);
+			electricityStored -= energyPerTick;
+			
+			if ((operatingTicks + 1) < ticksRequired) {
+                operatingTicks++;
+            } else if ((operatingTicks + 1) >= ticksRequired) {
+            	
+            	int i = inventory.get(0).getCount()-1;
+            	
+            	inventory.get(0).setCount(i);
+            	
+            	if(inventory.get(11).isEmpty())
+            		inventory.set(11, new ItemStack(Blocks.DIAMOND_BLOCK));
+            	else
+            		inventory.get(11).setCount(inventory.get(11).getCount()+1);
+
+            	operatingTicks = 0;
+            }
+			
+		}
+		
+		if(inventory.get(0).isEmpty()) {
+			setActive(false);
+			operatingTicks = 0;
+		}
 	}
 
 	@Override

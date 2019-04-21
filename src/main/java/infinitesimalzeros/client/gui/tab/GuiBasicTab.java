@@ -5,6 +5,8 @@ import java.util.List;
 
 import infinitesimalzeros.client.gui.button.NavigationButton;
 import infinitesimalzeros.common.container.ContainerEmpty;
+import infinitesimalzeros.common.registry.RegistrySounds;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -56,12 +58,12 @@ public abstract class GuiBasicTab extends GuiContainer {
 	public void initGui() {
 		
 		super.initGui();
-		int i = 1;
+		/*int i = 1;
 		for(GuiTabs tab : tabs) {
 			
 			//buttonList.add(new NavigationButton(this, tab, i, width/2-10, 60*i));
 			i++;
-		}
+		}*/
 	}
 	
 	public void drawText(String text, int x, int y) {
@@ -72,9 +74,9 @@ public abstract class GuiBasicTab extends GuiContainer {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		
 		super.actionPerformed(button);
-		if(button instanceof NavigationButton) {
+		/*if(button instanceof NavigationButton) {
 			switchTab(((NavigationButton)button).tab);
-		}
+		}*/
 	}
 	
 	public void switchTab(GuiTabs tab) {
@@ -92,6 +94,7 @@ public abstract class GuiBasicTab extends GuiContainer {
         {
 			
 			//PacketHandler.sendToServer(new SimpleGuiMessage(Coord4D.get(tileEntity), 0));
+			mc.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(RegistrySounds.BUTTONCLICK, 1.0F));
 			FMLCommonHandler.instance().showGuiScreen(parent);
         }
 	}

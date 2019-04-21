@@ -5,6 +5,7 @@ import org.apache.logging.log4j.core.Logger;
 
 import infinitesimalzeros.common.CommonProxy;
 import infinitesimalzeros.common.network.PacketSimpleGui;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;

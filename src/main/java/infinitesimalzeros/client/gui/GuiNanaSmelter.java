@@ -6,18 +6,18 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import infinitesimalzeros.InfinitesimalZeros;
-import infinitesimalzeros.client.gui.button.NavigationButton;
+import infinitesimalzeros.client.gui.button.GuiButtonCore;
 import infinitesimalzeros.client.gui.tab.GuiBasicTab.GuiTabs;
 import infinitesimalzeros.client.gui.tab.GuiTabNetwork;
-import infinitesimalzeros.client.gui.widget.GuiSecurityWidget;
 import infinitesimalzeros.common.container.NanaFurnaceCon;
+import infinitesimalzeros.common.registry.RegistrySounds;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -65,11 +65,7 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		this.fontRenderer.drawString("SilverStar Combiner", this.xSize / 2 - this.fontRenderer.getStringWidth("SilverStar Combiner") / 2 + 3, -12, 0xFFFFFF);
 		// this.fontRenderer.drawString(this.player.getCurrentItem().getDisplayName(),
 		// 122, this.ySize - 96 + 2, 4210752);
-		String energy = ""+(int) this.tileEntity.getEnergy();
-		if(fullOpen == true && color != 0) {
-			this.fontRenderer.drawString("Energy ", -105, 120, color);
-			this.fontRenderer.drawString(energy+" RF", -45 - this.fontRenderer.getStringWidth(energy), 120, color);
-		}
+
 	}
 	
 	@Override
@@ -87,7 +83,11 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		update();
 		drawSlideBar();
 		drawEnergyBar();
-		
+		String energy = ""+(int) this.tileEntity.getEnergy();
+		if(fullOpen == true && color != 0) {
+			this.fontRenderer.drawString("Energy ", width / 2 - 194, height / 2 + 37, color);
+			this.fontRenderer.drawString(energy+" RF", width / 2 - 132 - this.fontRenderer.getStringWidth(energy), height / 2 + 37, color);
+		}
 		//InfinitesimalZeros.logger.info(currentHeight);
 		// int l = this.getCookProgressScaled(24);
 		// this.drawTexturedModalRect(this.guiLeft + 44, this.guiTop + 36, 176, 14, l +
@@ -139,7 +139,8 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		super.initGui();
 		tabExpandSpeed = Math.max(1, Math.round(maxHeight / Minecraft.getDebugFPS()));
 		int i = 1;
-		buttonList.add(new GuiButton(1,0,0,20,20,"Y"));
+		//buttonList.add(new GuiButton(1,0,0,20,20, ""));
+		GuiButtons.add(new GuiButtonCore(1,0,0,20,20));
 		for(GuiTabs tab : tabs) {
 			
 			//buttonList.add(new NavigationButton(this, tab, i, width/2-10, 60*i));
@@ -187,15 +188,6 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		}
 		
 	}
-	
-	
-	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		
-		drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
-		renderHoveredToolTip(mouseX, mouseY);
-	}
 
 	@Override
 	public GuiTabs getGuiTab() {
@@ -209,14 +201,25 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		
 		if(mouseButton == 0)
-			for (GuiButton guibutton : buttonList)
-				if (guibutton.mousePressed(this.mc, mouseX, mouseY))
+			for (GuiButtonCore guibutton : GuiButtons)
+				if (guibutton.isMouseHovered(mc, mouseX, mouseY)) {
 					FMLCommonHandler.instance().showGuiScreen(new GuiTabNetwork(Lists.newArrayList(GuiTabs.NETWORK), mc.currentScreen));
+					mc.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(RegistrySounds.BUTTONCLICK, 1.0F));
+				}
+
 	}
 	
 	public void switchTab(GuiTabs tab) {
 		//FMLCommonHandler.instance().showGuiScreen(tab.getGuiScreen(tabs));
 		
+	}
+	
+	@Override
+	public void setWorldAndResolution(Minecraft mc, int width, int height) {
+		
+		super.setWorldAndResolution(mc, width, height);
+		GuiButtons.clear();
+		initGui();
 	}
 	
 	@Override

@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.client.config.GuiUtils;
 
-public class NavigationButton extends GuiButton {
+public class NavigationButton extends GuiButtonCore {
 	
 	public static final ResourceLocation texture = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/button.png");
 	public GuiTabs tab;
@@ -19,7 +19,7 @@ public class NavigationButton extends GuiButton {
 
 	public NavigationButton(GuiBasicTab gui, GuiTabs tab, int buttonId, int x, int y) {
 		
-		super(buttonId, x, y, 20, 20, "");
+		super(buttonId, x, y, 20, 20);
 		this.tab = tab;
 		this.gui = gui;
 		

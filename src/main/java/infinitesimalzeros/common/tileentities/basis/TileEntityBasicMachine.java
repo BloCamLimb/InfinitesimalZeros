@@ -1,5 +1,10 @@
 package infinitesimalzeros.common.tileentities.basis;
 
+import infinitesimalzeros.api.Coord4D;
+import infinitesimalzeros.api.Range4D;
+import infinitesimalzeros.common.core.handler.PacketHandler;
+import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
+import infinitesimalzeros.common.network.TileNetworkList;
 import net.minecraft.util.ResourceLocation;
 
 public abstract class TileEntityBasicMachine extends TileEntityOperationalMachine {
@@ -22,5 +27,24 @@ public abstract class TileEntityBasicMachine extends TileEntityOperationalMachin
 		
 		guiLocation = location;
 	}
+	
+	@Override
+	public void onUpdate() {
+		
+		super.onUpdate();
+		
+		
+	}
+	
+	@Override
+    public void setActive(boolean active) {
+		
+        boolean stateChange = (isActive != active);
+
+        if (stateChange) {
+            isActive = active;
+            PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
+        }
+    }
 	
 }

@@ -3,7 +3,11 @@ package infinitesimalzeros.common.blocks;
 import java.util.Locale;
 import java.util.Random;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.interfaces.IActiveState;
@@ -14,20 +18,20 @@ import infinitesimalzeros.api.interfaces.ISustainedInventory;
 import infinitesimalzeros.common.blocks.state.BlockStateFacing;
 import infinitesimalzeros.common.blocks.state.BlockStateMachine;
 import infinitesimalzeros.common.blocks.state.BlockStateMachine.MachineBlockPredicate;
+import infinitesimalzeros.common.registry.RegistryBlocks;
 import infinitesimalzeros.common.registry.RegistryItems;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
-import infinitesimalzeros.common.tileentities.TileEntitySmelterAdv;
-import infinitesimalzeros.common.tileentities.TileEntitySmeltingFactory;
 import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
 import infinitesimalzeros.common.tileentities.basis.TileEntityElectricBlock;
 import infinitesimalzeros.common.util.IZUtils;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -36,18 +40,23 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Plane;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public abstract class BlockTileEntityCore extends BlockContainer {
+public abstract class BlockTileEntityCore extends Block {
 	
 	public BlockTileEntityCore() {
 		
@@ -55,6 +64,7 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 		this.setSoundType(SoundType.METAL);
 		this.setHardness(25.0F);
 		this.setResistance(1145141919810.0F);
+		this.setCreativeTab(InfinitesimalZeros.proxy.creativeTab);
 	}
 	
 	public abstract MachineSets getMachineBlock();
@@ -116,15 +126,27 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 			
 			return machineTypeProperty;
 		}
+
+		public Block getBlock() {
+			
+            switch (this) {
+                case Machine_Set_A:
+                    return RegistryBlocks.TEBlock1;
+                case Machine_Set_B:
+                    return null;
+                default:
+                    return null;
+            }
+        }
 		
 	}
 	
 	// All machine types, matched their set and meta.
 	public static enum MachineTypes implements IStringSerializable {
-		Smelter(MachineSets.Machine_Set_A, 0, "NanaSmelter", 0, TileEntitySmelter.class, true, true, Plane.HORIZONTAL),
-		Smelter_Adv(MachineSets.Machine_Set_A, 1, "SmelterAdv", 2, TileEntitySmelterAdv.class, true, true, Plane.HORIZONTAL),
-		Smelting_Factory(MachineSets.Machine_Set_A, 2, "SmelterFactory", 0, TileEntitySmeltingFactory.class, true, true, Plane.HORIZONTAL),
-		Ori_Furnace(MachineSets.Machine_Set_B, 0, "OriSmelter", 0, NanaFurnaceTE.class, true, true, Plane.HORIZONTAL);
+		Smelter(MachineSets.Machine_Set_A, 0, "NanaSmelter", 0, TileEntitySmelter.class, true, true, Plane.HORIZONTAL);
+		//Smelter_Adv(MachineSets.Machine_Set_A, 1, "SmelterAdv", 2, TileEntitySmelterAdv.class, true, true, Plane.HORIZONTAL),
+		//Smelting_Factory(MachineSets.Machine_Set_A, 2, "SmelterFactory", 0, TileEntitySmeltingFactory.class, true, true, Plane.HORIZONTAL),
+		//Ori_Furnace(MachineSets.Machine_Set_B, 0, "OriSmelter", 0, NanaFurnaceTE.class, true, true, Plane.HORIZONTAL);
 		
 		public MachineSets block;
 		public int meta;
@@ -188,6 +210,18 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 			
 			return name().toLowerCase(Locale.ROOT);
 		}
+		
+		public boolean hasActiveTexture() {
+			return hasActiveTexture;
+		}
+		
+		public boolean canRotateTo(EnumFacing side) {
+            return facingPredicate.apply(side);
+        }
+
+        public boolean hasRotations() {
+            return !facingPredicate.equals(Predicates.alwaysFalse());
+        }
 		
 	}
 	
@@ -268,6 +302,24 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 		
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 		
+	}
+	
+	@Override
+	public boolean isOpaqueCube(IBlockState state) {
+		
+		return false;
+	}
+	
+	@Override
+	public boolean isFullCube(IBlockState state) {
+		
+		return false;
+	}
+	
+	@Override
+	public EnumBlockRenderType getRenderType(IBlockState state) {
+		
+		return EnumBlockRenderType.INVISIBLE;
 	}
 	
 	@Override
@@ -387,6 +439,12 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 	}
 	
 	@Override
+	public boolean hasTileEntity(IBlockState state) {
+		
+		return true;
+	}
+	
+	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
 		
 		int metadata = state.getBlock().getMetaFromState(state);
@@ -398,10 +456,47 @@ public abstract class BlockTileEntityCore extends BlockContainer {
 		return MachineTypes.get(getMachineBlock(), metadata).create();
 	}
 	
-	@Override
-	public TileEntity createNewTileEntity(World worldIn, int meta) {
-		
-		return null;
-	}
-	
+	public static class MachineBlockStateMapper extends StateMapperBase {
+
+        @Nonnull
+        @Override
+        protected ModelResourceLocation getModelResourceLocation(@Nonnull IBlockState state) {
+            BlockTileEntityCore block = (BlockTileEntityCore) state.getBlock();
+            MachineTypes type = state.getValue(block.getTypeProperty());
+            StringBuilder builder = new StringBuilder();
+            String nameOverride = null;
+
+            if (type.hasActiveTexture()) {
+                builder.append(BlockStateMachine.activeProperty.getName());
+                builder.append("=");
+                builder.append(state.getValue(BlockStateMachine.activeProperty));
+            }
+
+            if (type.hasRotations()) {
+                EnumFacing facing = state.getValue(BlockStateFacing.facingProperty);
+
+                if (!type.canRotateTo(facing)) {
+                    facing = EnumFacing.NORTH;
+                }
+
+                if (builder.length() > 0) {
+                    builder.append(",");
+                }
+
+                builder.append(BlockStateFacing.facingProperty.getName());
+                builder.append("=");
+                builder.append(facing.getName());
+            }
+
+            if (builder.length() == 0) {
+                builder.append("normal");
+            }
+
+            ResourceLocation baseLocation = new ResourceLocation(InfinitesimalZeros.MODID,
+                  nameOverride != null ? nameOverride : type.getName());
+
+            return new ModelResourceLocation(baseLocation, builder.toString());
+        }
+    }
+
 }

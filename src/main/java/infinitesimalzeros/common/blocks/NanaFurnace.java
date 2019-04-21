@@ -179,7 +179,7 @@ public class NanaFurnace extends Block implements ITileEntityProvider {
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		
-		return EnumBlockRenderType.MODEL;
+		return EnumBlockRenderType.INVISIBLE;
 	}
 	
 	/*

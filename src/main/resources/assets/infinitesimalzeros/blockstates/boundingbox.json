@@ -1,0 +1,10 @@
+{ 
+	"forge_marker":1,
+	"defaults": {
+	"model": "infinitesimalzeros:empty"
+	},
+    "variants": {
+    "normal": [{}],
+    "inventory": [{}]
+  }
+}

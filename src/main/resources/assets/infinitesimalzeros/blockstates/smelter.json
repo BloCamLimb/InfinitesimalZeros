@@ -1,23 +1,7 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "infinitesimalzeros:3.obj",
-	"transform": {
-				"scale": 0.15625,
-				"rotation": [
-					{
-						"x": 20
-					},
-					{
-						"y": -45
-					}
-				],
-				"translation": [
-					0,
-					-0.125,
-					0
-				]
-			}
+    "model": "infinitesimalzeros:smelter"
   },
   "variants": {
     "normal": [{}],

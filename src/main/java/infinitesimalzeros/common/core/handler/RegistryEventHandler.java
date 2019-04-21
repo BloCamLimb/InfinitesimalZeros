@@ -54,6 +54,7 @@ public class RegistryEventHandler {
 	public static void registerModels(ModelRegistryEvent event) {
 		
 		MetaItems.registerModels();
+		RegistryBlocks.registerBlockRender();
 		
 		for(Item item : RegistryItems.ITEMS) {
 			if(item instanceof IModelRender) {
@@ -78,7 +79,7 @@ public class RegistryEventHandler {
 	@SubscribeEvent
 	public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
 		
-		RegistrySounds.init();
+		RegistrySounds.registerSounds(event.getRegistry());
 	}
 	
 }

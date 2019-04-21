@@ -21,15 +21,17 @@ import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
-public class TileEntitySmeltingFactory extends TileEntityElectricMachine implements IAdvancedBoundingBlock, IInventoryZero, ISustainedInventory {
-
-	public int size = 12;
-	
-	public NonNullList<ItemStack> inventory = NonNullList.withSize(size, ItemStack.EMPTY);
+public class TileEntitySmeltingFactory extends TileEntityElectricMachine {
 	
 	public TileEntitySmeltingFactory() {
 		
-		super("", 3000000, 2000, 15);
+		super("SmeltingFactory", 3000000, 2000, 15);
+		
+		size = 12;
+		inventory = NonNullList.withSize(12, ItemStack.EMPTY);
+		
+		insertionHandler = new InventoryHandler(11, this, 0, true, false);
+		extractionHandler = new InventoryHandler(1, this, 11, false, true);
 	}
 
 	@Override
@@ -70,133 +72,12 @@ public class TileEntitySmeltingFactory extends TileEntityElectricMachine impleme
 		}
 		
 	}
-	
-	public boolean isCurrentPos(BlockPos location, EnumFacing side) {
-		
-		EnumFacing dir = facing.getOpposite();
 
-		BlockPos pull = getPos().up(3);
-		BlockPos eject = pull.offset(dir);
-		
-		if(location.equals(pull) && side == EnumFacing.UP)
-		{
-			return true;
-		}
-		return false;
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound nbtTags) {
-		
-		super.readFromNBT(nbtTags);
-		
-		inventory = IZUtils.readInventory(nbtTags.getTagList("Items", NBT.TAG_COMPOUND), size);
-	}
-	
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-		
-		super.writeToNBT(nbtTags);
-		
-		nbtTags.setTag("Items", IZUtils.writeInventory(inventory));
-		
-		return nbtTags;
-	}
-
-	@Override
-	public NonNullList<ItemStack> getInventory() {
-		
-		return inventory;
-	}
 
 	@Override
 	public void doGraphicalUpdates(int slot) {
 		
 		
-	}
-	
-	@Override
-	public ITextComponent getDisplayName() {
-		
-		return new TextComponentString("");
-	}
-	
-	@Override
-	public void setInventory(NBTTagList nbtTags, Object... data) {
-		
-		if(nbtTags == null || nbtTags.tagCount() == 0) {
-			return;
-		}
-		
-		for(int slots = 0; slots < nbtTags.tagCount(); slots++) {
-			NBTTagCompound tagCompound = (NBTTagCompound) nbtTags.getCompoundTagAt(slots);
-			byte slotID = tagCompound.getByte("Slot");
-			
-			if(slotID >= 0 && slotID < inventory.size()) {
-				inventory.set(slotID, IZUtils.loadFromNBT(tagCompound));
-			}
-		}
-	}
-	
-	@Override
-	public NBTTagList getRInventory(Object... data) {
-		
-		NBTTagList tagList = new NBTTagList();
-		
-
-			for(int slots = 0; slots < inventory.size(); slots++) {
-				if(!inventory.get(slots).isEmpty()) {
-					NBTTagCompound tagCompound = new NBTTagCompound();
-					tagCompound.setByte("Slot", (byte) slots);
-					inventory.get(slots).writeToNBT(tagCompound);
-					tagList.appendTag(tagCompound);
-				}
-			}
-		
-		
-		return tagList;
-	}
-	
-	@Override
-	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
-		
-		return capability==CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
-	}
-	
-	IItemHandler insertionHandler = new InventoryHandler(11, this, 0, true, false);
-	IItemHandler extractionHandler = new InventoryHandler(1, this, 11, false, true);
-	
-	@Override
-	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
-		
-		if(capability==CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			if(facing==EnumFacing.UP)
-				return (T) insertionHandler;
-			else 
-				return (T) extractionHandler;
-		}
-		return super.getCapability(capability, facing);
-	}
-
-	@Override
-	public IItemHandler getInsertionHandler() {
-		
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public IItemHandler getExtractionHandler() {
-		
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getName() {
-		
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 }
