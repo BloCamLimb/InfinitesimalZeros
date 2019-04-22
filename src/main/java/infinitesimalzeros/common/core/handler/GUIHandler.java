@@ -1,17 +1,11 @@
 package infinitesimalzeros.common.core.handler;
 
-import com.google.common.collect.Lists;
-
 import infinitesimalzeros.client.gui.GuiNanaSmelter;
 import infinitesimalzeros.client.gui.GuiTestTE;
-import infinitesimalzeros.client.gui.tab.GuiBasicTab.GuiTabs;
-import infinitesimalzeros.client.gui.tab.GuiTabHome;
 import infinitesimalzeros.common.blocks.NanaFurnaceTE;
-import infinitesimalzeros.common.container.ContainerSmelterAdv;
 import infinitesimalzeros.common.container.ContainerTestTE;
 import infinitesimalzeros.common.container.NanaFurnaceCon;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
-import infinitesimalzeros.common.tileentities.TileEntitySmelterAdv;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

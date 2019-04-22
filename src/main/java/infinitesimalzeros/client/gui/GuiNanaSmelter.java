@@ -1,25 +1,16 @@
 package infinitesimalzeros.client.gui;
 
 import java.io.IOException;
-import java.util.List;
-
-import com.google.common.collect.Lists;
 
 import infinitesimalzeros.InfinitesimalZeros;
-import infinitesimalzeros.client.gui.button.GuiButtonCore;
-import infinitesimalzeros.client.gui.tab.GuiBasicTab.GuiTabs;
-import infinitesimalzeros.client.gui.tab.GuiTabNetwork;
+import infinitesimalzeros.client.gui.button.NavigationButton;
 import infinitesimalzeros.common.container.NanaFurnaceCon;
-import infinitesimalzeros.common.registry.RegistrySounds;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 	
@@ -29,12 +20,12 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 	private final InventoryPlayer player;
 	private final TileEntitySmelter tileEntity;
 	
-	public List<GuiTabs> tabs = Lists.newArrayList(GuiTabs.HOME, GuiTabs.NETWORK);
-	
 	public int backgroundColor = 0xffffff;
 	
 	public boolean open;
 	public boolean fullOpen;
+	public boolean energyInit;
+	public boolean close;
 	public int alpha = -1;
 	public int aAlpha;
 	public int color;
@@ -62,7 +53,7 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		
 		String tileName = this.tileEntity.getDisplayName().getFormattedText();
 		//this.fontRenderer.drawString(tileName, this.xSize / 2 - this.fontRenderer.getStringWidth(tileName) / 2 + 3, -8, 0xA8DAFF);
-		this.fontRenderer.drawString("SilverStar Combiner", this.xSize / 2 - this.fontRenderer.getStringWidth("SilverStar Combiner") / 2 + 3, -12, 0xFFFFFF);
+		this.fontRenderer.drawString("S-SilverStar Injector", this.xSize / 2 - this.fontRenderer.getStringWidth("S-SilverStar Injector") / 2 + 3, -12, 0xFFFFFF);
 		// this.fontRenderer.drawString(this.player.getCurrentItem().getDisplayName(),
 		// 122, this.ySize - 96 + 2, 4210752);
 
@@ -70,6 +61,8 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 	
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+		
+		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 		this.mc.getTextureManager().bindTexture(TEXTURES);
@@ -82,11 +75,12 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		 */
 		update();
 		drawSlideBar();
-		drawEnergyBar();
+		if(fullOpen)
+			drawEnergyBar();
 		String energy = ""+(int) this.tileEntity.getEnergy();
 		if(fullOpen == true && color != 0) {
-			this.fontRenderer.drawString("Energy ", width / 2 - 194, height / 2 + 37, color);
-			this.fontRenderer.drawString(energy+" RF", width / 2 - 132 - this.fontRenderer.getStringWidth(energy), height / 2 + 37, color);
+			this.fontRenderer.drawString("Energy ", width / 2 - 194, height / 2 + 39, color);
+			this.fontRenderer.drawString(energy+" RF", width / 2 - 132 - this.fontRenderer.getStringWidth(energy), height / 2 + 39, color);
 		}
 		//InfinitesimalZeros.logger.info(currentHeight);
 		// int l = this.getCookProgressScaled(24);
@@ -126,9 +120,13 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		GlStateManager.color(colorR, colorG, colorB, alpha / 255.0F);
 		GlStateManager.pushMatrix();
 		this.mc.renderEngine.bindTexture(SLIDEBAR);
-		this.drawTexturedModalRect(width / 2 - 188, height / 2 + 10 - energyHeight, 105, 0, 12, energyHeight);
-		if(fullOpen && color != 0)
-			this.fontRenderer.drawString((int) Math.floor(energyHeight/0.9)+"%", width / 2 - 188, height / 2 - energyHeight, color);
+		this.drawTexturedModalRect(width / 2 - 188, height / 2 + 22 - energyHeight, 105, 0, 12, energyHeight);
+		if(fullOpen && color != 0) {
+			this.fontRenderer.drawString(energyHeight+"%", width / 2 - 182 - this.fontRenderer.getStringWidth(energyHeight+"%") / 2, height / 2 + 13 - energyHeight, color);
+			this.mc.renderEngine.bindTexture(SLIDEBAR);
+			this.drawTexturedModalRect(width / 2 - 168, height / 2 + 10 - Math.round(this.tileEntity.getScaledProgress()*90), 105, 0, 12, (int) (Math.round(this.tileEntity.getScaledProgress()*90)));
+			this.fontRenderer.drawString(Math.round(tileEntity.getScaledProgress()*100)+"%", width / 2 - 164, height / 2 + 27, color);
+		}
 		GlStateManager.popMatrix();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 	}
@@ -138,19 +136,19 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		
 		super.initGui();
 		tabExpandSpeed = Math.max(1, Math.round(maxHeight / Minecraft.getDebugFPS()));
-		int i = 1;
+		//int i = 1;
 		//buttonList.add(new GuiButton(1,0,0,20,20, ""));
-		GuiButtons.add(new GuiButtonCore(1,0,0,20,20));
-		for(GuiTabs tab : tabs) {
+		NavigationButtons.add(new NavigationButton(0, width / 2 - 60, height / 2 - 116, 0, "Security"));
+		/*for(GuiTabs tab : tabs) {
 			
 			//buttonList.add(new NavigationButton(this, tab, i, width/2-10, 60*i));
 			i++;
-		}
+		}*/
 	}
 	
 	public void update() {
 		
-		if(!open || !fullOpen) {
+		if((!open || !fullOpen) && !close) {
 			
 			if(!open) {
 				if(barHeight <= maxHeight - tabExpandSpeed * 2)
@@ -168,12 +166,26 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 					fullOpen = true;
 				}
 			}
-		} else {
+		} else if(fullOpen) {
 			
-			if(energyHeight <= tileEntity.getScaledEnergyLevel(90) - tabExpandSpeed)
+			if(energyHeight <= tileEntity.getScaledEnergyLevel(100) - tabExpandSpeed)
 				energyHeight += tabExpandSpeed;
-			else 
-				energyHeight = tileEntity.getScaledEnergyLevel(90);
+			else {
+				energyHeight = tileEntity.getScaledEnergyLevel(100);
+			}
+		}
+		
+		if(close) {
+			
+			if(barWidth >= tabExpandSpeed) {
+				barWidth -= tabExpandSpeed;
+				energyHeight = 0;
+				fullOpen = false;
+			}
+			else {
+				barWidth = 0;
+				//this.mc.player.closeScreen();
+			}
 		}
 		
 	}
@@ -181,50 +193,42 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 	@Override
 	public void updateScreen() {
 		
-		if(fullOpen == true && alpha < 0xFF) {
-			alpha += 16;
-			aAlpha = alpha << 24;
-			color = aAlpha + 0xFFFFFF;
+		if(fullOpen == true) {
+			if(alpha < 0xFF) {
+				alpha += 16;
+				aAlpha = alpha << 24;
+				color = aAlpha + 0xFFFFFF;
+			}
+		} else {
+			color = 0;
+			alpha = -1;
 		}
 		
 	}
-
+	
 	@Override
-	public GuiTabs getGuiTab() {
+	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		
-		return GuiTabs.HOME;
+		super.keyTyped(typedChar, keyCode);
+		
+		if(keyCode == 20 && open/* || this.mc.gameSettings.keyBindInventory.isActiveAndMatches(keyCode)*/) {
+			close = close ? false : true;
+        }
 	}
 	
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		
 		super.mouseClicked(mouseX, mouseY, mouseButton);
-		
-		if(mouseButton == 0)
-			for (GuiButtonCore guibutton : GuiButtons)
-				if (guibutton.isMouseHovered(mc, mouseX, mouseY)) {
-					FMLCommonHandler.instance().showGuiScreen(new GuiTabNetwork(Lists.newArrayList(GuiTabs.NETWORK), mc.currentScreen));
-					mc.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(RegistrySounds.BUTTONCLICK, 1.0F));
-				}
 
 	}
-	
-	public void switchTab(GuiTabs tab) {
-		//FMLCommonHandler.instance().showGuiScreen(tab.getGuiScreen(tabs));
 		
-	}
 	
 	@Override
 	public void setWorldAndResolution(Minecraft mc, int width, int height) {
 		
 		super.setWorldAndResolution(mc, width, height);
-		GuiButtons.clear();
-		initGui();
-	}
-	
-	@Override
-	public void drawText(String text, int x, int y) {
-		fontRenderer.drawString(text, x - fontRenderer.getStringWidth(text)/2+11, y, 0xFFFFFF);
+		
 	}
 	
 }

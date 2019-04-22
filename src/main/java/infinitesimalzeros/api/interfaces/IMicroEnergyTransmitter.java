@@ -11,7 +11,7 @@ public interface IMicroEnergyTransmitter {
 	 * @param simulate - if the operation should be simulated
 	 * @return energy sent
 	 */
-	double transEnergy(EnumFacing side, double amount, boolean simulate);
+	double transMicroEnergy(EnumFacing side, double amount, boolean simulate);
 	
 	/**
 	 * Whether or not this tile entity can output energy on a specific side.
@@ -19,6 +19,6 @@ public interface IMicroEnergyTransmitter {
 	 * @param side - side to check
 	 * @return if the tile entity outputs energy
 	 */
-	boolean canOutputEnergy(EnumFacing side);
+	boolean canOutputMicroEnergy(EnumFacing side);
 	
 }

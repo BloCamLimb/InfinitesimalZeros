@@ -11,7 +11,7 @@ public interface IMicroEnergyReceiver {
 	 * @param simulate - if the operation should be simulated
 	 * @return energy used
 	 */
-	double receiveEnergy(EnumFacing side, double amount, boolean simulate);
+	double receiveMicroEnergy(EnumFacing side, double amount, boolean simulate);
 	
 	/**
 	 * Whether or not this tile entity can accept energy from a certain side.
@@ -19,6 +19,6 @@ public interface IMicroEnergyReceiver {
 	 * @param side - side to check
 	 * @return if tile entity accepts energy
 	 */
-	boolean canReceiveEnergy(EnumFacing side);
+	boolean canReceiveMicroEnergy(EnumFacing side);
 	
 }

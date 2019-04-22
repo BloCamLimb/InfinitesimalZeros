@@ -148,13 +148,13 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
 	}
 	
 	@Override
-	public boolean canOutputEnergy(EnumFacing side) {
+	public boolean canOutputMicroEnergy(EnumFacing side) {
 		
 		return sideIsOutput(side);
 	}
 	
 	@Override
-	public boolean canReceiveEnergy(EnumFacing side) {
+	public boolean canReceiveMicroEnergy(EnumFacing side) {
 		
 		return sideIsConsumer(side);
 	}
@@ -163,14 +163,14 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
 	@Method(modid = "redstoneflux")
 	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
 		
-		return (int) Math.round(Math.min(Integer.MAX_VALUE, receiveEnergy(from, maxReceive, simulate)));
+		return (int) Math.round(Math.min(Integer.MAX_VALUE, receiveMicroEnergy(from, maxReceive, simulate)));
 	}
 	
 	@Override
 	@Method(modid = "redstoneflux")
 	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
 		
-		return (int) Math.round(Math.min(Integer.MAX_VALUE, transEnergy(from, maxExtract, simulate)));
+		return (int) Math.round(Math.min(Integer.MAX_VALUE, transMicroEnergy(from, maxExtract, simulate)));
 	}
 	
 	@Override
@@ -195,7 +195,7 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
 	}
 	
 	@Override
-	public double receiveEnergy(EnumFacing side, double amount, boolean simulate) {
+	public double receiveMicroEnergy(EnumFacing side, double amount, boolean simulate) {
 		
 		double toUse = Math.min(getMaxEnergy() - getEnergy(), amount);
 		
@@ -211,7 +211,7 @@ public abstract class TileEntityElectricBlock extends TileEntityContainerBlock i
 	}
 	
 	@Override
-	public double transEnergy(EnumFacing side, double amount, boolean simulate) {
+	public double transMicroEnergy(EnumFacing side, double amount, boolean simulate) {
 		
 		double toGive = Math.min(getEnergy(), amount);
 		

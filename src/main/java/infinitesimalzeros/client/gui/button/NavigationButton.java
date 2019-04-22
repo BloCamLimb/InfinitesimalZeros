@@ -1,46 +1,47 @@
 package infinitesimalzeros.client.gui.button;
 
 import infinitesimalzeros.InfinitesimalZeros;
-import infinitesimalzeros.client.gui.GuiContainerCore;
-import infinitesimalzeros.client.gui.tab.GuiBasicTab;
-import infinitesimalzeros.client.gui.tab.GuiBasicTab.GuiTabs;
+import infinitesimalzeros.client.gui.tab.GuiTabNetwork;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.client.config.GuiUtils;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class NavigationButton extends GuiButtonCore {
 	
-	public static final ResourceLocation texture = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/button.png");
-	public GuiTabs tab;
-	public GuiBasicTab gui;
+	public static final ResourceLocation TEXTURE = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/navigation_button.png");
+	
+	public int buttonNavigationId;
 
-	public NavigationButton(GuiBasicTab gui, GuiTabs tab, int buttonId, int x, int y) {
+	public NavigationButton(int buttonId, int x, int y, int buttonNavigationId, String text) {
 		
-		super(buttonId, x, y, 20, 20);
-		this.tab = tab;
-		this.gui = gui;
-		
+		super(buttonId, x, y, 12, 12);
+		this.buttonNavigationId = buttonNavigationId;
+		this.text = text;
 	}
 	
 	@Override
-	public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+	public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+			
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		mc.getTextureManager().bindTexture(TEXTURE);
+		drawTexturedModalRect(x, y, 12 * buttonNavigationId, 12 * (buttonNavigationId + getHoverState(isMouseHovered(mc, mouseX, mouseY))), 12, 12);
 		
-		if(visible) {
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			hovered = x >= this.x && y >= this.y && x < this.x + 20 + 1 && y < this.y + 20 + 1;
-			mc.getTextureManager().bindTexture(texture);
-			drawTexturedModalRect(x, y, x, gui.getGuiTab() == tab ? y : y+30, 20, 20);
-			
-			
+		if(isMouseHovered(mc, mouseX, mouseY)) {
+			FontRenderer fontRenderer = mc.fontRenderer;
+			fontRenderer.drawString(text, x - fontRenderer.getStringWidth(text)/2 + 6, y-10, 0xFFFFFF);
 		}
 		
-		if(mouseX >= this.x && mouseY >= this.y && mouseX < this.x + width && mouseY < this.y + height) {
-			gui.drawText(tab.getName(), x, y-10);
+	}
+	
+	public void switchTab(int i, GuiScreen parent) {
+
+		switch(i) {
+			case 0:
+				FMLCommonHandler.instance().showGuiScreen(new GuiTabNetwork(parent));
 		}
-		
 		
 	}
 	

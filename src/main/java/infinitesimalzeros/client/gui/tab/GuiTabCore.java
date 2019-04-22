@@ -3,6 +3,8 @@ package infinitesimalzeros.client.gui.tab;
 import java.io.IOException;
 import java.util.List;
 
+import infinitesimalzeros.InfinitesimalZeros;
+import infinitesimalzeros.client.gui.GuiContainerCore;
 import infinitesimalzeros.client.gui.button.NavigationButton;
 import infinitesimalzeros.common.container.ContainerEmpty;
 import infinitesimalzeros.common.registry.RegistrySounds;
@@ -10,47 +12,27 @@ import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public abstract class GuiBasicTab extends GuiContainer {
+public abstract class GuiTabCore extends GuiContainerCore {
 	
-	public List<GuiTabs> tabs;
+	private static final ResourceLocation TEXTURES = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/gui_blank.png");
+	
 	public GuiScreen parent;
 
-	public GuiBasicTab(List<GuiTabs> tabs, GuiScreen g) {
+	public GuiTabCore(GuiScreen g) {
 		
 		super(new ContainerEmpty());
-		this.tabs = tabs;
 		parent = g;
 	}
-
-	public abstract GuiTabs getGuiTab();
 	
-	public enum GuiTabs {
-		HOME("Home"),
-		NETWORK("Network setting");
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		
-		public String name;
-		
-		GuiTabs(String name) {
-			this.name = name;
-		}
-		
-		
-		public String getName() {
-			
-			return name;
-		}
-		
-		/*public Object getGuiScreen(List<GuiTabs> tabs) {
-			switch(this) {
-				case HOME:
-					return new GuiTabHome(tabs, tileEntity);
-				case NETWORK:
-					return new GuiTabNetwork(tabs, tileEntity);
-			}
-			return null;
-		}*/
+		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
+		this.mc.getTextureManager().bindTexture(TEXTURES);
+		this.drawTexturedModalRect(width / 2 - 128, height / 2 - 128, 0, 0, 256, 256);
 		
 	}
 	
@@ -66,10 +48,6 @@ public abstract class GuiBasicTab extends GuiContainer {
 		}*/
 	}
 	
-	public void drawText(String text, int x, int y) {
-		fontRenderer.drawString(text, x - fontRenderer.getStringWidth(text)/2+11, y, 0xFFFFFF);
-	}
-	
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException {
 		
@@ -78,13 +56,7 @@ public abstract class GuiBasicTab extends GuiContainer {
 			switchTab(((NavigationButton)button).tab);
 		}*/
 	}
-	
-	public void switchTab(GuiTabs tab) {
-		if(tab != getGuiTab()) {
-			//FMLCommonHandler.instance().showGuiScreen(tab.getGuiScreen(tabs));
-		}
-	}
-	
+
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException {
 		

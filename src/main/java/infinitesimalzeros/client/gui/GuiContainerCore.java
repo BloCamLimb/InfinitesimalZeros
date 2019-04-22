@@ -1,32 +1,36 @@
 package infinitesimalzeros.client.gui;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.google.common.collect.Lists;
 
 import infinitesimalzeros.api.interfaces.IGuiZero;
 import infinitesimalzeros.client.gui.button.GuiButtonCore;
-import infinitesimalzeros.client.gui.tab.GuiBasicTab.GuiTabs;
-import infinitesimalzeros.client.gui.widget.GuiBasicWidget;
+import infinitesimalzeros.client.gui.button.NavigationButton;
+import infinitesimalzeros.common.registry.RegistrySounds;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Container;
 
 
 public abstract class GuiContainerCore extends GuiContainer implements IGuiZero {
 	
-	private Set<GuiBasicWidget> GUIWidgets = new HashSet<>();
-	
-	protected List<GuiButtonCore> GuiButtons = Lists.<GuiButtonCore>newArrayList();
+	protected List<NavigationButton> NavigationButtons = Lists.<NavigationButton>newArrayList();
 	
 	public GuiContainerCore(Container inventorySlotsIn) {
 		
 		super(inventorySlotsIn);
 	}
 	
-	public abstract GuiTabs getGuiTab();
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+		
+		for(NavigationButton buttons : NavigationButtons) {
+			buttons.drawButton(mc, mouseX, mouseY);
+		}
+	}
 	
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -34,29 +38,30 @@ public abstract class GuiContainerCore extends GuiContainer implements IGuiZero 
 		drawDefaultBackground();
 		super.drawScreen(mouseX, mouseY, partialTicks);
 		renderHoveredToolTip(mouseX, mouseY);
+	}
+	
+	@Override
+	public void setWorldAndResolution(Minecraft mc, int width, int height) {
 		
-		for(GuiButtonCore buttons : GuiButtons) {
-			buttons.drawButton(mc, mouseX, mouseY, partialTicks);
-		}
+		super.setWorldAndResolution(mc, width, height);
+		
+		NavigationButtons.clear();
+		initGui();
 	}
 	
 	@Override
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		
-		int xAxis = (mouseX - (width - xSize) / 2);
-		int yAxis = (mouseY - (height - ySize) / 2);
-		
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		
-		GUIWidgets.forEach(widget -> widget.clickEvent(xAxis, yAxis, mouseButton));
+		if(mouseButton == 0)
+			for (NavigationButton buttons : NavigationButtons)
+				if (buttons.isMouseHovered(mc, mouseX, mouseY)) {
+					buttons.switchTab(buttons.buttonNavigationId, mc.currentScreen);
+					mc.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(RegistrySounds.BUTTONCLICK, 1.0F));
+				}
+		
 	}
-	
-	protected void addGUIWidget(GuiBasicWidget widget) {
-		GUIWidgets.add(widget);
-	}
-
-	public abstract void drawText(String name, int x, int i);
-	
 	
 	
 }

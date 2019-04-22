@@ -19,13 +19,13 @@ public class ForgeEnergyIntegration implements IEnergyStorage {
 	@Override
 	public int receiveEnergy(int maxReceive, boolean simulate) {
 		
-		return URToForge(tileEntity.receiveEnergy(side, forgeToUR(maxReceive), simulate));
+		return URToForge(tileEntity.receiveMicroEnergy(side, forgeToUR(maxReceive), simulate));
 	}
 	
 	@Override
 	public int extractEnergy(int maxExtract, boolean simulate) {
 		
-		return URToForge(tileEntity.transEnergy(side, forgeToUR(maxExtract), simulate));
+		return URToForge(tileEntity.transMicroEnergy(side, forgeToUR(maxExtract), simulate));
 	}
 	
 	@Override

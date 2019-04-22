@@ -1,11 +1,5 @@
 package infinitesimalzeros.common.tileentities;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
-import infinitesimalzeros.client.gui.tab.GuiBasicTab.GuiTabs;
-import infinitesimalzeros.client.gui.tab.GuiTabHome;
 import infinitesimalzeros.common.core.handler.InventoryHandler;
 import infinitesimalzeros.common.tileentities.basis.TileEntityElectricMachine;
 import net.minecraft.item.ItemStack;
