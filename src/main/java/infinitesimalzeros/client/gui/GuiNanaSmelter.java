@@ -139,6 +139,7 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		//int i = 1;
 		//buttonList.add(new GuiButton(1,0,0,20,20, ""));
 		NavigationButtons.add(new NavigationButton(0, width / 2 - 60, height / 2 - 116, 0, "Security"));
+		NavigationButtons.add(new NavigationButton(0, width / 2 - 75, height / 2 - 116, 1, "Home"));
 		/*for(GuiTabs tab : tabs) {
 			
 			//buttonList.add(new NavigationButton(this, tab, i, width/2-10, 60*i));

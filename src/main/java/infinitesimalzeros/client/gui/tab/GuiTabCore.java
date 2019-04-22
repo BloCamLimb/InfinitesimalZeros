@@ -19,7 +19,12 @@ public abstract class GuiTabCore extends GuiContainerCore {
 	
 	private static final ResourceLocation TEXTURES = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/gui_blank.png");
 	
-	public GuiScreen parent;
+	public static GuiScreen parent;
+	
+	public GuiTabCore() {
+		
+		super(new ContainerEmpty());
+	}
 
 	public GuiTabCore(GuiScreen g) {
 		
@@ -40,6 +45,8 @@ public abstract class GuiTabCore extends GuiContainerCore {
 	public void initGui() {
 		
 		super.initGui();
+		NavigationButtons.add(new NavigationButton(0, width / 2 - 60, height / 2 - 116, 0, "Security"));
+		NavigationButtons.add(new NavigationButton(0, width / 2 - 75, height / 2 - 116, 1, "Home"));
 		/*int i = 1;
 		for(GuiTabs tab : tabs) {
 			
@@ -69,6 +76,10 @@ public abstract class GuiTabCore extends GuiContainerCore {
 			mc.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(RegistrySounds.BUTTONCLICK, 1.0F));
 			FMLCommonHandler.instance().showGuiScreen(parent);
         }
+	}
+	
+	public static GuiScreen getParent() {
+		return parent;
 	}
 	
 }

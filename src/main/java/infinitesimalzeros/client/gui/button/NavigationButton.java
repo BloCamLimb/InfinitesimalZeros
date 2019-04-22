@@ -1,6 +1,7 @@
 package infinitesimalzeros.client.gui.button;
 
 import infinitesimalzeros.InfinitesimalZeros;
+import infinitesimalzeros.client.gui.tab.GuiTabCore;
 import infinitesimalzeros.client.gui.tab.GuiTabNetwork;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -27,7 +28,7 @@ public class NavigationButton extends GuiButtonCore {
 			
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		mc.getTextureManager().bindTexture(TEXTURE);
-		drawTexturedModalRect(x, y, 12 * buttonNavigationId, 12 * (buttonNavigationId + getHoverState(isMouseHovered(mc, mouseX, mouseY))), 12, 12);
+		drawTexturedModalRect(x, y, 12 * buttonNavigationId, 12 * getHoverState(isMouseHovered(mc, mouseX, mouseY)), 12, 12);
 		
 		if(isMouseHovered(mc, mouseX, mouseY)) {
 			FontRenderer fontRenderer = mc.fontRenderer;
@@ -41,6 +42,21 @@ public class NavigationButton extends GuiButtonCore {
 		switch(i) {
 			case 0:
 				FMLCommonHandler.instance().showGuiScreen(new GuiTabNetwork(parent));
+				break;
+			default:
+				break;
+		}
+		
+	}
+	
+	public void switchTab(int i) {
+
+		switch(i) {
+			case 1:
+				FMLCommonHandler.instance().showGuiScreen(GuiTabCore.getParent());
+				break;
+			default:
+				break;
 		}
 		
 	}
