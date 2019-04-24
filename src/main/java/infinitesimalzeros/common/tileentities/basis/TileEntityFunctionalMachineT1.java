@@ -16,21 +16,13 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.items.IItemHandler;
 
-public abstract class TileEntityContainerBlock extends TileEntityBasicBlock implements IAdvancedBoundingBlock, IInventoryZero, ISustainedInventory, ITickable {
-	
-	public NonNullList<ItemStack> inventory;
-	
-	public int size;
-	
-	public String fullName;
-	
-	public IItemHandler insertionHandler;
-	
-	public IItemHandler extractionHandler;
+// 1 item input slot, 1 item output slot
+public abstract class TileEntityFunctionalMachineT1 extends TileEntityFunctionalMachineT0 implements IAdvancedBoundingBlock, IInventoryZero, ISustainedInventory {
 
-	public TileEntityContainerBlock(String name) {
+	public TileEntityFunctionalMachineT1(String name, double maxEnergy, double baseEnergyUsage, int baseTicksRequired) {
 		
-		fullName = name;
+		super(name, maxEnergy ,baseEnergyUsage, baseTicksRequired);
+		
 	}
 	
 	@Override
@@ -57,11 +49,6 @@ public abstract class TileEntityContainerBlock extends TileEntityBasicBlock impl
 		return inventory;
 	}
 	
-	@Override
-	public ITextComponent getDisplayName() {
-		
-		return new TextComponentString(getName());
-	}
 	
 	@Override
 	public void setInventory(NBTTagList nbtTags, Object... data) {
@@ -85,24 +72,16 @@ public abstract class TileEntityContainerBlock extends TileEntityBasicBlock impl
 		
 		NBTTagList tagList = new NBTTagList();
 		
-
-			for(int slots = 0; slots < inventory.size(); slots++) {
-				if(!inventory.get(slots).isEmpty()) {
-					NBTTagCompound tagCompound = new NBTTagCompound();
-					tagCompound.setByte("Slot", (byte) slots);
-					inventory.get(slots).writeToNBT(tagCompound);
-					tagList.appendTag(tagCompound);
-				}
+		for(int slots = 0; slots < inventory.size(); slots++) {
+			if(!inventory.get(slots).isEmpty()) {
+				NBTTagCompound tagCompound = new NBTTagCompound();
+				tagCompound.setByte("Slot", (byte) slots);
+				inventory.get(slots).writeToNBT(tagCompound);
+				tagList.appendTag(tagCompound);
 			}
-		
+		}
 		
 		return tagList;
-	}
-
-	@Override
-	public String getName() {
-		
-		return I18n.format(getBlockType().getUnlocalizedName() + "." + fullName + ".name");
 	}
 	
 	@Override
@@ -116,6 +95,16 @@ public abstract class TileEntityContainerBlock extends TileEntityBasicBlock impl
 		
 		return extractionHandler;
 	}
+	
+	@Override
+	public void onUpdate() {
+		
+		super.onUpdate();
+		
+		
+	}
+	
+	
 	
 	/*@Override
 	public boolean isEmpty() {

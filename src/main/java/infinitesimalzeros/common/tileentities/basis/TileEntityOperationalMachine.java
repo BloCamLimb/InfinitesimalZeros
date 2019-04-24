@@ -13,9 +13,9 @@ public abstract class TileEntityOperationalMachine extends TileEntityMachine {
 	
 	public int ticksRequired;
 	
-	public TileEntityOperationalMachine(String name, double maxEnergy, double baseEnergyUsage, int upgradeSlot, int baseTicksRequired) {
+	public TileEntityOperationalMachine(double maxEnergy, double baseEnergyUsage, int baseTicksRequired) {
 		
-		super(name, maxEnergy, baseEnergyUsage, upgradeSlot);
+		super(maxEnergy, baseEnergyUsage);
 		
 		ticksRequired = BASE_TICKS_REQUIRED = baseTicksRequired;
 	}

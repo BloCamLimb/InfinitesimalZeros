@@ -1,4 +1,4 @@
-package infinitesimalzeros.common.core.handler;
+package infinitesimalzeros.common.core;
 
 import infinitesimalzeros.api.interfaces.IInventoryZero;
 import net.minecraft.item.ItemStack;
@@ -57,6 +57,9 @@ public class InventoryHandler implements IItemHandlerModifiable {
 			return stack;
 		
 		stack = stack.copy();
+		
+		if(!inv.isStackValid(this.slotOffset+slot, stack))
+			return stack;
 
 		int offsetSlot = this.slotOffset+slot;
 		ItemStack currentStack = inv.getInventory().get(offsetSlot);

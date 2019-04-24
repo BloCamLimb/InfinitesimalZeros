@@ -7,6 +7,32 @@ import net.minecraft.item.ItemStack;
 
 public class NanaSmelterRecipe {
 	
+	public final ItemStack input;
+	public final ItemStack primaryOutput;
+	public final int energy;
+
+	public NanaSmelterRecipe(ItemStack input, ItemStack primaryOutput, int energy) {
+
+		this.input = input;
+		this.primaryOutput = primaryOutput;
+		this.energy = energy;
+	}
+
+	public ItemStack getInput() {
+
+		return input;
+	}
+
+	public ItemStack getPrimaryOutput() {
+
+		return primaryOutput;
+	}
+
+	public int getEnergy() {
+
+		return energy;
+	}
+	
 	
 	
 	public static class NanaSmelterRecipeCore {

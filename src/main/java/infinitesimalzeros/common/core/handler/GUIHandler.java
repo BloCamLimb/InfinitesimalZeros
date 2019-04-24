@@ -4,7 +4,7 @@ import infinitesimalzeros.client.gui.GuiNanaSmelter;
 import infinitesimalzeros.client.gui.GuiTestTE;
 import infinitesimalzeros.common.blocks.NanaFurnaceTE;
 import infinitesimalzeros.common.container.ContainerTestTE;
-import infinitesimalzeros.common.container.NanaFurnaceCon;
+import infinitesimalzeros.common.container.ContainerNanaSmelter;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
@@ -18,7 +18,7 @@ public class GUIHandler implements IGuiHandler {
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		
 		if(ID == 0)
-			return new NanaFurnaceCon(player.inventory, (TileEntitySmelter) world.getTileEntity(new BlockPos(x, y, z)));
+			return new ContainerNanaSmelter(player.inventory, (TileEntitySmelter) world.getTileEntity(new BlockPos(x, y, z)));
 		if(ID == 1)
 			return new ContainerTestTE(player.inventory, (NanaFurnaceTE) world.getTileEntity(new BlockPos(x, y, z)));
 		//if(ID == 2)

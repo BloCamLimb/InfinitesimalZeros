@@ -8,6 +8,8 @@ public interface IInventoryZero {
 	
 	NonNullList<ItemStack> getInventory();
 	
+	boolean isStackValid(int slot, ItemStack stack);
+	
 	void doGraphicalUpdates(int slot);
 	
 }

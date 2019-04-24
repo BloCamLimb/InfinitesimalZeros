@@ -2,7 +2,7 @@ package infinitesimalzeros.api.interfaces;
 
 import cofh.redstoneflux.api.IEnergyProvider;
 import cofh.redstoneflux.api.IEnergyReceiver;
-import infinitesimalzeros.common.core.handler.InventoryHandler;
+import infinitesimalzeros.common.core.InventoryHandler;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -28,12 +28,6 @@ public interface IAdvancedBoundingBlock extends ICapabilityProvider, IInventoryZ
 	 * Get first item handler for extraction.
 	 */
 	IItemHandler getExtractionHandler();
-	
-	
-	/**
-	 * Get TileEntity localized name, there's an error when using NBTEdit which not compatible with ITextComponent in some cases.
-	 */
-	String getName();
-	
+
 	
 }

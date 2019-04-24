@@ -21,11 +21,10 @@ public abstract class TileEntityBasicMachine extends TileEntityOperationalMachin
 	 * @param maxEnergy         - how much energy this machine can store
 	 * @param baseTicksRequired - how many ticks it takes to run a cycle
 	 */
-	public TileEntityBasicMachine(String name, double maxEnergy, double baseEnergyUsage, int upgradeSlot, int baseTicksRequired, ResourceLocation location) {
+	public TileEntityBasicMachine(double maxEnergy, double baseEnergyUsage, int baseTicksRequired) {
 		
-		super(name, maxEnergy, baseEnergyUsage, upgradeSlot, baseTicksRequired);
+		super(maxEnergy, baseEnergyUsage, baseTicksRequired);
 		
-		guiLocation = location;
 	}
 	
 	@Override

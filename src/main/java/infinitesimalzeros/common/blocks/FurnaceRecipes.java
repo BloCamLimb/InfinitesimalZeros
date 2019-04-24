@@ -9,18 +9,18 @@ import com.google.common.collect.Table;
 
 import net.minecraft.item.ItemStack;
 
-public class SinteringFurnaceRecipes {
+public class FurnaceRecipes {
 	
-	private static final SinteringFurnaceRecipes INSTANCE = new SinteringFurnaceRecipes();
+	/*private static final FurnaceRecipes INSTANCE = new FurnaceRecipes();
 	private final Table<ItemStack, ItemStack, ItemStack> smeltingList = HashBasedTable.<ItemStack, ItemStack, ItemStack>create();
 	private final Map<ItemStack, Float> experienceList = Maps.<ItemStack, Float>newHashMap();
 	
-	public static SinteringFurnaceRecipes getInstance() {
+	public static FurnaceRecipes getInstance() {
 		
 		return INSTANCE;
 	}
 	
-	private SinteringFurnaceRecipes() {
+	private FurnaceRecipes() {
 		
 		// addSinteringRecipe(new ItemStack(Blocks.ACACIA_FENCE), new ItemStack(Blocks.ACACIA_FENCE_GATE), new ItemStack(BlockInit.COPPER_CHEST), 5.0F);
 	}
@@ -65,6 +65,6 @@ public class SinteringFurnaceRecipes {
 			}
 		}
 		return 0.0F;
-	}
+	}*/
 	
 }

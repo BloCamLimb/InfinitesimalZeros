@@ -8,7 +8,7 @@ import infinitesimalzeros.api.interfaces.ISustainedData;
 import infinitesimalzeros.api.interfaces.ISustainedInventory;
 import infinitesimalzeros.client.gui.GuiTestTE;
 import infinitesimalzeros.common.registry.BlockRegister;
-import infinitesimalzeros.common.tileentities.basis.TileEntityContainerBlock;
+import infinitesimalzeros.common.tileentities.basis.TileEntityFunctionalMachineT1;
 import infinitesimalzeros.common.util.IZUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;

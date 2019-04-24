@@ -7,6 +7,7 @@ material.platinum=Platinum
 material.any=Any Type
 
 tile.Machine1.Smelter.name=Powered Smelter
+tile.Machine1.NanaSmelter.name=S-SilverStar Injector
 tile.Machine1.SmeltingFactory.name=Smelting Factory
 
 itemGroup.infinitesimalzeros=Infinitesimal Zeros

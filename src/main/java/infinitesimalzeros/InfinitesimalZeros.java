@@ -4,14 +4,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 
 import infinitesimalzeros.common.CommonProxy;
-import infinitesimalzeros.common.network.PacketSimpleGui;
-import net.minecraft.creativetab.CreativeTabs;
+import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLModIdMappingEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
@@ -51,6 +51,11 @@ public class InfinitesimalZeros {
 	public void postInit(FMLPostInitializationEvent event) {
 		
 		proxy.postInit();
+	}
+	
+	@EventHandler
+	public void handleIdMappingEvent(FMLModIdMappingEvent event) {
+		RecipeCoreT1.refresh();
 	}
 	
 }

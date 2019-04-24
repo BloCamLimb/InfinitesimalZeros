@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.client.gui.button.NavigationButton;
-import infinitesimalzeros.common.container.NanaFurnaceCon;
+import infinitesimalzeros.common.container.ContainerNanaSmelter;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
 import net.minecraft.client.Minecraft;
@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 	
-	private static final ResourceLocation TEXTURES = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/guidefault.png");
+	public static final ResourceLocation TEXTURES = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/guidefault.png");
 	private static final ResourceLocation SLIDEBAR = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/slide_bar.png");
 	
 	private final InventoryPlayer player;
@@ -41,7 +41,7 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 	
 	public GuiNanaSmelter(InventoryPlayer player, TileEntitySmelter tileEntity) {
 		
-		super(tileEntity, new NanaFurnaceCon(player, tileEntity));
+		super(tileEntity, new ContainerNanaSmelter(player, tileEntity));
 		this.player = player;
 		this.tileEntity = tileEntity;
 		
@@ -124,7 +124,7 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		if(fullOpen && color != 0) {
 			this.fontRenderer.drawString(energyHeight+"%", width / 2 - 182 - this.fontRenderer.getStringWidth(energyHeight+"%") / 2, height / 2 + 13 - energyHeight, color);
 			this.mc.renderEngine.bindTexture(SLIDEBAR);
-			this.drawTexturedModalRect(width / 2 - 168, height / 2 + 10 - Math.round(this.tileEntity.getScaledProgress()*90), 105, 0, 12, (int) (Math.round(this.tileEntity.getScaledProgress()*90)));
+			this.drawTexturedModalRect(width / 2 - 168, height / 2 + 22 - Math.round(this.tileEntity.getScaledProgress()*100), 105, 0, 12, (int) (Math.round(this.tileEntity.getScaledProgress()*100)));
 			this.fontRenderer.drawString(Math.round(tileEntity.getScaledProgress()*100)+"%", width / 2 - 164, height / 2 + 27, color);
 		}
 		GlStateManager.popMatrix();

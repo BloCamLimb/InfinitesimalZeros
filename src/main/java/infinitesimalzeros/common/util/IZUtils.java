@@ -117,13 +117,26 @@ public class IZUtils {
 		return worldIn instanceof ChunkCache ? ((ChunkCache) worldIn).getTileEntity(pos, Chunk.EnumCreateEntityType.CHECK) : worldIn.getTileEntity(pos);
 	}
 	
-	public static void constructAdvBoundingBox(World world, BlockPos pos, Coord4D core) {
+	public static void constructAdvBoundingBox(World world, BlockPos pos, Coord4D core, int index) {
 		
-		world.setBlockState(pos, RegistryBlocks.BBBlock.getStateFromMeta(0));
+		world.setBlockState(pos, RegistryBlocks.BBBlock.getDefaultState());
 		
 		if(!world.isRemote) {
 			
-			((TileEntityAdvancedBoundingBox)world.getTileEntity(pos)).setCorePosition(core.getPos());
+			TileEntityAdvancedBoundingBox tile = (TileEntityAdvancedBoundingBox) world.getTileEntity(pos);
+			
+			tile.setCorePosition(core.getPos());
+			
+			switch(index) {
+				case 1:
+					tile.func = 1;
+					break;
+				case 2:
+					tile.func = 2;
+					break;
+				default:
+					break;
+			}
 		}
 	}
 	

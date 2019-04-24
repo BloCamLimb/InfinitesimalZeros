@@ -3,11 +3,11 @@ package infinitesimalzeros.client;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.client.render.item.ItemLayerWrapper;
 import infinitesimalzeros.client.render.item.RenderMachineItem;
+import infinitesimalzeros.client.render.machine.NanaSmelterTESR;
 import infinitesimalzeros.common.CommonProxy;
 import infinitesimalzeros.common.blocks.BlockTileEntityCore.MachineBlockStateMapper;
 import infinitesimalzeros.common.blocks.BlockTileEntityCore.MachineTypes;
 import infinitesimalzeros.common.registry.RegistryBlocks;
-import infinitesimalzeros.common.tileentities.SmelterTESR;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -29,7 +29,7 @@ public class ClientProxy extends CommonProxy {
 		
 		super.preInit();
 		OBJLoader.INSTANCE.addDomain(InfinitesimalZeros.MODID);
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySmelter.class, new SmelterTESR());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySmelter.class, new NanaSmelterTESR());
 		ModelLoader.setCustomStateMapper(RegistryBlocks.TEBlock1, machineMapper);
 		// ModelLoader.setCustomStateMapper(RegistryBlocks.TEBlock2, machineMapper);
 		Item.getItemFromBlock(RegistryBlocks.TEBlock1).setTileEntityItemStackRenderer(new RenderMachineItem());

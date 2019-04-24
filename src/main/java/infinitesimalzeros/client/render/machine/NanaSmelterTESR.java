@@ -1,8 +1,9 @@
-package infinitesimalzeros.common.tileentities;
+package infinitesimalzeros.client.render.machine;
 
 import org.lwjgl.opengl.GL11;
 
 import infinitesimalzeros.api.interfaces.IModelRender;
+import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
@@ -21,7 +22,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class SmelterTESR extends TileEntitySpecialRenderer<TileEntitySmelter> {
+public class NanaSmelterTESR extends TileEntitySpecialRenderer<TileEntitySmelter> {
 	
 	/*private ModelSmelter model = new ModelSmelter();
 	

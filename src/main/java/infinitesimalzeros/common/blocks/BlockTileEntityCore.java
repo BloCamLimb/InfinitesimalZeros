@@ -196,6 +196,11 @@ public abstract class BlockTileEntityCore extends Block {
 			return get(Block.getBlockFromItem(stack.getItem()), stack.getItemDamage());
 		}
 		
+		public ItemStack getStack() {
+			
+            return new ItemStack(block.getBlock(), 1, meta);
+        }
+		
 		public TileEntity create() {
 			
 			try {
@@ -297,7 +302,7 @@ public abstract class BlockTileEntityCore extends Block {
 		
 		if(tileEntity instanceof IBoundingBlock) {
 			
-			((IBoundingBlock) tileEntity).onPlace();
+			((IBoundingBlock) tileEntity).onPlace(EnumFacing.getFront(change));
 		}
 		
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);

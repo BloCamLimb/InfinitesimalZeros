@@ -313,5 +313,12 @@ public class NanaFurnaceTE extends TileEntityBasicBlock implements ITickable, II
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public boolean isStackValid(int slot, ItemStack stack) {
+		
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

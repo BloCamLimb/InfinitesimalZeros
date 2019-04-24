@@ -2,18 +2,20 @@ package infinitesimalzeros.common.container;
 
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.common.container.slot.SlotOutput;
+import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class NanaFurnaceCon extends ContainerBasic {
+public class ContainerNanaSmelter extends ContainerBasic {
 	
-	public NanaFurnaceCon(InventoryPlayer player, TileEntitySmelter tileEntity) {
+	public ContainerNanaSmelter(InventoryPlayer player, TileEntitySmelter tileEntity) {
 		
 		super(player, tileEntity);
 		
@@ -23,20 +25,16 @@ public class NanaFurnaceCon extends ContainerBasic {
 		
 		inv.openInventory(player.player);
 		
-		addSlotToContainer(new Slot(inv, 0, 56, 10));
-		addSlotToContainer(new Slot(inv, 1, 76, 10));
-		addSlotToContainer(new Slot(inv, 2, 96, 10));
-		addSlotToContainer(new Slot(inv, 3, 116, 10));
-		addSlotToContainer(new Slot(inv, 4, 56, 30));
-		addSlotToContainer(new Slot(inv, 5, 76, 30));
-		addSlotToContainer(new Slot(inv, 6, 96, 30));
-		addSlotToContainer(new Slot(inv, 7, 116, 30));
-		addSlotToContainer(new Slot(inv, 8, 56, 50));
-		addSlotToContainer(new Slot(inv, 9, 76, 50));
-		addSlotToContainer(new Slot(inv, 10, 96, 50));
-		addSlotToContainer(new SlotOutput(this, inv, 11, 116, 50));
+		addSlotToContainer(new Slot(inv, 0, 42, 30) {
+			@Override
+			public boolean isItemValid(ItemStack stack) {
+			
+				return RecipeCoreT1.recipeExists(stack);
+			
+		}});
+		addSlotToContainer(new SlotOutput(this, inv, 1, 118, 30));
 		
-		slotCount = inv.getSizeInventory();
+		slotCount = 1;
 		
 		for(int y = 0; y < 3; y++)
 			for(int x = 0; x < 9; x++)

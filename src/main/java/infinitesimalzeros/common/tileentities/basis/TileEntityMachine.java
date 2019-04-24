@@ -1,7 +1,10 @@
 package infinitesimalzeros.common.tileentities.basis;
 
+import infinitesimalzeros.api.Coord4D;
+import infinitesimalzeros.api.Range4D;
 import infinitesimalzeros.api.interfaces.IActiveState;
-import infinitesimalzeros.api.interfaces.IInventoryZero;
+import infinitesimalzeros.common.core.handler.PacketHandler;
+import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
 import infinitesimalzeros.common.network.TileNetworkList;
 import infinitesimalzeros.common.util.IZUtils;
 import io.netty.buffer.ByteBuf;
@@ -22,9 +25,9 @@ public abstract class TileEntityMachine extends TileEntityElectricBlock implemen
 	
 	public double energyPerTick;
 	
-	public TileEntityMachine(String name, double maxEnergy, double baseEnergyUsage, int upgradeSlot) {
+	public TileEntityMachine(double maxEnergy, double baseEnergyUsage) {
 		
-		super(name, maxEnergy);
+		super(maxEnergy);
 		
 		energyPerTick = BASE_ENERGY_PER_TICK = baseEnergyUsage;
 		
@@ -49,7 +52,7 @@ public abstract class TileEntityMachine extends TileEntityElectricBlock implemen
 				updateDelay--;
 				
 				if(updateDelay == 0 && clientActive != isActive) {
-					// PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
+					PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
 				}
 			}
 		}
@@ -67,7 +70,7 @@ public abstract class TileEntityMachine extends TileEntityElectricBlock implemen
 		isActive = active;
 		
 		if(clientActive != active && updateDelay == 0) {
-			// PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
+			PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
 			
 			updateDelay = 10;
 			clientActive = active;

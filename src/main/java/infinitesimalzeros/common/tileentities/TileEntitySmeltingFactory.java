@@ -4,7 +4,7 @@ import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.api.interfaces.IAdvancedBoundingBlock;
 import infinitesimalzeros.api.interfaces.IInventoryZero;
 import infinitesimalzeros.api.interfaces.ISustainedInventory;
-import infinitesimalzeros.common.core.handler.InventoryHandler;
+import infinitesimalzeros.common.core.InventoryHandler;
 import infinitesimalzeros.common.tileentities.basis.TileEntityElectricMachine;
 import infinitesimalzeros.common.util.IZUtils;
 import infinitesimalzeros.common.util.LangUtils;
@@ -27,57 +27,9 @@ public class TileEntitySmeltingFactory extends TileEntityElectricMachine {
 		
 		super("SmeltingFactory", 3000000, 2000, 15);
 		
-		size = 12;
-		inventory = NonNullList.withSize(12, ItemStack.EMPTY);
-		
-		insertionHandler = new InventoryHandler(11, this, 0, true, false);
-		extractionHandler = new InventoryHandler(1, this, 11, false, true);
-	}
 
-	@Override
-	public void onPlace() {
-		
-		for(int x = -1; x <= 1; x++) {
-			
-			for(int y = 0; y <= 3; y++) {
-				
-				for(int z = -1; z <= 1; z++) {
-					
-					if(x == 0 && y == 0 && z == 0) {
-						
-						continue;
-					}
-					
-					BlockPos pos = getPos().add(x,y,z);
-					IZUtils.constructAdvBoundingBox(world, pos, Coord4D.get(this));
-					world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
-				}
-			}
-		}
-		
-	}
-
-	@Override
-	public void onBreak() {
-		
-		for(int x = -1; x <= 1; x++) {
-			
-			for(int y = 0; y <= 3; y++) {
-				
-				for(int z = -1; z <= 1; z++) {
-					
-					world.setBlockToAir(getPos().add(x,y,z));
-				}
-			}
-		}
-		
 	}
 
 
-	@Override
-	public void doGraphicalUpdates(int slot) {
-		
-		
-	}
 	
 }
