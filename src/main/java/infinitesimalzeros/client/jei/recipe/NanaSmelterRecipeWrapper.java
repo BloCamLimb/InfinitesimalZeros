@@ -1,24 +1,34 @@
 package infinitesimalzeros.client.jei.recipe;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import cofh.core.util.helpers.StringHelper;
 import infinitesimalzeros.common.recipe.NanaSmelterRecipe;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IIngredientType;
 import mezz.jei.api.recipe.IRecipeWrapper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 
 public class NanaSmelterRecipeWrapper implements IRecipeWrapper {
 	
 	private NanaSmelterRecipe recipe;
 	
+	private int energy;
+	private int power;
+	private int time;
+	
 	public NanaSmelterRecipeWrapper(IGuiHelper guiHelper, NanaSmelterRecipe recipe) {
 		
 		this.recipe = recipe;
 		
+		this.energy = recipe.getEnergy();
+		this.power = recipe.getPower();
+		this.time = recipe.getTime();
 	}
 
 	@Override
@@ -27,6 +37,17 @@ public class NanaSmelterRecipeWrapper implements IRecipeWrapper {
 		ingredients.setInput(VanillaTypes.ITEM, recipe.getInput());
 		ingredients.setOutput(VanillaTypes.ITEM, recipe.getPrimaryOutput());
 		
+	}
+	
+	@Override
+	public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
+		
+		String energy1 = "Energy: " + StringHelper.formatNumber(energy) + " RF";
+		minecraft.fontRenderer.drawString(energy1, 35, 38, 0xFFFFFF);
+		String power1 = "Power: " + StringHelper.formatNumber(power) + " RF/t";
+		minecraft.fontRenderer.drawString(power1, 35, 46, 0xFFFFFF);
+		String time1 = "Time: " + StringHelper.formatNumber(time/20) + " s";
+		minecraft.fontRenderer.drawString(time1, 35, 54, 0xFFFFFF);
 	}
 	
 	

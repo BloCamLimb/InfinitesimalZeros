@@ -13,4 +13,6 @@ public abstract class GuiTileEntityCore<TileEntityGui extends TileEntityBasicBlo
 		this.tileEntityGui = tileEntity;
 	}
 	
+	
+	
 }

@@ -3,11 +3,19 @@ package infinitesimalzeros.client.gui;
 import java.io.IOException;
 
 import infinitesimalzeros.InfinitesimalZeros;
+import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.client.gui.button.NavigationButton;
+import infinitesimalzeros.client.gui.button.PowerButton;
 import infinitesimalzeros.common.container.ContainerNanaSmelter;
+import infinitesimalzeros.common.core.handler.PacketHandler;
+import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
+import infinitesimalzeros.common.network.TileNetworkList;
+import infinitesimalzeros.common.registry.RegistrySounds;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
@@ -16,6 +24,7 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 	
 	public static final ResourceLocation TEXTURES = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/guidefault.png");
 	private static final ResourceLocation SLIDEBAR = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/slide_bar.png");
+	private static final ResourceLocation LAFFY = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/lafei_g.png");
 	
 	private final InventoryPlayer player;
 	private final TileEntitySmelter tileEntity;
@@ -76,6 +85,7 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		update();
 		drawSlideBar();
 		if(fullOpen)
+			drawCat();
 			drawEnergyBar();
 		String energy = ""+(int) this.tileEntity.getEnergy();
 		if(fullOpen == true && color != 0) {
@@ -86,6 +96,16 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		// int l = this.getCookProgressScaled(24);
 		// this.drawTexturedModalRect(this.guiLeft + 44, this.guiTop + 36, 176, 14, l +
 		// 1, 16);
+	}
+	
+	protected void drawCat() {
+		float colorR = (backgroundColor >> 16 & 255) / 255.0F;
+		float colorG = (backgroundColor >> 8 & 255) / 255.0F;
+		float colorB = (backgroundColor & 255) / 255.0F;
+		
+		GlStateManager.color(colorR, colorG, colorB, alpha / 255.0F);
+		this.mc.getTextureManager().bindTexture(LAFFY);
+		this.drawTexturedModalRect(width / 2 - 168, height / 2 - 40, 0, 0, 53, 60);
 	}
 	
 	protected void drawSlideBar() {
@@ -124,8 +144,8 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		if(fullOpen && color != 0) {
 			this.fontRenderer.drawString(energyHeight+"%", width / 2 - 182 - this.fontRenderer.getStringWidth(energyHeight+"%") / 2, height / 2 + 13 - energyHeight, color);
 			this.mc.renderEngine.bindTexture(SLIDEBAR);
-			this.drawTexturedModalRect(width / 2 - 168, height / 2 + 22 - Math.round(this.tileEntity.getScaledProgress()*100), 105, 0, 12, (int) (Math.round(this.tileEntity.getScaledProgress()*100)));
 			this.fontRenderer.drawString(Math.round(tileEntity.getScaledProgress()*100)+"%", width / 2 - 164, height / 2 + 27, color);
+			this.fontRenderer.drawString(!tileEntity.masterControl ? "Offline" : tileEntity.isActive ? "Online" : "Sleep", width / 2 - 134, height / 2 + 27, color);
 		}
 		GlStateManager.popMatrix();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -140,6 +160,7 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		//buttonList.add(new GuiButton(1,0,0,20,20, ""));
 		NavigationButtons.add(new NavigationButton(0, width / 2 - 60, height / 2 - 116, 0, "Security"));
 		NavigationButtons.add(new NavigationButton(0, width / 2 - 75, height / 2 - 116, 1, "Home"));
+		PowerButtons.add(new PowerButton(0, width / 2 + 60, height / 2 - 116));
 		/*for(GuiTabs tab : tabs) {
 			
 			//buttonList.add(new NavigationButton(this, tab, i, width/2-10, 60*i));
@@ -222,6 +243,20 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 
+		if(mouseButton == 0)
+			for (PowerButton buttons : PowerButtons)
+				if(buttons.isMouseHovered(mc, mouseX, mouseY)) {
+					
+					if(tileEntity.masterControl) {
+						TileNetworkList data = TileNetworkList.withContents(1);
+						PacketHandler.sendToServer(new TileEntityMessage(Coord4D.get(tileEntity), data));
+					} else {
+						TileNetworkList data = TileNetworkList.withContents(2);
+						PacketHandler.sendToServer(new TileEntityMessage(Coord4D.get(tileEntity), data));
+					}
+					
+					mc.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(RegistrySounds.BUTTONCLICK, 1.0F));
+				}
 	}
 		
 	

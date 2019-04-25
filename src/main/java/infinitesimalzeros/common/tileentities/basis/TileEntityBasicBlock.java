@@ -185,6 +185,10 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 		}
 	}
 	
+	public int getLightLevel() {
+		return 0;
+	}
+	
 	@Override
 	public NBTTagCompound getUpdateTag() {
 		

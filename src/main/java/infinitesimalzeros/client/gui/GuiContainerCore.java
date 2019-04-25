@@ -5,10 +5,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.interfaces.IGuiZero;
-import infinitesimalzeros.client.gui.button.GuiButtonCore;
 import infinitesimalzeros.client.gui.button.NavigationButton;
+import infinitesimalzeros.client.gui.button.PowerButton;
 import infinitesimalzeros.common.registry.RegistrySounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -18,7 +17,8 @@ import net.minecraft.inventory.Container;
 
 public abstract class GuiContainerCore extends GuiContainer implements IGuiZero {
 	
-	protected List<NavigationButton> NavigationButtons = Lists.<NavigationButton>newArrayList();
+	protected List<NavigationButton> NavigationButtons = Lists.newArrayList();
+	protected List<PowerButton> PowerButtons = Lists.newArrayList();
 	
 	public GuiContainerCore(Container inventorySlotsIn) {
 		
@@ -29,6 +29,10 @@ public abstract class GuiContainerCore extends GuiContainer implements IGuiZero 
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		
 		for(NavigationButton buttons : NavigationButtons) {
+			buttons.drawButton(mc, mouseX, mouseY);
+		}
+		
+		for(PowerButton buttons : PowerButtons) {
 			buttons.drawButton(mc, mouseX, mouseY);
 		}
 	}
@@ -47,6 +51,7 @@ public abstract class GuiContainerCore extends GuiContainer implements IGuiZero 
 		super.setWorldAndResolution(mc, width, height);
 		
 		NavigationButtons.clear();
+		PowerButtons.clear();
 		initGui();
 	}
 	

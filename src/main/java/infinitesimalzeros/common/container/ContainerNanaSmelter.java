@@ -31,7 +31,12 @@ public class ContainerNanaSmelter extends ContainerBasic {
 			
 				return RecipeCoreT1.recipeExists(stack);
 			
-		}});
+		}
+			@Override
+			public boolean canTakeStack(EntityPlayer playerIn) {
+				
+				return !tileEntity.masterControl;
+			}});
 		addSlotToContainer(new SlotOutput(this, inv, 1, 118, 30));
 		
 		slotCount = 1;

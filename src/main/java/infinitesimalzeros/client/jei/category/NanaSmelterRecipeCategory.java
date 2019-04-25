@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import infinitesimalzeros.client.gui.GuiNanaSmelter;
+import infinitesimalzeros.client.jei.RecipeCategoryCore;
 import infinitesimalzeros.client.jei.recipe.NanaSmelterRecipeWrapper;
 import infinitesimalzeros.common.blocks.BlockTileEntityCore.MachineTypes;
 import infinitesimalzeros.common.recipe.NanaSmelterRecipe;
@@ -56,8 +57,8 @@ public class NanaSmelterRecipeCategory extends RecipeCategoryCore<NanaSmelterRec
 		
 		IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
 
-		guiItemStacks.init(0, true, 42, 14);
-		guiItemStacks.init(1, false, 105, 23);
+		guiItemStacks.init(0, true, 42, 22);
+		guiItemStacks.init(1, false, 95, 22);
 		
 		guiItemStacks.set(ingredients);
 		

@@ -1,4 +1,4 @@
-package infinitesimalzeros.client.jei.category;
+package infinitesimalzeros.client.jei;
 
 import infinitesimalzeros.InfinitesimalZeros;
 import mezz.jei.api.gui.IDrawable;

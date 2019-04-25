@@ -9,13 +9,15 @@ public class NanaSmelterRecipe {
 	
 	public final ItemStack input;
 	public final ItemStack primaryOutput;
-	public final int energy;
+	public final int power;
+	public final int time;
 
-	public NanaSmelterRecipe(ItemStack input, ItemStack primaryOutput, int energy) {
+	public NanaSmelterRecipe(ItemStack input, ItemStack primaryOutput, int power, int time) {
 
 		this.input = input;
 		this.primaryOutput = primaryOutput;
-		this.energy = energy;
+		this.power = power;
+		this.time = time;
 	}
 
 	public ItemStack getInput() {
@@ -28,11 +30,20 @@ public class NanaSmelterRecipe {
 		return primaryOutput;
 	}
 
-	public int getEnergy() {
+	public int getPower() {
 
-		return energy;
+		return power;
 	}
 	
+	public int getTime() {
+		
+		return time;
+	}
+	
+	public int getEnergy() {
+		
+		return power * time;
+	}
 	
 	
 	public static class NanaSmelterRecipeCore {

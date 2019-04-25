@@ -64,13 +64,13 @@ public class TileEntitySmelter extends TileEntityFunctionalMachineT1 {
 		if (curRecipe == null) {
 			return false;
 		}
-		if (inventory.get(0).getCount() < curRecipe.getInput().getCount()) {
+		if (inventory.get(0).getCount() < curRecipe.getInput().getCount() || getEnergy() < curRecipe.getPower()) {
 			return false;
 		}
 		
 		ItemStack primaryItem = curRecipe.getPrimaryOutput();
 		
-		return curRecipe.getInput().getCount() <= inventory.get(0).getCount() && inventory.get(1).isEmpty() || inventory.get(1).isItemEqual(primaryItem) && inventory.get(1).getCount() + primaryItem.getCount() <= primaryItem.getMaxStackSize() && super.canProcess();
+		return curRecipe.getInput().getCount() <= inventory.get(0).getCount() && inventory.get(1).isEmpty() || inventory.get(1).isItemEqual(primaryItem) && inventory.get(1).getCount() + primaryItem.getCount() <= primaryItem.getMaxStackSize();
 	}
 	
 
@@ -105,6 +105,21 @@ public class TileEntitySmelter extends TileEntityFunctionalMachineT1 {
 		if (inventory.get(0).getCount() <= 0) {
 			inventory.set(0, ItemStack.EMPTY);
 		}
+		
+		if(canProcess()) {
+			ticksRequired = curRecipe.getTime();
+			energyPerTick = curRecipe.getPower();
+		} else
+			turnOff();
+	}
+	
+	@Override
+	protected void turnOn() {
+		
+		super.turnOn();
+		
+		ticksRequired = curRecipe.getTime();
+		energyPerTick = curRecipe.getPower();
 	}
 
 	@Override

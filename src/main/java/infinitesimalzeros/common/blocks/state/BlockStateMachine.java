@@ -17,7 +17,7 @@ public class BlockStateMachine extends ExtendedBlockState {
 	
 	public BlockStateMachine(BlockTileEntityCore block, PropertyEnum<?> typeProperty) {
 		
-		super(block, new IProperty[] { BlockStateFacing.facingProperty, typeProperty, activeProperty }, new IUnlistedProperty[] {});
+		super(block, new IProperty[] {BlockStateFacing.facingProperty, typeProperty, activeProperty}, new IUnlistedProperty[] {});
 	}
 	
 	public static class MachineBlockPredicate implements Predicate<MachineTypes> {

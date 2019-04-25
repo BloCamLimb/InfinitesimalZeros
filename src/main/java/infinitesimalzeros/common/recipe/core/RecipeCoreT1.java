@@ -11,6 +11,7 @@ import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.common.recipe.NanaSmelterRecipe;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -24,7 +25,7 @@ public class RecipeCoreT1 {
 		if (input.isEmpty()) {
 			return null;
 		}
-		InfinitesimalZeros.logger.info(input);
+		
 		ComparableItemStackValidated query = convertInput(input);
 
 		NanaSmelterRecipe recipe = recipeMap.get(query);
@@ -66,30 +67,20 @@ public class RecipeCoreT1 {
 	}
 
 	/* ADD RECIPES */
-	public static NanaSmelterRecipe addRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput, int secondaryChance) {
+	public static NanaSmelterRecipe addRecipe(int power, ItemStack input, ItemStack primaryOutput, int time) {
 
-		if (input.isEmpty() || primaryOutput.isEmpty() || energy <= 0 || recipeExists(input)) {
+		if (input.isEmpty() || primaryOutput.isEmpty() || power <= 0 || recipeExists(input)) {
 			return null;
 		}
 		
-		NanaSmelterRecipe recipe = new NanaSmelterRecipe(input, primaryOutput, energy);
+		NanaSmelterRecipe recipe = new NanaSmelterRecipe(input, primaryOutput, power, time);
 		recipeMap.put(convertInput(input), recipe);
 		return recipe;
-	}
-
-	public static NanaSmelterRecipe addRecipe(int energy, ItemStack input, ItemStack primaryOutput, ItemStack secondaryOutput) {
-
-		return addRecipe(energy, input, primaryOutput, secondaryOutput, 100);
-	}
-
-	public static NanaSmelterRecipe addRecipe(int energy, ItemStack input, ItemStack primaryOutput) {
-
-		return addRecipe(energy, input, primaryOutput, ItemStack.EMPTY, 0);
 	}
 	
 	public static void initialize() {
 
-		
+		addRecipe(30000, new ItemStack(Items.APPLE), new ItemStack(Items.NETHER_STAR), 200);
 		{
 			String oreType;
 			for (String oreName : OreDictionary.getOreNames()) {
@@ -127,7 +118,7 @@ public class RecipeCoreT1 {
 		ItemStack oreEnd = ItemHelper.getOre(oreEndName);
 
 
-		addRecipe(50000, ore, ItemHelper.cloneStack(block, 1));
+		addRecipe(2400, ore, ItemHelper.cloneStack(block, 1), 60);
 	}
 
 	/* REMOVE RECIPES */

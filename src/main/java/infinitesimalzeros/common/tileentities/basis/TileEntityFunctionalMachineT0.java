@@ -1,14 +1,19 @@
 package infinitesimalzeros.common.tileentities.basis;
 
+import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.interfaces.IBoundingBlock;
 import infinitesimalzeros.api.interfaces.IInventoryZero;
 import infinitesimalzeros.api.interfaces.ISustainedInventory;
+import infinitesimalzeros.common.network.TileNetworkList;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.IItemHandler;
 
 public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachine implements IBoundingBlock {
@@ -18,6 +23,8 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 	
 	// Control sleep state.
 	public boolean isHighActivity;
+	
+	public boolean masterControl;
 	
 	// Machine item inventory list.
 	public NonNullList<ItemStack> inventory;
@@ -51,15 +58,69 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 	}
 	
 	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
+		
+		super.writeToNBT(nbtTags);
+		
+		nbtTags.setBoolean("masterControl", masterControl);
+		
+		return nbtTags;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbtTags) {
+		
+		super.readFromNBT(nbtTags);
+		
+		masterControl = nbtTags.getBoolean("masterControl");
+	}
+	
+	@Override
+	public TileNetworkList getNetworkedData(TileNetworkList data) {
+		
+		super.getNetworkedData(data);
+		
+		data.add(masterControl);
+		
+		return data;
+	}
+	
+	@Override
+	public void handlePacketData(ByteBuf dataStream) {
+		
+		super.handlePacketData(dataStream);
+		
+		if(FMLCommonHandler.instance().getEffectiveSide().isClient())
+			masterControl = dataStream.readBoolean();
+		
+		if(FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+			int type = dataStream.readInt();
+			switch(type) {
+				case 1:
+					masterControlOff();
+					break;
+				case 2:
+					masterControlOn();
+					break;
+				default:
+					break;
+			}
+		}
+	}
+	
+	@Override
 	public void onUpdate() {
 		
 		super.onUpdate();
 		
+		if(world.isRemote)
+			return;
+		
+		if(!masterControl)
+			return;
+		
 		if(isHighActivity)
-			if(canProcess())
-				process();
-			else
-				turnOff();
+			process();
 		else if(isKeyTime() && canProcess())
 			turnOn();
 				
@@ -67,10 +128,13 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 	
 	protected boolean canProcess() {
 		
-		return getEnergy() >= energyPerTick;
+		return false;
 	}
 	
 	protected void process() {
+		
+		if(electricityStored < energyPerTick)
+			return;
 		
 		electricityStored -= energyPerTick;
         operatingTicks++;
@@ -84,7 +148,6 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 	protected void doFinish() {
 		
 		operatingTicks = 0;
-
 	}
 	
 	protected void turnOn() {
@@ -96,8 +159,20 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 	protected void turnOff() {
 		
 		operatingTicks = 0;
+		ticksRequired = 0;
 		isActive = false;
 		isHighActivity = false;
+	}
+	
+	public void masterControlOn() {
+		
+		masterControl = true;
+	}
+	
+	public void masterControlOff() {
+		
+		masterControl = false;
+		turnOff();
 	}
 	
 	protected boolean isKeyTime() {

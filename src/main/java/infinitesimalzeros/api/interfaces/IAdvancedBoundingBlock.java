@@ -28,6 +28,5 @@ public interface IAdvancedBoundingBlock extends ICapabilityProvider, IInventoryZ
 	 * Get first item handler for extraction.
 	 */
 	IItemHandler getExtractionHandler();
-
 	
 }

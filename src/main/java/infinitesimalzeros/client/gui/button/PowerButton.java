@@ -10,17 +10,14 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public class NavigationButton extends GuiButtonCore {
-	
-	public static final ResourceLocation TEXTURE = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/navigation_button.png");
-	
-	public int buttonNavigationId;
+public class PowerButton extends GuiButtonCore {
 
-	public NavigationButton(int buttonId, int x, int y, int buttonNavigationId, String text) {
+	public static final ResourceLocation TEXTURE = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/power_button.png");
+	
+	public PowerButton(int buttonId, int x, int y) {
 		
 		super(buttonId, x, y, 12, 12);
-		this.buttonNavigationId = buttonNavigationId;
-		this.text = text;
+		this.text = "Power";
 	}
 	
 	@Override
@@ -28,35 +25,11 @@ public class NavigationButton extends GuiButtonCore {
 			
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		mc.getTextureManager().bindTexture(TEXTURE);
-		drawTexturedModalRect(x, y, 12 * buttonNavigationId, 12 * getHoverState(isMouseHovered(mc, mouseX, mouseY)), 12, 12);
+		drawTexturedModalRect(x, y, 0, 12 * getHoverState(isMouseHovered(mc, mouseX, mouseY)), 12, 12);
 		
 		if(isMouseHovered(mc, mouseX, mouseY)) {
 			FontRenderer fontRenderer = mc.fontRenderer;
 			fontRenderer.drawString(text, x - fontRenderer.getStringWidth(text)/2 + 6, y - 10, 0xFFFFFF);
-		}
-		
-	}
-	
-	public void switchTab(int i, GuiScreen parent) {
-
-		switch(i) {
-			case 0:
-				FMLCommonHandler.instance().showGuiScreen(new GuiTabNetwork(parent));
-				break;
-			default:
-				break;
-		}
-		
-	}
-	
-	public void switchTab(int i) {
-
-		switch(i) {
-			case 1:
-				FMLCommonHandler.instance().showGuiScreen(GuiTabCore.getParent());
-				break;
-			default:
-				break;
 		}
 		
 	}
