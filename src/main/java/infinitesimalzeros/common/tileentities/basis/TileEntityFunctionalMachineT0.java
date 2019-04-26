@@ -24,6 +24,7 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 	// Control sleep state.
 	public boolean isHighActivity;
 	
+	// Control machine On/Off.
 	public boolean masterControl;
 	
 	// Machine item inventory list.
