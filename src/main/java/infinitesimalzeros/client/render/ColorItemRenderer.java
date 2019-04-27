@@ -31,7 +31,7 @@ public class ColorItemRenderer {
 	@SideOnly(Side.CLIENT)
 	public void renderItem() {
 		
-		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(this::getColorForItemStack, RegistryItems.neutron);
+		//Minecraft.getMinecraft().getItemColors().registerItemColorHandler(this::getColorForItemStack, RegistryItems.neutron);
 	}
 	
 }

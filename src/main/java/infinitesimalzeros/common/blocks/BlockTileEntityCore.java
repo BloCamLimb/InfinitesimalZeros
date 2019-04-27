@@ -4,15 +4,17 @@ import java.util.Locale;
 import java.util.Random;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
+import cofh.core.util.RayTracer;
+import cofh.core.util.helpers.WrenchHelper;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.interfaces.IActiveState;
 import infinitesimalzeros.api.interfaces.IBoundingBlock;
 import infinitesimalzeros.api.interfaces.IEnergizedItem;
+import infinitesimalzeros.api.interfaces.ISecurityComponent;
 import infinitesimalzeros.api.interfaces.ISustainedData;
 import infinitesimalzeros.api.interfaces.ISustainedInventory;
 import infinitesimalzeros.common.blocks.state.BlockStateFacing;
@@ -22,6 +24,7 @@ import infinitesimalzeros.common.registry.RegistryBlocks;
 import infinitesimalzeros.common.registry.RegistryItems;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
+import infinitesimalzeros.common.tileentities.basis.TileEntityBasicMachine;
 import infinitesimalzeros.common.tileentities.basis.TileEntityElectricBlock;
 import infinitesimalzeros.common.util.IZUtils;
 import net.minecraft.block.Block;
@@ -40,7 +43,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumFacing.Plane;
@@ -53,8 +55,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public abstract class BlockTileEntityCore extends Block {
 	
@@ -62,7 +62,7 @@ public abstract class BlockTileEntityCore extends Block {
 		
 		super(Material.IRON);
 		this.setSoundType(SoundType.METAL);
-		this.setHardness(25.0F);
+		this.setHardness(-1.0F);
 		this.setResistance(1145141919810.0F);
 		this.setCreativeTab(InfinitesimalZeros.proxy.creativeTab);
 	}
@@ -338,12 +338,24 @@ public abstract class BlockTileEntityCore extends Block {
 		int metadata = state.getBlock().getMetaFromState(state);
 		ItemStack stack = playerIn.getHeldItem(hand);
 		
-		if(!stack.isEmpty() && stack.getItem() == RegistryItems.neutron) {
+		RayTraceResult traceResult = RayTracer.retrace(playerIn);
+		
+		/*if(playerIn.isSneaking() && !stack.isEmpty() && (stack.getItem() == RegistryItems.wrench || WrenchHelper.isHoldingUsableWrench(playerIn, traceResult))) {
 			
 			dismantleMachine(state, worldIn, pos);
 			
 			return true;
 		}
+		
+		if(playerIn.isSneaking() && !stack.isEmpty() && stack.getItem() == RegistryItems.card && tileEntity instanceof ISecurityComponent) {
+			
+			if(!((TileEntityBasicMachine)tileEntity).ownerUUID.equals("")) {
+				
+				((ISecurityComponent)tileEntity).setSecurityCode(stack);
+			
+				return true;
+			}
+		}*/
 		
 		if(tileEntity != null) {
 			
@@ -395,7 +407,7 @@ public abstract class BlockTileEntityCore extends Block {
 	@Override
 	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
 		
-		if(/* !player.capabilities.isCreativeMode && */ !world.isRemote /* && willHarvest */) {
+		/*if(!player.capabilities.isCreativeMode && !world.isRemote && willHarvest) {
 			
 			TileEntityBasicBlock tileEntity = (TileEntityBasicBlock) world.getTileEntity(pos);
 			
@@ -407,9 +419,9 @@ public abstract class BlockTileEntityCore extends Block {
 			EntityItem entityItem = new EntityItem(world, pos.getX() + motionX, pos.getY() + motionY, pos.getZ() + motionZ, getPickBlock(state, null, world, pos, player));
 			
 			world.spawnEntity(entityItem);
-		}
+		}*/
 		
-		return world.setBlockToAir(pos);
+		return false;// world.setBlockToAir(pos);
 	}
 	
 	@Override

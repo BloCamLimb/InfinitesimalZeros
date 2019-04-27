@@ -20,6 +20,10 @@ public class RecipeCoreT1 {
 	private static Map<ComparableItemStackValidated, NanaSmelterRecipe> recipeMap = new Object2ObjectOpenHashMap<>();
 	private static OreValidator oreValidator = new OreValidator();
 	
+	static {
+		oreValidator.addPrefix("ore");
+	}
+	
 	public static NanaSmelterRecipe getRecipe(ItemStack input) {
 
 		if (input.isEmpty()) {

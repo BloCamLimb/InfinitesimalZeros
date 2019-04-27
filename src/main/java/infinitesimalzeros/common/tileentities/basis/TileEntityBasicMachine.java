@@ -2,14 +2,21 @@ package infinitesimalzeros.common.tileentities.basis;
 
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.api.Range4D;
+import infinitesimalzeros.api.interfaces.ISecurityComponent;
 import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
+import infinitesimalzeros.common.util.ItemDataUtils;
 import infinitesimalzeros.common.network.TileNetworkList;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
-public abstract class TileEntityBasicMachine extends TileEntityOperationalMachine {
+public abstract class TileEntityBasicMachine extends TileEntityOperationalMachine implements ISecurityComponent {
 	
 	public ResourceLocation guiLocation;
+	
+	public String ownerUUID = "";
+	public String securityCode = "";
 	
 	// public RECIPE cachedRecipe = null;
 	
@@ -28,10 +35,38 @@ public abstract class TileEntityBasicMachine extends TileEntityOperationalMachin
 	}
 	
 	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
+		
+		super.writeToNBT(nbtTags);
+		
+		nbtTags.setString("OwnerUUID", ownerUUID);
+		nbtTags.setString("SecurityCode", securityCode);
+		
+		return nbtTags;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbtTags) {
+		
+		super.readFromNBT(nbtTags);
+		
+		ownerUUID = nbtTags.getString("OwnerUUID");
+		securityCode = nbtTags.getString("SecurityCode");
+		
+	}
+	
+	@Override
 	public void onUpdate() {
 		
 		super.onUpdate();
 		
+		
+	}
+	
+	@Override
+	public void setSecurityCode(ItemStack stack) {
+		
+		this.ownerUUID = ItemDataUtils.getString(stack, "PlayerUUID");
 		
 	}
 	

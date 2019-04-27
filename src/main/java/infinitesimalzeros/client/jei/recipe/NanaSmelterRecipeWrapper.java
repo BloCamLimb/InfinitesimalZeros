@@ -2,10 +2,13 @@ package infinitesimalzeros.client.jei.recipe;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import cofh.core.util.helpers.ItemHelper;
 import cofh.core.util.helpers.StringHelper;
 import infinitesimalzeros.common.recipe.NanaSmelterRecipe;
+import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
@@ -13,6 +16,7 @@ import mezz.jei.api.recipe.IIngredientType;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class NanaSmelterRecipeWrapper implements IRecipeWrapper {
 	
@@ -22,6 +26,8 @@ public class NanaSmelterRecipeWrapper implements IRecipeWrapper {
 	private int power;
 	private int time;
 	
+	private List<List<ItemStack>> input;
+	
 	public NanaSmelterRecipeWrapper(IGuiHelper guiHelper, NanaSmelterRecipe recipe) {
 		
 		this.recipe = recipe;
@@ -29,12 +35,23 @@ public class NanaSmelterRecipeWrapper implements IRecipeWrapper {
 		this.energy = recipe.getEnergy();
 		this.power = recipe.getPower();
 		this.time = recipe.getTime();
+		List<ItemStack> recipeInputs = new ArrayList<>();
+		
+		int oreID = RecipeCoreT1.convertInput(recipe.getInput()).oreID;
+		
+		if (oreID != -1) {
+			for (ItemStack ore : OreDictionary.getOres(ItemHelper.oreProxy.getOreName(oreID), false)) {
+				recipeInputs.add(ItemHelper.cloneStack(ore, recipe.getInput().getCount()));
+			}
+		} else
+			recipeInputs.add(recipe.getInput());
+		input = Collections.singletonList(recipeInputs);
 	}
 
 	@Override
 	public void getIngredients(IIngredients ingredients) {
 		
-		ingredients.setInput(VanillaTypes.ITEM, recipe.getInput());
+		ingredients.setInputLists(VanillaTypes.ITEM, input);
 		ingredients.setOutput(VanillaTypes.ITEM, recipe.getPrimaryOutput());
 		
 	}

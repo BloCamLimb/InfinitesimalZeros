@@ -72,7 +72,6 @@ public class RegistryEventHandler {
 	@SubscribeEvent
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		
-		RegistryRecipes.initMainRecipes();
 		MetaItems.registerOreDict();
 	}
 	

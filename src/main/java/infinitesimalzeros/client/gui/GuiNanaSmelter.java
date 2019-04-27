@@ -99,13 +99,19 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 	}
 	
 	protected void drawCat() {
+		
 		float colorR = (backgroundColor >> 16 & 255) / 255.0F;
 		float colorG = (backgroundColor >> 8 & 255) / 255.0F;
 		float colorB = (backgroundColor & 255) / 255.0F;
 		
+		GlStateManager.pushMatrix();
+		
 		GlStateManager.color(colorR, colorG, colorB, alpha / 255.0F);
+		
 		this.mc.getTextureManager().bindTexture(LAFFY);
 		this.drawTexturedModalRect(width / 2 - 168, height / 2 - 40, 0, 0, 53, 60);
+		
+		GlStateManager.popMatrix();
 	}
 	
 	protected void drawSlideBar() {
@@ -144,8 +150,8 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
 		if(fullOpen && color != 0) {
 			this.fontRenderer.drawString(energyHeight+"%", width / 2 - 182 - this.fontRenderer.getStringWidth(energyHeight+"%") / 2, height / 2 + 13 - energyHeight, color);
 			this.mc.renderEngine.bindTexture(SLIDEBAR);
-			this.fontRenderer.drawString(Math.round(tileEntity.getScaledProgress()*100)+"%", width / 2 - 164, height / 2 + 27, color);
-			this.fontRenderer.drawString(!tileEntity.masterControl ? "Offline" : tileEntity.isActive ? "Online" : "Sleep", width / 2 - 134, height / 2 + 27, color);
+			this.fontRenderer.drawString(Math.round(tileEntity.getScaledProgress()*100)+"%", width / 2 - 160, height / 2 + 27, color);
+			this.fontRenderer.drawString(!tileEntity.masterControl ? "Offline" : tileEntity.isActive ? "Online" : "Sleep", width / 2 - 136, height / 2 + 27, color);
 		}
 		GlStateManager.popMatrix();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

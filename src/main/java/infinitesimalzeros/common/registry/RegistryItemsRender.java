@@ -21,7 +21,7 @@ public class RegistryItemsRender {
 	@SideOnly(Side.CLIENT)
 	public static void registerItemModels(ModelRegistryEvent event) {
 		
-		registerItemModel(RegistryItems.neutron);
+		//registerItemModel(RegistryItems.neutron);
 	}
 	
 	private static void registerItemModel(Item item) {

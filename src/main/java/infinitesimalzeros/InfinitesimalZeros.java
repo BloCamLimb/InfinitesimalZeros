@@ -54,8 +54,9 @@ public class InfinitesimalZeros {
 	}
 	
 	@EventHandler
-	public void handleIdMappingEvent(FMLModIdMappingEvent event) {
-		RecipeCoreT1.refresh();
+	public void mapId(FMLModIdMappingEvent event) {
+		
+		proxy.mapId();
 	}
 	
 }

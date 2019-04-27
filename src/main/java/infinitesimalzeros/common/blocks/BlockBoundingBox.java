@@ -30,7 +30,7 @@ public class BlockBoundingBox extends Block {
 		
 		super(Material.IRON);
 		this.setSoundType(SoundType.METAL);
-		this.setHardness(25.0F);
+		this.setHardness(-1.0F);
 		this.setResistance(1145141919810.0F);
 	}
 	

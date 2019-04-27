@@ -10,6 +10,7 @@ public class ItemRegister extends Item implements IModelRender {
 		
 		setUnlocalizedName("infinitesimalzeros." + name);
 		setRegistryName(name);
+		setCreativeTab(InfinitesimalZeros.proxy.creativeTab);
 		RegistryItems.ITEMS.add(this);
 	}
 	

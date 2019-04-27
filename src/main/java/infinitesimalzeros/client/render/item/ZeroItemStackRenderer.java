@@ -36,7 +36,6 @@ public abstract class ZeroItemStackRenderer extends TileEntityItemStackRenderer 
         //
         renderWithTransform(stack);
         //
-        InfinitesimalZeros.logger.info("55555");
         GlStateManager.enableLighting();
         GlStateManager.enableLight(0);
         GlStateManager.enableLight(1);

@@ -5,7 +5,9 @@ import infinitesimalzeros.client.render.ColorItemRenderer;
 import infinitesimalzeros.common.capabilities.Capabilities;
 import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.items.MetaItems;
+import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
 import infinitesimalzeros.common.registry.RegistryItems;
+import infinitesimalzeros.common.registry.RegistryRecipes;
 import infinitesimalzeros.common.unification.MaterialBasis;
 import mekanism.api.MekanismAPI;
 import net.minecraft.creativetab.CreativeTabs;
@@ -38,6 +40,8 @@ public class CommonProxy {
 	
 	public void postInit() {
 		
+		RegistryRecipes.initMainRecipes();
+		
 	}
 	
 	public void registerOreDictEntries() {
@@ -62,5 +66,11 @@ public class CommonProxy {
 		}
 		
 	};
+
+	public void mapId() {
+		
+		RecipeCoreT1.refresh();
+		
+	}
 	
 }
