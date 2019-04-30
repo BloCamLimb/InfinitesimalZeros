@@ -24,6 +24,12 @@ public class NanaBlock extends BlockRegister {
 	}
 	
 	@Override
+	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+		
+		return false;
+	}
+	
+	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
 		
 		return Item.getItemFromBlock(RegistryBlocks.NanaBlock);

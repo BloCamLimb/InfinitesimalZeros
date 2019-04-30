@@ -1,7 +1,7 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "infinitesimalzeros:smelter"
+    "model": "infinitesimalzeros:smelter2"
   },
   "variants": {
     "normal": [{}],

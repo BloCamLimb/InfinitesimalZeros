@@ -3,6 +3,7 @@ package infinitesimalzeros.client.gui.button;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.client.gui.tab.GuiTabCore;
 import infinitesimalzeros.client.gui.tab.GuiTabNetwork;
+import infinitesimalzeros.common.tileentities.basis.TileEntityFunctionalMachineT0;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
@@ -37,11 +38,11 @@ public class NavigationButton extends GuiButtonCore {
 		
 	}
 	
-	public void switchTab(int i, GuiScreen parent) {
+	public void switchTab(int i, GuiScreen parent, TileEntityFunctionalMachineT0 tile) {
 
 		switch(i) {
 			case 0:
-				FMLCommonHandler.instance().showGuiScreen(new GuiTabNetwork(parent));
+				FMLCommonHandler.instance().showGuiScreen(new GuiTabNetwork(parent, tile));
 				break;
 			default:
 				break;

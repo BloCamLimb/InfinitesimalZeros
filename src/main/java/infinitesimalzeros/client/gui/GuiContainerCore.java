@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.interfaces.IGuiZero;
 import infinitesimalzeros.client.gui.button.NavigationButton;
 import infinitesimalzeros.client.gui.button.PowerButton;
@@ -62,13 +63,11 @@ public abstract class GuiContainerCore extends GuiContainer implements IGuiZero 
 		
 		if(mouseButton == 0)
 			for (NavigationButton buttons : NavigationButtons)
-				if (buttons.isMouseHovered(mc, mouseX, mouseY)) {
-					if(mc.currentScreen instanceof GuiTileEntityCore)
-						buttons.switchTab(buttons.buttonNavigationId, mc.currentScreen);
-					else
+				if (buttons.isMouseHovered(mc, mouseX, mouseY))
+					if(!(mc.currentScreen instanceof GuiTileEntityCore)) {
 						buttons.switchTab(buttons.buttonNavigationId);
-					mc.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(RegistrySounds.BUTTONCLICK, 1.0F));
-				}
+						mc.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(RegistrySounds.BUTTONCLICK, 1.0F));
+					}
 		
 	}
 	

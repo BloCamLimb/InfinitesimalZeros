@@ -2,8 +2,10 @@ package infinitesimalzeros.client.render.machine;
 
 import org.lwjgl.opengl.GL11;
 
-import infinitesimalzeros.api.interfaces.IModelRender;
+import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
+import infinitesimalzeros.common.util.IZUtils;
+import infinitesimalzeros.common.util.IZUtils.ResourceType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
@@ -13,27 +15,68 @@ import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.block.model.IBakedModel;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class NanaSmelterTESR extends TileEntitySpecialRenderer<TileEntitySmelter> {
 	
-	/*private ModelSmelter model = new ModelSmelter();
+	private ModelSmelter model = new ModelSmelter();
 	
     @Override
     public void render(TileEntitySmelter tileEntity, double x, double y, double z, float partialTick, int destroyStage, float alpha) {
     	
-        /*GlStateManager.pushMatrix();
-        GlStateManager.translate((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
+    	final BlockRendererDispatcher blockRenderer = Minecraft.getMinecraft().getBlockRendererDispatcher();
+		BlockPos blockPos = tileEntity.getPos();
+		IBlockState state = getWorld().getBlockState(blockPos);
 
-        bindTexture(IZUtils.getResource(ResourceType.RENDER, "DigitalMiner.png"));
+		state = state.getBlock().getActualState(state, getWorld(), blockPos);
+		
 
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder worldRenderer = tessellator.getBuffer();
+
+		
+		
+		GlStateManager.pushMatrix();
+		bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+		IBakedModel model1 = blockRenderer.getBlockModelShapes().getModelForState(state);
+		//Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		GlStateManager.translate(x+.5, y+1.5, z+.5);
+		GlStateManager.rotate(-180, 0, blockPos.getY(), blockPos.getZ());
+		GlStateManager.rotate(180, 0, blockPos.getY(), blockPos.getZ());
+		GlStateManager.scale(2.8, 2.8, 2.8);
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		
+        
+		
+		RenderHelper.disableStandardItemLighting();
+		GlStateManager.enableBlend();
+		GlStateManager.disableCull();
+		if(Minecraft.isAmbientOcclusionEnabled())
+			GlStateManager.shadeModel(7425);
+		else
+			GlStateManager.shadeModel(7424);
+
+		worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.BLOCK);
+		worldRenderer.setTranslation(-.5-blockPos.getX(), -.5-blockPos.getY(), -.5-blockPos.getZ());
+		worldRenderer.color(255, 255, 255, 255);
+		blockRenderer.getBlockModelRenderer().renderModel(tileEntity.getWorld(), model1, state, blockPos, worldRenderer, true);
+		
+		
+		worldRenderer.setTranslation(0.0D, 0.0D, 0.0D);
+		tessellator.draw();
+		
+        {bindTexture(IZUtils.getResource(ResourceType.RENDER, "1.png"));
         switch (tileEntity.facing.ordinal()) {
             case 2:
                 GL11.glRotatef(0, 0.0F, 1.0F, 0.0F);
@@ -52,20 +95,32 @@ public class NanaSmelterTESR extends TileEntitySpecialRenderer<TileEntitySmelter
                 GL11.glTranslatef(0.0F, 0.0F, -1.0F);
                 break;
         }
-
+        
         GlStateManager.rotate(180F, 0.0F, 0.0F, 1.0F);
-        model.render(0.0625F, tileEntity.isActive, rendererDispatcher.renderEngine, true);
+        GlStateManager.scale(0.4, 0.4, 0.4);
+        GlStateManager.translate(-0.5, +0, +1.1);
+        if(tileEntity.isActive) {
+        	IZUtils.glowOn();
+        }
+        model.render(0.1F);
+        if(tileEntity.isActive) {
+        	IZUtils.glowOff();
+        }
+
+        //renderItem(tileEntity);
+        }
+        
         GlStateManager.popMatrix();
 
-        if (tileEntity.clientRendering) {
+        /*if (tileEntity.clientRendering) {
             MinerVisualRenderer.render(tileEntity);
-        }
+        }*/
     
     
-    }*/
+    }
 
 	
-	@Override
+	/*@Override
 	public void render(TileEntitySmelter te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		
 		//super.render(te, x, y, z, partialTicks, destroyStage, alpha);
@@ -187,11 +242,11 @@ public class NanaSmelterTESR extends TileEntitySpecialRenderer<TileEntitySmelter
         tessellator.draw();
 
         RenderHelper.enableStandardItemLighting();
-        GlStateManager.popMatrix();*/
+        GlStateManager.popMatrix();
 		
 		
 		
-		
+		//YES
 		
 		
 		final BlockRendererDispatcher blockRenderer = Minecraft.getMinecraft().getBlockRendererDispatcher();
@@ -199,19 +254,23 @@ public class NanaSmelterTESR extends TileEntitySpecialRenderer<TileEntitySmelter
 		IBlockState state = getWorld().getBlockState(blockPos);
 
 		state = state.getBlock().getActualState(state, getWorld(), blockPos);
-		IBakedModel model = blockRenderer.getBlockModelShapes().getModelForState(state);
+		
 
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder worldRenderer = tessellator.getBuffer();
 
-		Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+		
 		
 		GlStateManager.pushMatrix();
 		
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240f, 240f);
-		
+		IBakedModel model = blockRenderer.getBlockModelShapes().getModelForState(state);
+		//Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 		GlStateManager.translate(x+.5, y+1.5, z+.5);
+		GlStateManager.rotate(-180, 0, blockPos.getY(), blockPos.getZ());
+		renderItem(te);
+		GlStateManager.rotate(180, 0, blockPos.getY(), blockPos.getZ());
 		GlStateManager.scale(2.8, 2.8, 2.8);
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
@@ -233,6 +292,7 @@ public class NanaSmelterTESR extends TileEntitySpecialRenderer<TileEntitySmelter
             OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, glowRatioX, glowRatioY);
         }
 		
+        
 		
 		RenderHelper.disableStandardItemLighting();
 		GlStateManager.enableBlend();
@@ -256,6 +316,23 @@ public class NanaSmelterTESR extends TileEntitySpecialRenderer<TileEntitySmelter
         
 		GlStateManager.popMatrix();
 		
-	}
+	}*/
+	
+	private void renderItem(TileEntitySmelter te) {
+		
+			ItemStack stack = te.insertionHandler.getStackInSlot(0);
+
+            //RenderHelper.enableStandardItemLighting();
+            //GlStateManager.enableLighting();
+            GlStateManager.pushMatrix();
+            // Translate to the center of the block and .9 points higher
+            GlStateManager.translate(0, -1.9, 1.5);
+            
+            GlStateManager.scale(.4f, .4f, .4f);
+            Minecraft.getMinecraft().getRenderItem().renderItem(stack, ItemCameraTransforms.TransformType.NONE);
+            
+            GlStateManager.popMatrix();
+        
+    }
 	
 }

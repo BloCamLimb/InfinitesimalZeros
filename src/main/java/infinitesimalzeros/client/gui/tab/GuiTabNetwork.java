@@ -2,15 +2,18 @@ package infinitesimalzeros.client.gui.tab;
 
 import java.util.List;
 
+import infinitesimalzeros.InfinitesimalZeros;
+import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
+import infinitesimalzeros.common.tileentities.basis.TileEntityFunctionalMachineT0;
 import net.minecraft.client.gui.GuiScreen;
 
 public class GuiTabNetwork extends GuiTabCore {
 	
 	public GuiTabNetwork() {}
 
-	public GuiTabNetwork(GuiScreen g) {
+	public GuiTabNetwork(GuiScreen g, TileEntityFunctionalMachineT0 t) {
 		
-		super(g);
+		super(g, t);
 	}
 	
 	@Override
@@ -25,6 +28,7 @@ public class GuiTabNetwork extends GuiTabCore {
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
 		
 		fontRenderer.drawString("BloCamLimb Creates World", width / 2 - 40, height / 2 - 30, 0xFFCCFF);
+		fontRenderer.drawString("Security Verified: " + tileEntity.verified, width / 2 - 40, height / 2 - 50, 0xFFCCFF);
 	}
 	
 	@Override

@@ -1,12 +1,17 @@
 package infinitesimalzeros.common.tileentities.basis;
 
 import infinitesimalzeros.InfinitesimalZeros;
+import infinitesimalzeros.api.Coord4D;
+import infinitesimalzeros.api.Range4D;
 import infinitesimalzeros.api.interfaces.IBoundingBlock;
 import infinitesimalzeros.api.interfaces.IInventoryZero;
 import infinitesimalzeros.api.interfaces.ISustainedInventory;
+import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.network.TileNetworkList;
+import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ITickable;
@@ -82,6 +87,7 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		super.getNetworkedData(data);
 		
 		data.add(masterControl);
+		data.add(verified);
 		
 		return data;
 	}
@@ -91,8 +97,10 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		
 		super.handlePacketData(dataStream);
 		
-		if(FMLCommonHandler.instance().getEffectiveSide().isClient())
+		if(FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			masterControl = dataStream.readBoolean();
+			verified = dataStream.readBoolean();
+		}
 		
 		if(FMLCommonHandler.instance().getEffectiveSide().isServer()) {
 			int type = dataStream.readInt();
@@ -113,6 +121,9 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 	public void onUpdate() {
 		
 		super.onUpdate();
+		
+		if(!world.isRemote&&!verified)
+			return;
 		
 		if(world.isRemote)
 			return;
@@ -163,6 +174,7 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		ticksRequired = 0;
 		isActive = false;
 		isHighActivity = false;
+		PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
 	}
 	
 	public void masterControlOn() {

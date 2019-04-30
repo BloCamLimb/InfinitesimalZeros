@@ -1,10 +1,12 @@
 package infinitesimalzeros.common.tileentities.basis;
 
+import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.api.Range4D;
 import infinitesimalzeros.api.interfaces.ISecurityComponent;
 import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
+import infinitesimalzeros.common.util.SecurityUtils;
 import infinitesimalzeros.common.util.ItemDataUtils;
 import infinitesimalzeros.common.network.TileNetworkList;
 import net.minecraft.item.ItemStack;
@@ -14,6 +16,8 @@ import net.minecraft.util.ResourceLocation;
 public abstract class TileEntityBasicMachine extends TileEntityOperationalMachine implements ISecurityComponent {
 	
 	public ResourceLocation guiLocation;
+	
+	public boolean verified;
 	
 	public String ownerUUID = "";
 	public String securityCode = "";
@@ -56,10 +60,20 @@ public abstract class TileEntityBasicMachine extends TileEntityOperationalMachin
 	}
 	
 	@Override
+	public void validate() {
+		
+		super.validate();
+		
+		if(!world.isRemote && !checkSecurity && ownerUUID.length() == 36 && securityCode.length() == 36) {
+			verified = SecurityUtils.verifySecurityCode(securityCode, ownerUUID);
+			checkSecurity = true;
+		}
+	}
+	
+	@Override
 	public void onUpdate() {
-		
+
 		super.onUpdate();
-		
 		
 	}
 	
@@ -67,6 +81,7 @@ public abstract class TileEntityBasicMachine extends TileEntityOperationalMachin
 	public void setSecurityCode(ItemStack stack) {
 		
 		this.ownerUUID = ItemDataUtils.getString(stack, "PlayerUUID");
+		this.securityCode = SecurityUtils.encryptMasterUUID(ownerUUID);
 		
 	}
 	

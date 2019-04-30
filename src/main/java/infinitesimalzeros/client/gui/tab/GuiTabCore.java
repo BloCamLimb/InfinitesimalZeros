@@ -1,17 +1,17 @@
 package infinitesimalzeros.client.gui.tab;
 
 import java.io.IOException;
-import java.util.List;
 
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.client.gui.GuiContainerCore;
 import infinitesimalzeros.client.gui.button.NavigationButton;
 import infinitesimalzeros.common.container.ContainerEmpty;
 import infinitesimalzeros.common.registry.RegistrySounds;
+import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
+import infinitesimalzeros.common.tileentities.basis.TileEntityFunctionalMachineT0;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -20,6 +20,7 @@ public abstract class GuiTabCore extends GuiContainerCore {
 	private static final ResourceLocation TEXTURES = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/gui_blank.png");
 	
 	public static GuiScreen parent;
+	public static TileEntityFunctionalMachineT0 tileEntity;
 	
 	public GuiTabCore() {
 		
@@ -30,6 +31,13 @@ public abstract class GuiTabCore extends GuiContainerCore {
 		
 		super(new ContainerEmpty());
 		parent = g;
+	}
+	
+	public GuiTabCore(GuiScreen g, TileEntityFunctionalMachineT0 t) {
+		
+		super(new ContainerEmpty());
+		parent = g;
+		tileEntity = t;
 	}
 	
 	@Override

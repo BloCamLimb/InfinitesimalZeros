@@ -2,11 +2,10 @@ package infinitesimalzeros.common.items;
 
 import java.util.List;
 
-import infinitesimalzeros.InfinitesimalZeros;
+import com.mojang.authlib.GameProfile;
+
 import infinitesimalzeros.api.interfaces.ISecurityComponent;
-import infinitesimalzeros.common.blocks.BlockTileEntityCore;
 import infinitesimalzeros.common.registry.ItemRegister;
-import infinitesimalzeros.common.tileentities.basis.TileEntityBasicMachine;
 import infinitesimalzeros.common.util.ItemDataUtils;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -40,11 +39,11 @@ public class ItemCard extends ItemRegister {
 		
 		if(ItemDataUtils.hasData(stack, "PlayerName")) {
 			if(color)
-				return "Owner: " + TextFormatting.LIGHT_PURPLE + ItemDataUtils.getString(stack, "PlayerName");
+				return "Owner: " + TextFormatting.AQUA + ItemDataUtils.getString(stack, "PlayerName");
 			else
 				return " (" + ItemDataUtils.getString(stack, "PlayerName") + ")";
 		} else if(color)
-			return TextFormatting.RED + "Not Registry";
+			return TextFormatting.RED + "Not Register";
 		
 		return "";
 	}
@@ -63,7 +62,6 @@ public class ItemCard extends ItemRegister {
 		TileEntity tileEntity = world.getTileEntity(pos);
 		
 		if(!world.isRemote && player.isSneaking() && tileEntity instanceof ISecurityComponent) {
-			InfinitesimalZeros.logger.info("YES");
 			((ISecurityComponent)tileEntity).setSecurityCode(stack);
 			return EnumActionResult.SUCCESS;
 		}
@@ -72,23 +70,23 @@ public class ItemCard extends ItemRegister {
 	}
 	
 	@Override
-	public String getItemStackDisplayName(ItemStack stack) {
+	public String getHighlightTip(ItemStack item, String displayName) {
 		
-		return super.getItemStackDisplayName(stack) + getName(stack, false);
+		return displayName + getName(item, false);
 	}
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		
 		ItemStack stack = playerIn.getHeldItem(handIn);
+		GameProfile profile = playerIn.getGameProfile();
 		
 		if(worldIn.isRemote)
 			return ActionResult.newResult(EnumActionResult.PASS, stack);
 
 		if(!ItemDataUtils.hasData(stack, "PlayerName") || !ItemDataUtils.hasData(stack, "PlayerUUID")) {
-			ItemDataUtils.setString(stack, "PlayerName", playerIn.getDisplayNameString());
-			ItemDataUtils.setString(stack, "PlayerUUID", playerIn.getCachedUniqueIdString());
-			//playerIn.sendMessage(new TextComponentString("Yes"));
+			ItemDataUtils.setString(stack, "PlayerName", profile.getName());
+			ItemDataUtils.setString(stack, "PlayerUUID", profile.getId().toString());
 			return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 		}
 		

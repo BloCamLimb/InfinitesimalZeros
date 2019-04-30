@@ -2,10 +2,13 @@ package infinitesimalzeros.common.util;
 
 import java.util.Collection;
 
+import org.lwjgl.opengl.GL11;
+
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.api.interfaces.IActiveState;
 import infinitesimalzeros.common.registry.RegistryBlocks;
 import infinitesimalzeros.common.tileentities.TileEntityAdvancedBoundingBox;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -20,6 +23,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
 public class IZUtils {
+	
+    private static float lightmapLastX;
+    private static float lightmapLastY;
+    private static boolean optifineBreak = false;
 	
 	/**
 	 * Updates a block's light value and marks it for a render update.
@@ -184,5 +191,35 @@ public class IZUtils {
 		
 		return tagList;
 	}
+	
+	public static void glowOn() {
+        glowOn(15);
+    }
+
+    public static void glowOn(int glow) {
+        GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
+
+        try {
+            lightmapLastX = OpenGlHelper.lastBrightnessX;
+            lightmapLastY = OpenGlHelper.lastBrightnessY;
+        } catch (NoSuchFieldError e) {
+            optifineBreak = true;
+        }
+
+        float glowRatioX = Math.min((glow / 15F) * 240F + lightmapLastX, 240);
+        float glowRatioY = Math.min((glow / 15F) * 240F + lightmapLastY, 240);
+
+        if (!optifineBreak) {
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, glowRatioX, glowRatioY);
+        }
+    }
+
+    public static void glowOff() {
+        if (!optifineBreak) {
+            OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lightmapLastX, lightmapLastY);
+        }
+
+        GL11.glPopAttrib();
+    }
 	
 }

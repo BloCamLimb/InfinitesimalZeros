@@ -3,9 +3,11 @@ package infinitesimalzeros.common;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.client.render.ColorItemRenderer;
 import infinitesimalzeros.common.capabilities.Capabilities;
+import infinitesimalzeros.common.core.handler.KeybindHandler;
 import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.items.MetaItems;
 import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
+import infinitesimalzeros.common.registry.RegistryFluid;
 import infinitesimalzeros.common.registry.RegistryItems;
 import infinitesimalzeros.common.registry.RegistryRecipes;
 import infinitesimalzeros.common.unification.MaterialBasis;
@@ -24,6 +26,8 @@ public class CommonProxy {
 		MaterialBasis.runMaterialHandlers();
 		MaterialBasis.freezeRegistry();
 		Capabilities.register();
+		KeybindHandler.init();
+		RegistryFluid.register();
 		/*
 		 * InfinitesimalZeros.logger.info("Init Items"); MetaItems.init();
 		 */

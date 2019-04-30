@@ -13,6 +13,7 @@ import infinitesimalzeros.common.network.TileNetworkList;
 import infinitesimalzeros.common.registry.RegistrySounds;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
+import infinitesimalzeros.common.tileentities.basis.TileEntityFunctionalMachineT0;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
@@ -20,7 +21,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityBasicBlock> {
+public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityFunctionalMachineT0> {
 	
 	public static final ResourceLocation TEXTURES = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/guidefault.png");
 	private static final ResourceLocation SLIDEBAR = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/slide_bar.png");
