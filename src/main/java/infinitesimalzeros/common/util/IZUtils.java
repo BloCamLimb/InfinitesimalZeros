@@ -141,6 +141,9 @@ public class IZUtils {
 				case 2:
 					tile.func = 2;
 					break;
+				case 9:
+					tile.func = 9;
+					break;
 				default:
 					break;
 			}

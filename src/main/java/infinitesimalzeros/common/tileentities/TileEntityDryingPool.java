@@ -2,6 +2,7 @@ package infinitesimalzeros.common.tileentities;
 
 import javax.annotation.Nullable;
 
+import cofh.core.util.helpers.FluidHelper;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.api.Range4D;
@@ -9,6 +10,7 @@ import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.network.TileNetworkList;
 import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
 import infinitesimalzeros.common.tileentities.advanced.TileEntityFunctionalMachineT2;
+import infinitesimalzeros.common.util.FluidUtils;
 import infinitesimalzeros.common.util.IZUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
@@ -24,13 +26,14 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.FluidTankProperties;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.IItemHandler;
 
 public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 	
 	public TileEntityDryingPool() {
 		
-		super("AdvS", 500000, 60, 200);
+		super("DringBed", 500000, 60, 200);
 		
 	}
 	
@@ -65,9 +68,9 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 		
 		super.getNetworkedData(data);
 		
-		data.add(inputTank.getFluid().writeToNBT(new NBTTagCompound()));
+		FluidUtils.addTankData(data, inputTank);
 		
-		return super.getNetworkedData(data);
+		return data;
 	}
 	
 	@Override
@@ -75,7 +78,8 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 		
 		super.handlePacketData(dataStream);
 		
-		inputTank.setFluid(FluidStack.loadFluidStackFromNBT(PacketHandler.readNBT(dataStream)));
+		if(FMLCommonHandler.instance().getEffectiveSide().isClient())
+			FluidUtils.readTankData(dataStream, inputTank);
 	}
 
 	@Override
