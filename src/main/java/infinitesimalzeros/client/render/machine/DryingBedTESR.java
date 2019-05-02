@@ -80,9 +80,9 @@ public class DryingBedTESR extends TileEntitySpecialRenderer<TileEntityDryingPoo
 			RenderData data = new RenderData();
 
             data.location = Coord4D.get(tileEntity);
-            data.height = 2;
-            data.length = 13;
-            data.width = 13;
+            data.height = 1;
+            data.length = 5;
+            data.width = 5;
             data.fluidType = tileEntity.inputTank.getFluid();
 
             bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
@@ -92,7 +92,7 @@ public class DryingBedTESR extends TileEntitySpecialRenderer<TileEntityDryingPoo
                 FluidRenderer.push();
 
                 FluidRenderer.translateToOrigin(data.location);
-                GlStateManager.scale(0.36, 0.36, 0.36);
+                GlStateManager.scale(0.9513, 0.625, 0.9513);
                 CoreRenderer.glowOn(tileEntity.inputTank.getFluid().getFluid().getLuminosity());
                 CoreRenderer.colorFluid(tileEntity.inputTank.getFluid());
                 //InfinitesimalZeros.logger.info(FluidRenderer.getTankDisplay(data, tileEntity.inputTank.getFluidAmount()/tileEntity.inputTank.getCapacity()));

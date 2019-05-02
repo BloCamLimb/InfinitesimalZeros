@@ -26,91 +26,59 @@ public class GuiModeSelect extends GuiScreen {
 		
 		int x = width / 2;
 		int y = height / 2;
-		int maxRadius = 80;
 
 		double angle = (MathHelper.atan2(mouseY - y , mouseX - x ) + Math.PI * 2) % (Math.PI * 2);
 
-		int segments = 8;
-		float step = (float) Math.PI / 180;
-		float degPer = (float) Math.PI * 2 / segments;
-
+		int s = 8;
+		float p = (float) Math.PI / 180;
+		float dp = (float) Math.PI * 2 / s;
 		
-		int slotSelected = -1;
+		int selected = -1;
 
-		Tessellator tess = Tessellator.getInstance();
-		BufferBuilder buf = tess.getBuffer();
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder buffer = tessellator.getBuffer();
 
-		
 		GlStateManager.disableCull();
 		GlStateManager.disableTexture2D();
 		GlStateManager.enableBlend();
 		GlStateManager.shadeModel(GL11.GL_SMOOTH);
-		buf.begin(GL11.GL_TRIANGLE_FAN, DefaultVertexFormats.POSITION_COLOR);
-
-		/*for(int seg = 0; seg < segments; seg++) {
-			
-			float radius = Math.max(0F, Math.min((timeIn + partialTicks - seg * 20F / segments) * 40F, maxRadius));
-			boolean mouseInSector = degPer * seg < angle && angle < degPer * (seg + 1);
-			if (mouseInSector)
-				radius *= 1.025f;
-
-			int gs = 0x40;
-			//if(seg % 2 == 0)
-			//	gs = 0x19;
-			int r = gs;
-			int g = gs;
-			int b = gs;
-			int a = 0x66;
-
-
-			if (seg == 0)
-				buf.pos(x, y, 0).color(r, g, b, a).endVertex();
-
-			if(mouseInSector) {
-				slotSelected = seg;
-
-					r = g = b = 0xFF;
-			}
-			
-			for(float i = 0; i < degPer + step / 2; i += step) {
-				float rad = i + seg * degPer;
-				float xp = x + MathHelper.cos(rad) * radius;
-				float yp = y + MathHelper.sin(rad) * radius;
-
-				//if (i == 0)
-				//	buf.pos(xp, yp, 0).color(r, g, b, a).endVertex();
-				buf.pos(xp, yp, 0).color(r, g, b, a).endVertex();
-			}
-		}*/
-
+		buffer.begin(GL11.GL_TRIANGLE_FAN, DefaultVertexFormats.POSITION_COLOR);
 		
-		for(int i = 0; i < 8; i++) {
+		for(int i = 0; i < s; i++) {
 			
 			double angle2 = (i*Math.PI/4);
 			
-			boolean mouseInSector = degPer * i < angle && angle < degPer * (i + 1);
-			int alpha = Math.min(0x66, timeIn*15+0x1A);
-			int r=0x40,g=0x40,b=0x40;
+			int R = 60;
+			
+			boolean mouseHover = dp * i < angle && angle < dp * (i + 1);
+			
+			int a = Math.min(0x66, timeIn * 0xF + 0x1B);
+			
+			int r = 0xB9, g = 0xCD, b = 0xF6;
 			
 			if (i == 0)
-				buf.pos(x, y, 0).color(r, g, b, alpha).endVertex();
+				buffer.pos(x, y, 0).color(r, g, b, a).endVertex();
 			
-			if(mouseInSector) {
-				r=g=b=0xff;
+			if(i % 2 != 0)
+				a += 0x20;
+			
+			if(mouseHover) {
+				R = 63;
+				r = 0x90;
+				g = 0x82;
 			}
 
-			for(float j = 0; j < degPer + step ; j += step) {
-				float rad = j + i * degPer;
-				float xp = x + MathHelper.cos(rad) * 60;
-				float yp = y + MathHelper.sin(rad) * 60;
+			for(float j = 0; j < dp + p ; j += p) {
+				
+				float rad = j + i * dp;
+				float xp = x + MathHelper.cos(rad) * R;
+				float yp = y + MathHelper.sin(rad) * R;
 
-				//if (i == 0)
-				//	buf.pos(xp, yp, 0).color(r, g, b, a).endVertex();
-				buf.pos(xp, yp, 0).color(r, g, b, alpha).endVertex();
+				buffer.pos(xp, yp, 0).color(r, g, b, a).endVertex();
 			}
 		}
 		
-		tess.draw();
+		tessellator.draw();
 	}
 	
 	@Override

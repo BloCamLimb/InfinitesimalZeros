@@ -1,24 +1,12 @@
 package infinitesimalzeros.common.tileentities.advanced;
 
-import infinitesimalzeros.api.interfaces.IMultiblockMachineT1;
-import infinitesimalzeros.api.interfaces.IInventoryZero;
-import infinitesimalzeros.api.interfaces.ISustainedInventory;
 import infinitesimalzeros.common.core.InventoryHandlerZero;
-import infinitesimalzeros.common.util.IZUtils;
-import infinitesimalzeros.common.util.InventoryUtils;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.items.IItemHandler;
 
 // 1 item input, 1 item output
-public abstract class TileEntityFunctionalMachineT1 extends TileEntityFunctionalMachineT0 implements IMultiblockMachineT1 {
+public abstract class TileEntityFunctionalMachineT1 extends TileEntityFunctionalMachineT0 {
 
 	public TileEntityFunctionalMachineT1(String name, double maxEnergy, double baseEnergyUsage, int baseTicksRequired) {
 		

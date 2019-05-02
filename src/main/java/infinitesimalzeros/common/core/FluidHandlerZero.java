@@ -2,7 +2,7 @@ package infinitesimalzeros.common.core;
 
 import javax.annotation.Nullable;
 
-import infinitesimalzeros.api.interfaces.IMultiblockMachineT2;
+import infinitesimalzeros.api.interfaces.IMultiblockCore;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
@@ -12,10 +12,10 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
 public class FluidHandlerZero implements IFluidHandler {
 	
-	final IMultiblockMachineT2 tile;
+	final IMultiblockCore tile;
 	final EnumFacing side;
 	
-	public FluidHandlerZero(IMultiblockMachineT2 multiblock, EnumFacing side) {
+	public FluidHandlerZero(IMultiblockCore multiblock, EnumFacing side) {
 		
 		this.tile = multiblock;
 		this.side = side;

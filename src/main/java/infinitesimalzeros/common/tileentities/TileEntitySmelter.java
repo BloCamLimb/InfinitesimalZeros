@@ -15,6 +15,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -169,6 +171,24 @@ public class TileEntitySmelter extends TileEntityFunctionalMachineT1 {
 	public boolean isStackValid(int slot, ItemStack stack) {
 		
 		return RecipeCoreT1.recipeExists(stack);
+	}
+
+	@Override
+	public IFluidTank[] getAccessibleFluidTanks(EnumFacing side) {
+		
+		return null;
+	}
+
+	@Override
+	public boolean canFillTankFrom(int iTank, EnumFacing side, FluidStack resource) {
+		
+		return false;
+	}
+
+	@Override
+	public boolean canDrainTankFrom(int iTank, EnumFacing side) {
+		
+		return false;
 	}
 	
 	

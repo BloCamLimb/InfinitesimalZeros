@@ -24,6 +24,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.FluidTankProperties;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
+import net.minecraftforge.items.IItemHandler;
 
 public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 	
@@ -56,7 +57,7 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 		
 		super.onUpdate();
 		
-		PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
+		//PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
 	}
 	
 	@Override
@@ -95,7 +96,7 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 					BlockPos pos = getPos().add(xx, y, zz);
 					
 					if(x == -2 && y == 0 && z == 0)
-						IZUtils.constructAdvBoundingBox(world, pos, Coord4D.get(this), 1);
+						IZUtils.constructAdvBoundingBox(world, pos, Coord4D.get(this), 9);
 					else if (x == 2 && y == 0 && z == 0)
 						IZUtils.constructAdvBoundingBox(world, pos, Coord4D.get(this), 2);
 					else
@@ -127,15 +128,14 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 	@Override
 	public IFluidTank[] getAccessibleFluidTanks(EnumFacing side) {
 		
-		// TODO Auto-generated method stub
-		return null;
+		return new IFluidTank[] {inputTank};
 	}
 
 	@Override
 	public boolean canFillTankFrom(int iTank, EnumFacing side, FluidStack resource) {
 		
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
@@ -154,7 +154,7 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 	@Override
 	public <T> T getCapability(Capability<T> capability, final EnumFacing from) {
 
-		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+		/*if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
 			
 			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new IFluidHandler() {
 
@@ -162,32 +162,44 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 				public IFluidTankProperties[] getTankProperties() {
 
 					FluidTankInfo inputInfo = inputTank.getInfo();
-					return new IFluidTankProperties[] { new FluidTankProperties(inputInfo.fluid, inputInfo.capacity)};
+					return null;//new IFluidTankProperties[] { new FluidTankProperties(inputInfo.fluid, inputInfo.capacity)};
 				}
 
 				@Override
 				public int fill(FluidStack resource, boolean doFill) {
 
 
-					return inputTank.fill(resource, doFill);
+					return 0;//inputTank.fill(resource, doFill);
 				}
 
 				@Nullable
 				@Override
 				public FluidStack drain(FluidStack resource, boolean doDrain) {
 
-					return inputTank.drain(resource, doDrain);
+					return null;//inputTank.drain(resource, doDrain);
 				}
 
 				@Nullable
 				@Override
 				public FluidStack drain(int maxDrain, boolean doDrain) {
 
-					return inputTank.drain(maxDrain, doDrain);
+					return null;//inputTank.drain(maxDrain, doDrain);
 				}
 			});
-		}
+		}*/
 		return super.getCapability(capability, from);
+	}
+
+	@Override
+	public IItemHandler getInsertionHandler() {
+		
+		return null;
+	}
+
+	@Override
+	public IItemHandler getExtractionHandler() {
+		
+		return extractionHandler;
 	}
 
 	

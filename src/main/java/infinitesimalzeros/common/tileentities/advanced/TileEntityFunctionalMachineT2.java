@@ -1,15 +1,13 @@
 package infinitesimalzeros.common.tileentities.advanced;
 
 import cofh.core.fluid.FluidTankCore;
-import infinitesimalzeros.api.interfaces.IMultiblockMachineT2;
 import infinitesimalzeros.common.core.InventoryHandlerZero;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
-import net.minecraftforge.fluids.FluidTank;
 
 // 1 fluid input, 1 item output
-public abstract class TileEntityFunctionalMachineT2 extends TileEntityFunctionalMachineT0 implements IMultiblockMachineT2 {
+public abstract class TileEntityFunctionalMachineT2 extends TileEntityFunctionalMachineT0 {
 
 	public TileEntityFunctionalMachineT2(String name, double maxEnergy, double baseEnergyUsage, int baseTicksRequired) {
 		
