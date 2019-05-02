@@ -3,6 +3,7 @@ package infinitesimalzeros.client.render.machine;
 import org.lwjgl.opengl.GL11;
 
 import infinitesimalzeros.InfinitesimalZeros;
+import infinitesimalzeros.common.registry.RegistryFluid;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import infinitesimalzeros.common.util.IZUtils;
 import infinitesimalzeros.common.util.IZUtils.ResourceType;
@@ -13,9 +14,11 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -23,6 +26,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -40,7 +45,6 @@ public class NanaSmelterTESR extends TileEntitySpecialRenderer<TileEntitySmelter
 
 		state = state.getBlock().getActualState(state, getWorld(), blockPos);
 		
-
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder worldRenderer = tessellator.getBuffer();
 
@@ -109,8 +113,9 @@ public class NanaSmelterTESR extends TileEntitySpecialRenderer<TileEntitySmelter
 
         //renderItem(tileEntity);
         }
-        
         GlStateManager.popMatrix();
+        
+        
 
         /*if (tileEntity.clientRendering) {
             MinerVisualRenderer.render(tileEntity);

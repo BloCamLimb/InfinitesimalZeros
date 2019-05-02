@@ -2,7 +2,7 @@ package infinitesimalzeros.api.interfaces;
 
 import cofh.redstoneflux.api.IEnergyProvider;
 import cofh.redstoneflux.api.IEnergyReceiver;
-import infinitesimalzeros.common.core.InventoryHandler;
+import infinitesimalzeros.common.core.InventoryHandlerZero;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -13,11 +13,7 @@ import net.minecraftforge.fml.common.Optional.Interface;
 import net.minecraftforge.fml.common.Optional.InterfaceList;
 import net.minecraftforge.items.IItemHandler;
 
-@InterfaceList({
-	@Interface(iface = "cofh.redstoneflux.api.IEnergyProvider", modid = "redstoneflux"),
-	@Interface(iface = "cofh.redstoneflux.api.IEnergyReceiver", modid = "redstoneflux")})
-
-public interface IAdvancedBoundingBlock extends ICapabilityProvider, IInventoryZero, IBoundingBlock, IEnergyReceiver, IEnergyProvider {
+public interface IMultiblockMachineT1 extends IMultiblockCore {
 	
 	/**
 	 * Get first item handler for insertion.

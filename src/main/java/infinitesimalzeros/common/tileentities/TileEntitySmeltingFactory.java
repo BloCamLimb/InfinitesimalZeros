@@ -1,11 +1,11 @@
 package infinitesimalzeros.common.tileentities;
 
 import infinitesimalzeros.api.Coord4D;
-import infinitesimalzeros.api.interfaces.IAdvancedBoundingBlock;
+import infinitesimalzeros.api.interfaces.IMultiblockMachineT1;
 import infinitesimalzeros.api.interfaces.IInventoryZero;
 import infinitesimalzeros.api.interfaces.ISustainedInventory;
-import infinitesimalzeros.common.core.InventoryHandler;
-import infinitesimalzeros.common.tileentities.basis.TileEntityElectricMachine;
+import infinitesimalzeros.common.core.InventoryHandlerZero;
+import infinitesimalzeros.common.tileentities.basic.TileEntityElectricMachine;
 import infinitesimalzeros.common.util.IZUtils;
 import infinitesimalzeros.common.util.LangUtils;
 import net.minecraft.item.ItemStack;

@@ -3,8 +3,8 @@ package infinitesimalzeros.client.gui.tab;
 import java.util.List;
 
 import infinitesimalzeros.InfinitesimalZeros;
-import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
-import infinitesimalzeros.common.tileentities.basis.TileEntityFunctionalMachineT0;
+import infinitesimalzeros.common.tileentities.advanced.TileEntityFunctionalMachineT0;
+import infinitesimalzeros.common.tileentities.basic.TileEntityBasicBlock;
 import net.minecraft.client.gui.GuiScreen;
 
 public class GuiTabNetwork extends GuiTabCore {

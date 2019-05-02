@@ -1,7 +1,7 @@
 package infinitesimalzeros.common.blocks;
 
 import infinitesimalzeros.api.interfaces.IInventoryZero;
-import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
+import infinitesimalzeros.common.tileentities.basic.TileEntityBasicBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;

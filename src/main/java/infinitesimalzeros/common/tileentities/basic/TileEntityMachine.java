@@ -1,4 +1,4 @@
-package infinitesimalzeros.common.tileentities.basis;
+package infinitesimalzeros.common.tileentities.basic;
 
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.api.Range4D;

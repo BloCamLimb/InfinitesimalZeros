@@ -23,11 +23,12 @@ public class CommonProxy {
 		
 		MinecraftForge.EVENT_BUS.register(this);
 		MekanismAPI.addBoxBlacklistMod(InfinitesimalZeros.MODID);
-		MaterialBasis.runMaterialHandlers();
-		MaterialBasis.freezeRegistry();
 		Capabilities.register();
 		KeybindHandler.init();
-		RegistryFluid.register();
+		//MaterialBasis.runMaterialHandlers();
+		//MaterialBasis.freezeRegistry();
+		
+		
 		/*
 		 * InfinitesimalZeros.logger.info("Init Items"); MetaItems.init();
 		 */
@@ -66,7 +67,7 @@ public class CommonProxy {
 		@Override
 		public ItemStack getTabIconItem() {
 			
-			return new ItemStack(RegistryItems.neutron);
+			return new ItemStack(RegistryItems.wrench);
 		}
 		
 	};

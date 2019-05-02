@@ -16,7 +16,7 @@ public class JEICore implements IModPlugin {
 	@Override
 	public void register(IModRegistry registry) {
 		
-		registry.getJeiHelpers().getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(RegistryBlocks.BBBlock));
+		//registry.getJeiHelpers().getIngredientBlacklist().addIngredientToBlacklist(new ItemStack(RegistryBlocks.BBBlock));
 		NanaSmelterRecipeCategory.init(registry);
 	}
 	

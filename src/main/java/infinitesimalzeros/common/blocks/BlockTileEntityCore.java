@@ -9,23 +9,20 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
 import cofh.core.util.RayTracer;
-import cofh.core.util.helpers.WrenchHelper;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.interfaces.IActiveState;
-import infinitesimalzeros.api.interfaces.IBoundingBlock;
+import infinitesimalzeros.api.interfaces.IMultiblockCore;
 import infinitesimalzeros.api.interfaces.IEnergizedItem;
-import infinitesimalzeros.api.interfaces.ISecurityComponent;
 import infinitesimalzeros.api.interfaces.ISustainedData;
 import infinitesimalzeros.api.interfaces.ISustainedInventory;
 import infinitesimalzeros.common.blocks.state.BlockStateFacing;
 import infinitesimalzeros.common.blocks.state.BlockStateMachine;
 import infinitesimalzeros.common.blocks.state.BlockStateMachine.MachineBlockPredicate;
 import infinitesimalzeros.common.registry.RegistryBlocks;
-import infinitesimalzeros.common.registry.RegistryItems;
+import infinitesimalzeros.common.tileentities.TileEntityDryingPool;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
-import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
-import infinitesimalzeros.common.tileentities.basis.TileEntityBasicMachine;
-import infinitesimalzeros.common.tileentities.basis.TileEntityElectricBlock;
+import infinitesimalzeros.common.tileentities.basic.TileEntityBasicBlock;
+import infinitesimalzeros.common.tileentities.basic.TileEntityElectricBlock;
 import infinitesimalzeros.common.util.IZUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -143,8 +140,8 @@ public abstract class BlockTileEntityCore extends Block {
 	
 	// All machine types, matched their set and meta.
 	public static enum MachineTypes implements IStringSerializable {
-		Smelter(MachineSets.Machine_Set_A, 0, "NanaSmelter", 0, TileEntitySmelter.class, true, true, Plane.HORIZONTAL);
-		//Smelter_Adv(MachineSets.Machine_Set_A, 1, "SmelterAdv", 2, TileEntitySmelterAdv.class, true, true, Plane.HORIZONTAL),
+		Smelter(MachineSets.Machine_Set_A, 0, "NanaSmelter", 0, TileEntitySmelter.class, true, true, Plane.HORIZONTAL),
+		Drying_Bed(MachineSets.Machine_Set_A, 1, "DryingBed", 2, TileEntityDryingPool.class, true, true, Plane.HORIZONTAL);
 		//Smelting_Factory(MachineSets.Machine_Set_A, 2, "SmelterFactory", 0, TileEntitySmeltingFactory.class, true, true, Plane.HORIZONTAL),
 		//Ori_Furnace(MachineSets.Machine_Set_B, 0, "OriSmelter", 0, NanaFurnaceTE.class, true, true, Plane.HORIZONTAL);
 		
@@ -300,9 +297,9 @@ public abstract class BlockTileEntityCore extends Block {
 		
 		tileEntity.setFacing((short) change);
 		
-		if(tileEntity instanceof IBoundingBlock) {
+		if(tileEntity instanceof IMultiblockCore) {
 			
-			((IBoundingBlock) tileEntity).onPlace(EnumFacing.getFront(change));
+			((IMultiblockCore) tileEntity).onPlace(EnumFacing.getFront(change));
 		}
 		
 		super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
@@ -397,8 +394,8 @@ public abstract class BlockTileEntityCore extends Block {
 		
 		TileEntityBasicBlock tileEntity = (TileEntityBasicBlock) worldIn.getTileEntity(pos);
 		
-		if(tileEntity instanceof IBoundingBlock) {
-			((IBoundingBlock) tileEntity).onBreak();
+		if(tileEntity instanceof IMultiblockCore) {
+			((IMultiblockCore) tileEntity).onBreak();
 		}
 		
 		super.breakBlock(worldIn, pos, state);

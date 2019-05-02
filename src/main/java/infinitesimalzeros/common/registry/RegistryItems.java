@@ -24,7 +24,7 @@ public class RegistryItems {
 		//registry.register(init(neutron, "neutron"));
 		
 		//RegistryItems.ITEMS.add(new ItemBlockMachine(TEBlock2).setRegistryName(TEBlock2.getRegistryName()));
-		ITEMS.add(new ItemBlock(RegistryBlocks.BBBlock).setRegistryName(RegistryBlocks.BBBlock.getRegistryName()));
+		//ITEMS.add(new ItemBlock(RegistryBlocks.BBBlock).setRegistryName(RegistryBlocks.BBBlock.getRegistryName()));
 		//RegistryItems.ITEMS.add(new ItemTestMachine(NanaFurnace).setRegistryName(NanaFurnace.getRegistryName()));
 	}
 	

@@ -7,7 +7,7 @@ import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.network.PacketSimpleGui.SimpleGuiMessage;
-import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
+import infinitesimalzeros.common.tileentities.basic.TileEntityBasicBlock;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;

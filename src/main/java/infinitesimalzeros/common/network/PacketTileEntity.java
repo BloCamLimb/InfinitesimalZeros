@@ -6,7 +6,7 @@ import infinitesimalzeros.api.interfaces.ITileNetwork;
 import infinitesimalzeros.common.capabilities.Capabilities;
 import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
-import infinitesimalzeros.common.tileentities.basis.TileEntityElectricBlock;
+import infinitesimalzeros.common.tileentities.basic.TileEntityElectricBlock;
 import infinitesimalzeros.common.util.CapabilityUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;

@@ -1,4 +1,4 @@
-package infinitesimalzeros.common.tileentities.basis;
+package infinitesimalzeros.common.tileentities.basic;
 
 import infinitesimalzeros.common.network.TileNetworkList;
 import io.netty.buffer.ByteBuf;

@@ -1,13 +1,13 @@
 package infinitesimalzeros.common.container;
 
 import infinitesimalzeros.common.container.slot.SlotOutput;
-import infinitesimalzeros.common.tileentities.TileEntitySmelterAdv;
+import infinitesimalzeros.common.tileentities.TileEntityDryingPool;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 
 public class ContainerSmelterAdv extends ContainerBasic {
 	
-	public ContainerSmelterAdv(InventoryPlayer player, TileEntitySmelterAdv tileEntity) {
+	public ContainerSmelterAdv(InventoryPlayer player, TileEntityDryingPool tileEntity) {
 		
 		super(player, tileEntity);
 		

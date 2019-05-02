@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-public class InventoryHandler implements IItemHandlerModifiable {
+public class InventoryHandlerZero implements IItemHandlerModifiable {
 	
 	IInventoryZero inv;
 	int slots;
@@ -13,7 +13,7 @@ public class InventoryHandler implements IItemHandlerModifiable {
 	boolean[] canInsert;
 	boolean[] canExtract;
 	
-	public InventoryHandler(int slots, IInventoryZero inventory, int slotOffset, boolean[] canInsert, boolean[] canExtract) {
+	public InventoryHandlerZero(int slots, IInventoryZero inventory, int slotOffset, boolean[] canInsert, boolean[] canExtract) {
 		
 		this.slots = slots;
 		this.inv = inventory;
@@ -22,14 +22,14 @@ public class InventoryHandler implements IItemHandlerModifiable {
 		this.canExtract = canExtract;
 	}
 	
-	public InventoryHandler(int slots, IInventoryZero inventory) {
+	public InventoryHandlerZero(int slots, IInventoryZero inventory) {
 		
 		this(slots, inventory, 0, new boolean[slots], new boolean[slots]);
 		for(int i = 0; i < slots; i++)
 			this.canExtract[i] = this.canInsert[i] = true;
 	}
 	
-	public InventoryHandler(int slots, IInventoryZero inventory, int slotOffset, boolean canInsert, boolean canExtract) {
+	public InventoryHandlerZero(int slots, IInventoryZero inventory, int slotOffset, boolean canInsert, boolean canExtract) {
 		
 		this(slots, inventory, slotOffset, new boolean[slots], new boolean[slots]);
 		for(int i = 0; i < slots; i++) {

@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.common.tileentities.TileEntityAdvancedBoundingBox;
 import infinitesimalzeros.common.tileentities.TileEntityBoundingBox;
-import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
+import infinitesimalzeros.common.tileentities.basic.TileEntityBasicBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;

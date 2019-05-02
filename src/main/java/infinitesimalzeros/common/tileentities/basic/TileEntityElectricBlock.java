@@ -1,4 +1,4 @@
-package infinitesimalzeros.common.tileentities.basis;
+package infinitesimalzeros.common.tileentities.basic;
 
 import infinitesimalzeros.api.interfaces.IEnergyWrapper;
 import infinitesimalzeros.common.capabilities.Capabilities;

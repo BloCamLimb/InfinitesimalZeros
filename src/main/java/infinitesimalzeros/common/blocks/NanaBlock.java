@@ -5,9 +5,11 @@ import java.util.Random;
 
 import infinitesimalzeros.common.registry.BlockRegister;
 import infinitesimalzeros.common.registry.RegistryBlocks;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -26,19 +28,8 @@ public class NanaBlock extends BlockRegister {
 	@Override
 	public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
 		
-		return false;
-	}
-	
-	@Override
-	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		
-		return Item.getItemFromBlock(RegistryBlocks.NanaBlock);
-	}
-	
-	@Override
-	public void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn, boolean isActualState) {
-		
-		super.addCollisionBoxToList(state, worldIn, pos, entityBox, collidingBoxes, entityIn, isActualState);
+		Block below = worldIn.getBlockState(pos.add(0, -1, 0)).getBlock();
+		return below == Blocks.DIAMOND_BLOCK;
 	}
 	
 }

@@ -1,8 +1,9 @@
-package infinitesimalzeros.common.tileentities.basis;
+package infinitesimalzeros.common.tileentities.advanced;
 
-import infinitesimalzeros.api.interfaces.IAdvancedBoundingBlock;
+import infinitesimalzeros.api.interfaces.IMultiblockMachineT1;
 import infinitesimalzeros.api.interfaces.IInventoryZero;
 import infinitesimalzeros.api.interfaces.ISustainedInventory;
+import infinitesimalzeros.common.core.InventoryHandlerZero;
 import infinitesimalzeros.common.util.IZUtils;
 import infinitesimalzeros.common.util.InventoryUtils;
 import net.minecraft.client.resources.I18n;
@@ -16,72 +17,18 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.items.IItemHandler;
 
-// 1 item input slot, 1 item output slot
-public abstract class TileEntityFunctionalMachineT1 extends TileEntityFunctionalMachineT0 implements IAdvancedBoundingBlock, IInventoryZero, ISustainedInventory {
+// 1 item input, 1 item output
+public abstract class TileEntityFunctionalMachineT1 extends TileEntityFunctionalMachineT0 implements IMultiblockMachineT1 {
 
 	public TileEntityFunctionalMachineT1(String name, double maxEnergy, double baseEnergyUsage, int baseTicksRequired) {
 		
 		super(name, maxEnergy ,baseEnergyUsage, baseTicksRequired);
 		
-	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound nbtTags) {
+		size = 2;
+		inventory = NonNullList.withSize(2, ItemStack.EMPTY);
 		
-		super.readFromNBT(nbtTags);
-		
-		inventory = IZUtils.readInventory(nbtTags.getTagList("Items", NBT.TAG_COMPOUND), size);
-	}
-	
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbtTags) {
-		
-		super.writeToNBT(nbtTags);
-		
-		nbtTags.setTag("Items", IZUtils.writeInventory(inventory));
-		
-		return nbtTags;
-	}
-
-	@Override
-	public NonNullList<ItemStack> getInventory() {
-		
-		return inventory;
-	}
-	
-	
-	@Override
-	public void setInventory(NBTTagList nbtTags, Object... data) {
-		
-		if(nbtTags == null || nbtTags.tagCount() == 0) {
-			return;
-		}
-		
-		for(int slots = 0; slots < nbtTags.tagCount(); slots++) {
-			NBTTagCompound tagCompound = (NBTTagCompound) nbtTags.getCompoundTagAt(slots);
-			byte slotID = tagCompound.getByte("Slot");
-			
-			if(slotID >= 0 && slotID < inventory.size()) {
-				inventory.set(slotID, IZUtils.loadFromNBT(tagCompound));
-			}
-		}
-	}
-	
-	@Override
-	public NBTTagList getRInventory(Object... data) {
-		
-		NBTTagList tagList = new NBTTagList();
-		
-		for(int slots = 0; slots < inventory.size(); slots++) {
-			if(!inventory.get(slots).isEmpty()) {
-				NBTTagCompound tagCompound = new NBTTagCompound();
-				tagCompound.setByte("Slot", (byte) slots);
-				inventory.get(slots).writeToNBT(tagCompound);
-				tagList.appendTag(tagCompound);
-			}
-		}
-		
-		return tagList;
+		insertionHandler = new InventoryHandlerZero(1, this, 0, true, false);
+		extractionHandler = new InventoryHandlerZero(1, this, 1, false, true);
 	}
 	
 	@Override
@@ -103,7 +50,6 @@ public abstract class TileEntityFunctionalMachineT1 extends TileEntityFunctional
 		
 		
 	}
-	
 	
 	
 	/*@Override

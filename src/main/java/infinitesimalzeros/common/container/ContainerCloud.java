@@ -1,7 +1,7 @@
 package infinitesimalzeros.common.container;
 
 import infinitesimalzeros.api.interfaces.IInventoryZero;
-import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
+import infinitesimalzeros.common.tileentities.basic.TileEntityBasicBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;

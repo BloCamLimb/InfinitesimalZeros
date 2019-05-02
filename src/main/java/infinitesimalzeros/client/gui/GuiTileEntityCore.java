@@ -5,8 +5,8 @@ import java.io.IOException;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.client.gui.button.NavigationButton;
 import infinitesimalzeros.common.registry.RegistrySounds;
-import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
-import infinitesimalzeros.common.tileentities.basis.TileEntityFunctionalMachineT0;
+import infinitesimalzeros.common.tileentities.advanced.TileEntityFunctionalMachineT0;
+import infinitesimalzeros.common.tileentities.basic.TileEntityBasicBlock;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.inventory.Container;
 

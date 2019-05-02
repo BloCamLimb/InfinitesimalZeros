@@ -1,6 +1,6 @@
 package infinitesimalzeros.common.container;
 
-import infinitesimalzeros.common.tileentities.basis.TileEntityElectricMachine;
+import infinitesimalzeros.common.tileentities.basic.TileEntityElectricMachine;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

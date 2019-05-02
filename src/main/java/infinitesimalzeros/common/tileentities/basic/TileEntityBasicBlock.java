@@ -1,4 +1,4 @@
-package infinitesimalzeros.common.tileentities.basis;
+package infinitesimalzeros.common.tileentities.basic;
 
 import java.util.ArrayList;
 import java.util.HashSet;

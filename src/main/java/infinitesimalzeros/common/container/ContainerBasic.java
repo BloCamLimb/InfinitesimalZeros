@@ -3,7 +3,7 @@ package infinitesimalzeros.common.container;
 import javax.annotation.Nonnull;
 
 import infinitesimalzeros.api.interfaces.IInventoryZero;
-import infinitesimalzeros.common.tileentities.basis.TileEntityBasicBlock;
+import infinitesimalzeros.common.tileentities.basic.TileEntityBasicBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

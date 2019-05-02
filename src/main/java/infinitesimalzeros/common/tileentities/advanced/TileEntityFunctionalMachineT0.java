@@ -1,27 +1,33 @@
-package infinitesimalzeros.common.tileentities.basis;
+package infinitesimalzeros.common.tileentities.advanced;
 
+import cofh.core.fluid.FluidTankCore;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.api.Range4D;
-import infinitesimalzeros.api.interfaces.IBoundingBlock;
+import infinitesimalzeros.api.interfaces.IMultiblockCore;
 import infinitesimalzeros.api.interfaces.IInventoryZero;
 import infinitesimalzeros.api.interfaces.ISustainedInventory;
 import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.network.TileNetworkList;
 import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
+import infinitesimalzeros.common.tileentities.basic.TileEntityBasicMachine;
+import infinitesimalzeros.common.util.IZUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.IItemHandler;
 
-public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachine implements IBoundingBlock {
+public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachine implements IMultiblockCore, IInventoryZero, ISustainedInventory {
 	
 	// Display name in GUI.
 	public String name;
@@ -32,23 +38,67 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 	// Control machine On/Off.
 	public boolean masterControl;
 	
-	// Machine item inventory list.
+	// Inventory list.
 	public NonNullList<ItemStack> inventory;
 	
 	// Inventory size.
 	public int size;
 	
-	// Primary Item Input Handler.
+	// Item Handler Input1.
 	public IItemHandler insertionHandler;
 	
-	// Primary Item Output Handler.
+	// Item Handler Output2.
 	public IItemHandler extractionHandler;
+	
+	// Fluid tank list.
+	public FluidTankCore inputTank;
+	public IFluidTank outputTank;
 	
 	public TileEntityFunctionalMachineT0(String name, double maxEnergy, double baseEnergyUsage, int baseTicksRequired) {
 		
 		super(maxEnergy, baseEnergyUsage, baseTicksRequired);
 		
 		this.name = name;
+	}
+
+	@Override
+	public NonNullList<ItemStack> getInventory() {
+		
+		return inventory;
+	}
+	
+	@Override
+	public void setInventory(NBTTagList nbtTags, Object... data) {
+		
+		if(nbtTags == null || nbtTags.tagCount() == 0) {
+			return;
+		}
+		
+		for(int slots = 0; slots < nbtTags.tagCount(); slots++) {
+			NBTTagCompound tagCompound = (NBTTagCompound) nbtTags.getCompoundTagAt(slots);
+			byte slotID = tagCompound.getByte("Slot");
+			
+			if(slotID >= 0 && slotID < inventory.size()) {
+				inventory.set(slotID, IZUtils.loadFromNBT(tagCompound));
+			}
+		}
+	}
+	
+	@Override
+	public NBTTagList getRInventory(Object... data) {
+		
+		NBTTagList tagList = new NBTTagList();
+		
+		for(int slots = 0; slots < inventory.size(); slots++) {
+			if(!inventory.get(slots).isEmpty()) {
+				NBTTagCompound tagCompound = new NBTTagCompound();
+				tagCompound.setByte("Slot", (byte) slots);
+				inventory.get(slots).writeToNBT(tagCompound);
+				tagList.appendTag(tagCompound);
+			}
+		}
+		
+		return tagList;
 	}
 	
 	@Override
@@ -70,6 +120,8 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		
 		nbtTags.setBoolean("masterControl", masterControl);
 		
+		nbtTags.setTag("Items", IZUtils.writeInventory(inventory));
+		
 		return nbtTags;
 	}
 	
@@ -79,6 +131,8 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		super.readFromNBT(nbtTags);
 		
 		masterControl = nbtTags.getBoolean("masterControl");
+		
+		inventory = IZUtils.readInventory(nbtTags.getTagList("Items", NBT.TAG_COMPOUND), size);
 	}
 	
 	@Override
@@ -133,7 +187,7 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		
 		if(isHighActivity)
 			process();
-		else if(isKeyTime() && canProcess())
+		else if(isKeyTime(4) && canProcess())
 			turnOn();
 				
 	}
@@ -166,6 +220,7 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		
 		isActive = true;
 		isHighActivity = true;
+		PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
 	}
 	
 	protected void turnOff() {
@@ -188,8 +243,8 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		turnOff();
 	}
 	
-	protected boolean isKeyTime() {
+	protected boolean isKeyTime(int key) {
 		
-		return world.getWorldTime() % 4 == 0;
+		return world.getWorldTime() % key == 0;
 	}
 }

@@ -28,13 +28,13 @@ public class GuiModeSelect extends GuiScreen {
 		int y = height / 2;
 		int maxRadius = 80;
 
-		double angle = (MathHelper.atan2(mouseY - y, mouseX - x) + Math.PI * 2) % (Math.PI * 2);
+		double angle = (MathHelper.atan2(mouseY - y , mouseX - x ) + Math.PI * 2) % (Math.PI * 2);
 
-		int segments = 6;
+		int segments = 8;
 		float step = (float) Math.PI / 180;
 		float degPer = (float) Math.PI * 2 / segments;
 
-
+		
 		int slotSelected = -1;
 
 		Tessellator tess = Tessellator.getInstance();
@@ -82,10 +82,32 @@ public class GuiModeSelect extends GuiScreen {
 				buf.pos(xp, yp, 0).color(r, g, b, a).endVertex();
 			}
 		}*/
+
 		
 		for(int i = 0; i < 8; i++) {
+			
 			double angle2 = (i*Math.PI/4);
-			buf.pos(x+Math.sin(angle2)*60, y+Math.cos(angle2)*60, 0).color(5, 5, 5, 0x66).endVertex();
+			
+			boolean mouseInSector = degPer * i < angle && angle < degPer * (i + 1);
+			int alpha = Math.min(0x66, timeIn*15+0x1A);
+			int r=0x40,g=0x40,b=0x40;
+			
+			if (i == 0)
+				buf.pos(x, y, 0).color(r, g, b, alpha).endVertex();
+			
+			if(mouseInSector) {
+				r=g=b=0xff;
+			}
+
+			for(float j = 0; j < degPer + step ; j += step) {
+				float rad = j + i * degPer;
+				float xp = x + MathHelper.cos(rad) * 60;
+				float yp = y + MathHelper.sin(rad) * 60;
+
+				//if (i == 0)
+				//	buf.pos(xp, yp, 0).color(r, g, b, a).endVertex();
+				buf.pos(xp, yp, 0).color(r, g, b, alpha).endVertex();
+			}
 		}
 		
 		tess.draw();
