@@ -26,7 +26,7 @@ public class TileEntitySmelter extends TileEntityFunctionalMachineT1 {
 	
 	public TileEntitySmelter() {
 		
-		super("Smelter", 5000000, 600, 30);
+		super("Smelter", 5000000);
 		
 		
 	}

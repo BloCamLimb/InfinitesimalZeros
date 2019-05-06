@@ -8,9 +8,9 @@ import net.minecraftforge.items.IItemHandler;
 
 public abstract class TileEntityElectricMachine extends TileEntityBasicMachine {
 	
-	public TileEntityElectricMachine(String name, double maxEnergy, double perTick, int ticksRequired) {
+	public TileEntityElectricMachine(String name, double maxEnergy) {
 		
-		super(maxEnergy, perTick, ticksRequired);
+		super(maxEnergy);
 		
 	}
 	

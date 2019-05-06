@@ -6,7 +6,7 @@ public class TileEntitySmeltingFactory extends TileEntityElectricMachine {
 	
 	public TileEntitySmeltingFactory() {
 		
-		super("SmeltingFactory", 3000000, 2000, 15);
+		super("SmeltingFactory", 3000000);
 		
 
 	}

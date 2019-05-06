@@ -54,9 +54,9 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 	public FluidTankCore inputTank;
 	public IFluidTank outputTank;
 	
-	public TileEntityFunctionalMachineT0(String name, double maxEnergy, double baseEnergyUsage, int baseTicksRequired) {
+	public TileEntityFunctionalMachineT0(String name, double maxEnergy) {
 		
-		super(maxEnergy, baseEnergyUsage, baseTicksRequired);
+		super(maxEnergy);
 		
 		this.name = name;
 	}
@@ -176,7 +176,7 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		
 		super.onUpdate();
 		
-		if(!world.isRemote&&!verified)
+		if(!world.isRemote && !verified)
 			return;
 		
 		if(world.isRemote)

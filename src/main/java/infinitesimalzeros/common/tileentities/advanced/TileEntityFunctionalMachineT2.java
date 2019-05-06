@@ -9,9 +9,9 @@ import net.minecraft.util.NonNullList;
 // 1 fluid input, 1 item output
 public abstract class TileEntityFunctionalMachineT2 extends TileEntityFunctionalMachineT0 {
 
-	public TileEntityFunctionalMachineT2(String name, double maxEnergy, double baseEnergyUsage, int baseTicksRequired) {
+	public TileEntityFunctionalMachineT2(String name, double maxEnergy) {
 		
-		super(name, maxEnergy, baseEnergyUsage, baseTicksRequired);
+		super(name, maxEnergy);
 		
 		size = 1;
 		inventory = NonNullList.withSize(1, ItemStack.EMPTY);

@@ -33,7 +33,7 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 	
 	public TileEntityDryingPool() {
 		
-		super("DringBed", 500000, 60, 200);
+		super("DryingBed", 0);
 		
 	}
 	
@@ -147,6 +147,44 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 		
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	@Override
+	protected boolean canProcess() {
+		
+		if(!world.canSeeSky(pos.up()))
+			return false;
+		
+		return world.isDaytime() && !world.isRaining();
+	}
+	
+	@Override
+	protected void process() {
+		
+		if(isKeyTime(20))
+			operatingTicks++;
+		
+		if(operatingTicks < ticksRequired)
+			return;
+		
+		doFinish();
+	}
+	
+	@Override
+	protected void doFinish() {
+		
+		super.doFinish();
+		
+		if(!canProcess())
+			turnOff();
+	}
+	
+	@Override
+	protected void turnOn() {
+		
+		super.turnOn();
+		
+		ticksRequired = 25;
 	}
 	
 	@Override

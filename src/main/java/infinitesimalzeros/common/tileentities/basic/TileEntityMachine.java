@@ -21,15 +21,11 @@ public abstract class TileEntityMachine extends TileEntityElectricBlock implemen
 	
 	public double prevEnergy;
 	
-	public double BASE_ENERGY_PER_TICK;
-	
 	public double energyPerTick;
 	
-	public TileEntityMachine(double maxEnergy, double baseEnergyUsage) {
+	public TileEntityMachine(double maxEnergy) {
 		
 		super(maxEnergy);
-		
-		energyPerTick = BASE_ENERGY_PER_TICK = baseEnergyUsage;
 		
 	}
 	

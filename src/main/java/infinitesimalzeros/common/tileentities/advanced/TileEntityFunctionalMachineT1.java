@@ -8,9 +8,9 @@ import net.minecraftforge.items.IItemHandler;
 // 1 item input, 1 item output
 public abstract class TileEntityFunctionalMachineT1 extends TileEntityFunctionalMachineT0 {
 
-	public TileEntityFunctionalMachineT1(String name, double maxEnergy, double baseEnergyUsage, int baseTicksRequired) {
+	public TileEntityFunctionalMachineT1(String name, double maxEnergy) {
 		
-		super(name, maxEnergy ,baseEnergyUsage, baseTicksRequired);
+		super(name, maxEnergy);
 		
 		size = 2;
 		inventory = NonNullList.withSize(2, ItemStack.EMPTY);

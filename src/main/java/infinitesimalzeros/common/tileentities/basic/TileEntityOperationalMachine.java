@@ -13,11 +13,10 @@ public abstract class TileEntityOperationalMachine extends TileEntityMachine {
 	
 	public int ticksRequired;
 	
-	public TileEntityOperationalMachine(double maxEnergy, double baseEnergyUsage, int baseTicksRequired) {
+	public TileEntityOperationalMachine(double maxEnergy) {
 		
-		super(maxEnergy, baseEnergyUsage);
+		super(maxEnergy);
 		
-		ticksRequired = BASE_TICKS_REQUIRED = baseTicksRequired;
 	}
 	
 	public double getScaledProgress() {

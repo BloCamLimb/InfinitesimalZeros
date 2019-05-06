@@ -19,7 +19,8 @@ public class GuiTabNetwork extends GuiTabCore {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 		
-		fontRenderer.drawString("S-SilverStar Injector", this.xSize / 2 - this.fontRenderer.getStringWidth("S-SilverStar Injector") / 2 + 3, -12, 0xFFFFFF);
+		String tileName = tileEntity.getDisplayName().getFormattedText();
+		fontRenderer.drawString(tileName, this.xSize / 2 - this.fontRenderer.getStringWidth(tileName) / 2 + 3, -12, 0xFFFFFF);
 	}
 
 	@Override
