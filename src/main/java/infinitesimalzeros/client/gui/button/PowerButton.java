@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class PowerButton extends GuiButtonCore {
 
-	public static final ResourceLocation TEXTURE = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/power_button.png");
+	public static final ResourceLocation TEXTURE = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/power_button_smooth.png");
 	
 	public PowerButton(int buttonId, int x, int y) {
 		

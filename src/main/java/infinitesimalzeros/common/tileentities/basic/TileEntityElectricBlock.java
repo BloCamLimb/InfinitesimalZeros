@@ -3,7 +3,7 @@ package infinitesimalzeros.common.tileentities.basic;
 import infinitesimalzeros.api.interfaces.IEnergyWrapper;
 import infinitesimalzeros.common.capabilities.Capabilities;
 import infinitesimalzeros.common.capabilities.CapabilityWrapperManager;
-import infinitesimalzeros.common.integration.forgeenergy.ForgeEnergyIntegration;
+import infinitesimalzeros.common.integration.ForgeEnergyIntegration;
 import infinitesimalzeros.common.network.TileNetworkList;
 import infinitesimalzeros.common.util.IZUtils;
 import io.netty.buffer.ByteBuf;

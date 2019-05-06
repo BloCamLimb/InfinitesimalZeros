@@ -5,6 +5,7 @@ import infinitesimalzeros.client.render.ColorItemRenderer;
 import infinitesimalzeros.common.capabilities.Capabilities;
 import infinitesimalzeros.common.core.handler.KeybindHandler;
 import infinitesimalzeros.common.core.handler.PacketHandler;
+import infinitesimalzeros.common.integration.TOPInfoProvider;
 import infinitesimalzeros.common.items.MetaItems;
 import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
 import infinitesimalzeros.common.registry.RegistryFluid;
@@ -16,15 +17,19 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 
 public class CommonProxy {
 	
 	public void preInit() {
 		
 		MinecraftForge.EVENT_BUS.register(this);
+		
 		MekanismAPI.addBoxBlacklistMod(InfinitesimalZeros.MODID);
+		
 		Capabilities.register();
-		KeybindHandler.init();
+		
+		//KeybindHandler.init();
 		//MaterialBasis.runMaterialHandlers();
 		//MaterialBasis.freezeRegistry();
 		
@@ -38,8 +43,9 @@ public class CommonProxy {
 		
 		registerColors();
 		
-		InfinitesimalZeros.logger.info("Packet Initializing...");
 		PacketHandler.Init();
+		
+		FMLInterModComms.sendFunctionMessage("theoneprobe", "getTheOneProbe", TOPInfoProvider.class.getName());
 		
 	}
 	

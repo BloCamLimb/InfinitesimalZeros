@@ -161,8 +161,10 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 	@Override
 	protected void process() {
 		
-		if(isKeyTime(20))
-			operatingTicks++;
+		if(!isKeyTime(20))
+			return;
+		
+		operatingTicks++;
 		
 		if(operatingTicks < ticksRequired)
 			return;
@@ -184,6 +186,7 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 		
 		super.turnOn();
 		
+		// Actually in seconds
 		ticksRequired = 25;
 	}
 	

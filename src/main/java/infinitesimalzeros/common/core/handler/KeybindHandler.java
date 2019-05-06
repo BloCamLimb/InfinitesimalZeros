@@ -8,11 +8,11 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 public class KeybindHandler {
 	
-	public static final KeyBinding wandMode = new KeyBinding("infinitesimalzeros.keybind.wandmode", Keyboard.KEY_F, "key.categories.inventory");
+	//public static final KeyBinding wandMode = new KeyBinding("infinitesimalzeros.keybind.wandmode", Keyboard.KEY_F, "key.categories.inventory");
 	
 	public static void init() {
 		
-		ClientRegistry.registerKeyBinding(wandMode);
+		//ClientRegistry.registerKeyBinding(wandMode);
 	}
 	
 	public static boolean isKeyDown(KeyBinding keybind) {

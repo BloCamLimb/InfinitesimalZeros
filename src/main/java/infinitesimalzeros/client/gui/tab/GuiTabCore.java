@@ -3,9 +3,14 @@ package infinitesimalzeros.client.gui.tab;
 import java.io.IOException;
 
 import infinitesimalzeros.InfinitesimalZeros;
+import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.client.gui.GuiContainerCore;
 import infinitesimalzeros.client.gui.button.NavigationButton;
+import infinitesimalzeros.client.gui.button.PowerButton;
 import infinitesimalzeros.common.container.ContainerEmpty;
+import infinitesimalzeros.common.core.handler.PacketHandler;
+import infinitesimalzeros.common.network.TileNetworkList;
+import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
 import infinitesimalzeros.common.registry.RegistrySounds;
 import infinitesimalzeros.common.tileentities.advanced.TileEntityFunctionalMachineT0;
 import infinitesimalzeros.common.tileentities.basic.TileEntityBasicBlock;
@@ -55,6 +60,7 @@ public abstract class GuiTabCore extends GuiContainerCore {
 		super.initGui();
 		NavigationButtons.add(new NavigationButton(0, width / 2 - 60, height / 2 - 116, 0, "Security"));
 		NavigationButtons.add(new NavigationButton(0, width / 2 - 75, height / 2 - 116, 1, "Home"));
+		PowerButtons.add(new PowerButton(0, width / 2 + 60, height / 2 - 116));
 		/*int i = 1;
 		for(GuiTabs tab : tabs) {
 			
@@ -70,6 +76,7 @@ public abstract class GuiTabCore extends GuiContainerCore {
 		/*if(button instanceof NavigationButton) {
 			switchTab(((NavigationButton)button).tab);
 		}*/
+		
 	}
 
 	@Override
@@ -84,6 +91,27 @@ public abstract class GuiTabCore extends GuiContainerCore {
 			mc.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(RegistrySounds.BUTTONCLICK, 1.0F));
 			FMLCommonHandler.instance().showGuiScreen(parent);
         }
+	}
+	
+	@Override
+	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+		
+		super.mouseClicked(mouseX, mouseY, mouseButton);
+		
+		if(mouseButton == 0)
+			for (PowerButton buttons : PowerButtons)
+				if(buttons.isMouseHovered(mc, mouseX, mouseY)) {
+					
+					if(tileEntity.masterControl) {
+						TileNetworkList data = TileNetworkList.withContents(1);
+						PacketHandler.sendToServer(new TileEntityMessage(Coord4D.get(tileEntity), data));
+					} else {
+						TileNetworkList data = TileNetworkList.withContents(2);
+						PacketHandler.sendToServer(new TileEntityMessage(Coord4D.get(tileEntity), data));
+					}
+					
+					mc.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(RegistrySounds.BUTTONCLICK, 1.0F));
+				}
 	}
 	
 	public static GuiScreen getParent() {
