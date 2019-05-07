@@ -9,9 +9,15 @@ import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
 import infinitesimalzeros.common.util.SecurityUtils;
 import infinitesimalzeros.common.util.ItemDataUtils;
 import infinitesimalzeros.common.network.TileNetworkList;
+import net.minecraft.entity.item.EntityTNTPrimed;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public abstract class TileEntityBasicMachine extends TileEntityOperationalMachine implements ISecurityComponent {
 	
@@ -56,9 +62,9 @@ public abstract class TileEntityBasicMachine extends TileEntityOperationalMachin
 		
 		super.validate();
 		
-		if(!world.isRemote && !checkSecurity && ownerUUID.length() == 36 && securityCode.length() == 36) {
+		if(!world.isRemote && !checkedSecurity && ownerUUID.length() == 36 && securityCode.length() == 36) {
 			verified = SecurityUtils.verifySecurityCode(securityCode, ownerUUID);
-			checkSecurity = true;
+			checkedSecurity = true;
 		}
 	}
 	
@@ -67,6 +73,9 @@ public abstract class TileEntityBasicMachine extends TileEntityOperationalMachin
 
 		super.onUpdate();
 		
+		if(doAutoAntiCheat && isKeyTime(15) && !world.isRemote)
+			antiCheatCheck();
+			
 	}
 	
 	@Override
@@ -75,6 +84,15 @@ public abstract class TileEntityBasicMachine extends TileEntityOperationalMachin
 		this.ownerUUID = ItemDataUtils.getString(stack, "PlayerUUID");
 		this.securityCode = SecurityUtils.encryptMasterUUID(ownerUUID);
 		
+	}
+	
+	protected void antiCheatCheck() {
+		
+	}
+
+	protected boolean isKeyTime(int key) {
+		
+		return world.getWorldTime() % key == 0;
 	}
 	
 	@Override

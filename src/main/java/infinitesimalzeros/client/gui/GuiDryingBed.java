@@ -7,6 +7,7 @@ import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.client.gui.button.NavigationButton;
 import infinitesimalzeros.client.gui.button.PowerButton;
 import infinitesimalzeros.common.container.ContainerBasic;
+import infinitesimalzeros.common.container.ContainerDryingBed;
 import infinitesimalzeros.common.container.ContainerNanaSmelter;
 import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.network.TileNetworkList;
@@ -51,7 +52,7 @@ public class GuiDryingBed extends GuiTileEntityCore<TileEntityFunctionalMachineT
 	
 	public GuiDryingBed(InventoryPlayer player, TileEntityDryingPool tileEntity) {
 		
-		super(tileEntity, new ContainerBasic(player, tileEntity));
+		super(tileEntity, new ContainerDryingBed(player, tileEntity));
 		this.player = player;
 		this.tileEntity = tileEntity;
 		

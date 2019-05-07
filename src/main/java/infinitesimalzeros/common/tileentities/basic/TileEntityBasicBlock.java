@@ -37,7 +37,13 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 	
 	public boolean doAutoSync = true;
 	
-	public boolean checkSecurity;
+	public boolean doAutoAntiCheat = true;
+	
+	protected long c = 0;
+	
+	protected boolean cheated;
+	
+	protected boolean checkedSecurity;
 	
 	public List<ITileComponent> components = new ArrayList<>();
 	

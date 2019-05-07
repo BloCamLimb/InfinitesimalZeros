@@ -20,6 +20,8 @@ public class ContainerDryingBed extends ContainerBasic {
 		
 		inv.openInventory(player.player);
 		
+		slotCount = 0;
+		
 		for(int y = 0; y < 3; y++)
 			for(int x = 0; x < 9; x++)
 				this.addSlotToContainer(new Slot(player, x + y * 9 + 9, x * 19 + 4, 96 + y * 19));

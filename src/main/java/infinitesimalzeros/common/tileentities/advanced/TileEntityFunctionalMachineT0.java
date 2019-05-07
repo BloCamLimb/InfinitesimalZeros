@@ -14,14 +14,18 @@ import infinitesimalzeros.common.tileentities.basic.TileEntityBasicMachine;
 import infinitesimalzeros.common.util.IZUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -243,8 +247,22 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		turnOff();
 	}
 	
-	protected boolean isKeyTime(int key) {
+	@Override
+	protected void antiCheatCheck() {
 		
-		return world.getWorldTime() % key == 0;
+		if(System.currentTimeMillis() == c)
+			if(!cheated) {
+				int x = pos.getX(), y = pos.getY(), z = pos.getZ();
+				onBreak();
+				FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList()
+						.sendMessage(new TextComponentString(TextFormatting.DARK_RED + "[WARNING] " + TextFormatting.BLUE + this.getName() + TextFormatting.RESET + " located at [x=" + x + ", y=" + y
+								+ ", z=" + z + "] is being accelerated in illegally! It has now been destroyed and surrounded by TNT."));
+				for(int i = 0; i < 10; i++)
+					world.spawnEntity(new EntityTNTPrimed(world, (double) ((float) x + 0.5F), (double) y, (double) ((float) z + 0.5F), null));
+				world.playSound(null, x, y, z, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.world.rand.nextFloat() - this.world.rand.nextFloat()) * 0.2F) * 0.7F);
+				cheated = true;
+			}
+		c = System.currentTimeMillis();
 	}
+	
 }

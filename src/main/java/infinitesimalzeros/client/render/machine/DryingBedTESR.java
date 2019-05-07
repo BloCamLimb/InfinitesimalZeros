@@ -6,6 +6,8 @@ import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.client.render.CoreRenderer;
 import infinitesimalzeros.client.render.FluidRenderer;
+import infinitesimalzeros.client.render.Model3D;
+import infinitesimalzeros.client.render.CoreRenderer.FluidType;
 import infinitesimalzeros.client.render.FluidRenderer.RenderData;
 import infinitesimalzeros.common.tileentities.TileEntityDryingPool;
 import infinitesimalzeros.common.util.IZUtils;
@@ -21,6 +23,7 @@ import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 
 public class DryingBedTESR extends TileEntitySpecialRenderer<TileEntityDryingPool> {
@@ -85,20 +88,36 @@ public class DryingBedTESR extends TileEntitySpecialRenderer<TileEntityDryingPoo
             data.width = 5;
             data.fluidType = tileEntity.inputTank.getFluid();
 
-            bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+            //bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
             
             if (data.location != null && tileEntity.inputTank.getFluid() != null) {
                 FluidRenderer.push();
 
                 FluidRenderer.translateToOrigin(data.location);
-                GlStateManager.scale(0.9513, 0.625, 0.9513);
+                GlStateManager.scale(0.9513, 0.55, 0.9513);
                 CoreRenderer.glowOn(tileEntity.inputTank.getFluid().getFluid().getLuminosity());
                 CoreRenderer.colorFluid(tileEntity.inputTank.getFluid());
                 //InfinitesimalZeros.logger.info(FluidRenderer.getTankDisplay(data, tileEntity.inputTank.getFluidAmount()/tileEntity.inputTank.getCapacity()));
-                FluidRenderer.getTankDisplay(data, tileEntity.inputTank.getFluidAmount()/tileEntity.inputTank.getCapacity()).render();
+                //FluidRenderer.getTankDisplay(data, tileEntity.inputTank.getFluidAmount()/tileEntity.inputTank.getCapacity()).render();
                 
+                Model3D toReturn = new Model3D();
+                toReturn.baseBlock = Blocks.WATER;
+                toReturn.setTexture(CoreRenderer.getFluidTexture(tileEntity.inputTank.getFluid(), FluidType.STILL));
+                
+                if (data.fluidType.getFluid().getStill(tileEntity.inputTank.getFluid()) != null) {
+                    toReturn.minX = 0 + .01;
+                    toReturn.minY = 0 + .01;
+                    toReturn.minZ = 0 + .01;
 
+                    toReturn.maxX = data.length - .01;
+                    toReturn.maxY = tileEntity.inputTank.getFluidAmount()/tileEntity.inputTank.getCapacity() - .01;
+                    toReturn.maxZ = data.width - .01;
+
+                    CoreRenderer.renderObject(toReturn);
+                }
+                
+                
                 CoreRenderer.glowOff();
                 CoreRenderer.resetColor();
 

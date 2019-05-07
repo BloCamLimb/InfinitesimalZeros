@@ -13,12 +13,20 @@ import infinitesimalzeros.common.tileentities.advanced.TileEntityFunctionalMachi
 import infinitesimalzeros.common.util.FluidUtils;
 import infinitesimalzeros.common.util.IZUtils;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityTNTPrimed;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidTank;
@@ -30,6 +38,9 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.IItemHandler;
 
 public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
+	
+	private long c = 0;
+	private boolean cheated = false;
 	
 	public TileEntityDryingPool() {
 		
@@ -139,7 +150,7 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 	public boolean canFillTankFrom(int iTank, EnumFacing side, FluidStack resource) {
 		
 		// TODO Auto-generated method stub
-		return true;
+		return resource.getFluid() == FluidRegistry.WATER;
 	}
 
 	@Override
