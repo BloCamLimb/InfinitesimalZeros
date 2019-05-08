@@ -61,14 +61,6 @@ public abstract class GuiContainerCore extends GuiContainer implements IGuiZero 
 		
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		
-		if(mouseButton == 0)
-			for (NavigationButton buttons : NavigationButtons)
-				if (buttons.isMouseHovered(mc, mouseX, mouseY))
-					if(!(mc.currentScreen instanceof GuiTileEntityCore)) {
-						buttons.switchTab(buttons.buttonNavigationId);
-						mc.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(RegistrySounds.BUTTONCLICK, 1.0F));
-					}
-		
 	}
 	
 	

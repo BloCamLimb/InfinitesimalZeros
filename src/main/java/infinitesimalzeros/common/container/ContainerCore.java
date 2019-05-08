@@ -11,7 +11,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerBasic extends Container {
+public class ContainerCore extends Container {
 	
 	public TileEntityBasicBlock tileEntity;
 	
@@ -19,7 +19,7 @@ public class ContainerBasic extends Container {
 	
 	public int slotCount;
 	
-	public ContainerBasic(InventoryPlayer player, TileEntityBasicBlock tileEntity) {
+	public ContainerCore(InventoryPlayer player, TileEntityBasicBlock tileEntity) {
 		
 		this.tileEntity = tileEntity;
 		
@@ -60,7 +60,7 @@ public class ContainerBasic extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn) {
 		
-		return inv!=null&&inv.isUsableByPlayer(playerIn);
+		return inv != null && inv.isUsableByPlayer(playerIn);
 	}
 	
 	@Override

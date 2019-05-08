@@ -9,7 +9,7 @@ import infinitesimalzeros.client.render.FluidRenderer;
 import infinitesimalzeros.client.render.Model3D;
 import infinitesimalzeros.client.render.CoreRenderer.FluidType;
 import infinitesimalzeros.client.render.FluidRenderer.RenderData;
-import infinitesimalzeros.common.tileentities.TileEntityDryingPool;
+import infinitesimalzeros.common.tileentities.TileEntitySaltTank;
 import infinitesimalzeros.common.util.IZUtils;
 import infinitesimalzeros.common.util.IZUtils.ResourceType;
 import net.minecraft.block.state.IBlockState;
@@ -26,10 +26,10 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 
-public class DryingBedTESR extends TileEntitySpecialRenderer<TileEntityDryingPool> {
+public class SaltTankTESR extends TileEntitySpecialRenderer<TileEntitySaltTank> {
 	
 	@Override
-	public void render(TileEntityDryingPool tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+	public void render(TileEntitySaltTank tileEntity, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		
 		//super.render(te, x, y, z, partialTicks, destroyStage, alpha);
 		
@@ -111,7 +111,7 @@ public class DryingBedTESR extends TileEntitySpecialRenderer<TileEntityDryingPoo
                     toReturn.minZ = 0 + .01;
 
                     toReturn.maxX = data.length - .01;
-                    toReturn.maxY = tileEntity.inputTank.getFluidAmount()/tileEntity.inputTank.getCapacity() - .01;
+                    toReturn.maxY = (double) tileEntity.inputTank.getFluidAmount() / tileEntity.inputTank.getCapacity() - .01;
                     toReturn.maxZ = data.width - .01;
 
                     CoreRenderer.renderObject(toReturn);

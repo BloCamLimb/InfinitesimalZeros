@@ -13,7 +13,7 @@ public abstract class BlockRegister extends Block implements IModelRender {
 	public BlockRegister(String name, Material material) {
 		
 		super(material);
-		setUnlocalizedName("infinitesimalzeros." + name);
+		setUnlocalizedName(InfinitesimalZeros.NAME_GAPLESS + "." + name);
 		setRegistryName(name);
 		RegistryBlocks.BLOCKS.add(this);
 		RegistryItems.ITEMS.add(new ItemBlock(this).setRegistryName(this.getRegistryName()));

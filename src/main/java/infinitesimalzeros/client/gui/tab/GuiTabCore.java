@@ -5,6 +5,7 @@ import java.io.IOException;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.client.gui.GuiContainerCore;
+import infinitesimalzeros.client.gui.GuiTileEntityCore;
 import infinitesimalzeros.client.gui.button.NavigationButton;
 import infinitesimalzeros.client.gui.button.PowerButton;
 import infinitesimalzeros.common.container.ContainerEmpty;
@@ -20,14 +21,14 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public abstract class GuiTabCore extends GuiContainerCore {
+public abstract class GuiTabCore extends GuiTileEntityCore {
 	
 	private static final ResourceLocation TEXTURES = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/gui_blank.png");
 	
 	public static GuiScreen parent;
-	public static TileEntityFunctionalMachineT0 tileEntity;
+	//public static TileEntityFunctionalMachineT0 tileEntity;
 	
-	public GuiTabCore() {
+	/*public GuiTabCore() {
 		
 		super(new ContainerEmpty());
 	}
@@ -36,13 +37,12 @@ public abstract class GuiTabCore extends GuiContainerCore {
 		
 		super(new ContainerEmpty());
 		parent = g;
-	}
+	}*/
 	
 	public GuiTabCore(GuiScreen g, TileEntityFunctionalMachineT0 t) {
 		
-		super(new ContainerEmpty());
+		super(t, new ContainerEmpty());
 		parent = g;
-		tileEntity = t;
 	}
 	
 	@Override
@@ -58,8 +58,9 @@ public abstract class GuiTabCore extends GuiContainerCore {
 	public void initGui() {
 		
 		super.initGui();
-		NavigationButtons.add(new NavigationButton(0, width / 2 - 60, height / 2 - 116, 0, "Security"));
-		NavigationButtons.add(new NavigationButton(0, width / 2 - 75, height / 2 - 116, 1, "Home"));
+		NavigationButtons.add(new NavigationButton(width / 2 - 75, height / 2 - 116, NavigationButton.HOME));
+		NavigationButtons.add(new NavigationButton(width / 2 - 60, height / 2 - 116, NavigationButton.SECURITY));
+		NavigationButtons.add(new NavigationButton(width / 2 - 45, height / 2 - 116, NavigationButton.RECIPE));
 		PowerButtons.add(new PowerButton(0, width / 2 + 60, height / 2 - 116));
 		/*int i = 1;
 		for(GuiTabs tab : tabs) {

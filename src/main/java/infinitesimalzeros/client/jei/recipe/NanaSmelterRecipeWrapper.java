@@ -7,7 +7,7 @@ import java.util.List;
 
 import cofh.core.util.helpers.ItemHelper;
 import cofh.core.util.helpers.StringHelper;
-import infinitesimalzeros.common.recipe.NanaSmelterRecipe;
+import infinitesimalzeros.common.recipe.RecipeT1;
 import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
@@ -20,7 +20,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class NanaSmelterRecipeWrapper implements IRecipeWrapper {
 	
-	private NanaSmelterRecipe recipe;
+	private RecipeT1 recipe;
 	
 	private int energy;
 	private int power;
@@ -28,7 +28,7 @@ public class NanaSmelterRecipeWrapper implements IRecipeWrapper {
 	
 	private List<List<ItemStack>> input;
 	
-	public NanaSmelterRecipeWrapper(IGuiHelper guiHelper, NanaSmelterRecipe recipe) {
+	public NanaSmelterRecipeWrapper(IGuiHelper guiHelper, RecipeT1 recipe) {
 		
 		this.recipe = recipe;
 		

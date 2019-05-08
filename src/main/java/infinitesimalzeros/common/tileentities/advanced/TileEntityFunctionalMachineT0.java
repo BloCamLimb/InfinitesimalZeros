@@ -207,7 +207,7 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 			return;
 		
 		electricityStored -= energyPerTick;
-        operatingTicks++;
+		operatingTicks++;
         
 		if(operatingTicks < ticksRequired)
 			return;

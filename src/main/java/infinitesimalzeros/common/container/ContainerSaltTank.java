@@ -2,15 +2,15 @@ package infinitesimalzeros.common.container;
 
 import infinitesimalzeros.common.container.slot.SlotOutput;
 import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
-import infinitesimalzeros.common.tileentities.TileEntityDryingPool;
+import infinitesimalzeros.common.tileentities.TileEntitySaltTank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class ContainerDryingBed extends ContainerBasic {
+public class ContainerSaltTank extends ContainerCore {
 
-	public ContainerDryingBed(InventoryPlayer player, TileEntityDryingPool tileEntity) {
+	public ContainerSaltTank(InventoryPlayer player, TileEntitySaltTank tileEntity) {
 		
 		super(player, tileEntity);
 		
@@ -20,7 +20,9 @@ public class ContainerDryingBed extends ContainerBasic {
 		
 		inv.openInventory(player.player);
 		
-		slotCount = 0;
+		addSlotToContainer(new SlotOutput(this, inv, 0, 118, 30));
+		
+		slotCount = 1;
 		
 		for(int y = 0; y < 3; y++)
 			for(int x = 0; x < 9; x++)

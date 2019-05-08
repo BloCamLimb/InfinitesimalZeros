@@ -1,0 +1,15 @@
+
+
+item.InfinitesimalZeros.card.name=零之磁卡
+item.InfinitesimalZeros.wrench.name=珈百璃之杖
+
+
+
+tile.InfinitesimalZeros.BoundingBox.name=边界构筑框架
+tile.InfinitesimalZeros.Machine1.SaltTank.name=海盐蒸发池
+
+itemGroup.infinitesimalzeros=Infinitesimal Zeros
+
+info.InfinitesimalZeros.Button.Home=主页
+info.InfinitesimalZeros.Button.Security=安全
+info.InfinitesimalZeros.Button.Recipe=合成

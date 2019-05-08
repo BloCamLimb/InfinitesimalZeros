@@ -3,7 +3,7 @@ package infinitesimalzeros.common.tileentities;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.common.core.InventoryHandlerZero;
-import infinitesimalzeros.common.recipe.NanaSmelterRecipe;
+import infinitesimalzeros.common.recipe.RecipeT1;
 import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
 import infinitesimalzeros.common.registry.RegistryItems;
 import infinitesimalzeros.common.tileentities.advanced.TileEntityFunctionalMachineT1;
@@ -22,11 +22,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class TileEntitySmelter extends TileEntityFunctionalMachineT1 {
 	
-	private NanaSmelterRecipe curRecipe;
+	private RecipeT1 curRecipe;
 	
 	public TileEntitySmelter() {
 		
-		super("Smelter", 5000000);
+		super("NanaSmelter", 5000000);
 		
 		
 	}

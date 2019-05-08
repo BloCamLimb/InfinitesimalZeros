@@ -8,7 +8,7 @@ import cofh.core.inventory.OreValidator;
 import cofh.core.util.helpers.ItemHelper;
 import cofh.core.util.helpers.StringHelper;
 import infinitesimalzeros.InfinitesimalZeros;
-import infinitesimalzeros.common.recipe.NanaSmelterRecipe;
+import infinitesimalzeros.common.recipe.RecipeT1;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -17,14 +17,14 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class RecipeCoreT1 {
 	
-	private static Map<ComparableItemStackValidated, NanaSmelterRecipe> recipeMap = new Object2ObjectOpenHashMap<>();
+	private static Map<ComparableItemStackValidated, RecipeT1> recipeMap = new Object2ObjectOpenHashMap<>();
 	private static OreValidator oreValidator = new OreValidator();
 	
 	static {
 		oreValidator.addPrefix("ore");
 	}
 	
-	public static NanaSmelterRecipe getRecipe(ItemStack input) {
+	public static RecipeT1 getRecipe(ItemStack input) {
 
 		if (input.isEmpty()) {
 			return null;
@@ -32,7 +32,7 @@ public class RecipeCoreT1 {
 		
 		ComparableItemStackValidated query = convertInput(input);
 
-		NanaSmelterRecipe recipe = recipeMap.get(query);
+		RecipeT1 recipe = recipeMap.get(query);
 		
 		if (recipe == null) {
 			query.metadata = OreDictionary.WILDCARD_VALUE;
@@ -47,9 +47,9 @@ public class RecipeCoreT1 {
 		return getRecipe(input) != null;
 	}
 
-	public static NanaSmelterRecipe[] getRecipeList() {
+	public static RecipeT1[] getRecipeList() {
 
-		return recipeMap.values().toArray(new NanaSmelterRecipe[0]);
+		return recipeMap.values().toArray(new RecipeT1[0]);
 	}
 	
 	public static ComparableItemStackValidated convertInput(ItemStack stack) {
@@ -59,10 +59,10 @@ public class RecipeCoreT1 {
 	
 	public static void refresh() {
 
-		Map<ComparableItemStackValidated, NanaSmelterRecipe> tempMap = new Object2ObjectOpenHashMap<>(recipeMap.size());
-		NanaSmelterRecipe tempRecipe;
+		Map<ComparableItemStackValidated, RecipeT1> tempMap = new Object2ObjectOpenHashMap<>(recipeMap.size());
+		RecipeT1 tempRecipe;
 
-		for (Entry<ComparableItemStackValidated, NanaSmelterRecipe> entry : recipeMap.entrySet()) {
+		for (Entry<ComparableItemStackValidated, RecipeT1> entry : recipeMap.entrySet()) {
 			tempRecipe = entry.getValue();
 			tempMap.put(convertInput(tempRecipe.input), tempRecipe);
 		}
@@ -71,13 +71,13 @@ public class RecipeCoreT1 {
 	}
 
 	/* ADD RECIPES */
-	public static NanaSmelterRecipe addRecipe(int power, ItemStack input, ItemStack primaryOutput, int time) {
+	public static RecipeT1 addRecipe(int power, ItemStack input, ItemStack primaryOutput, int time) {
 
 		if (input.isEmpty() || primaryOutput.isEmpty() || power <= 0 || recipeExists(input)) {
 			return null;
 		}
 		
-		NanaSmelterRecipe recipe = new NanaSmelterRecipe(input, primaryOutput, power, time);
+		RecipeT1 recipe = new RecipeT1(input, primaryOutput, power, time);
 		recipeMap.put(convertInput(input), recipe);
 		return recipe;
 	}
@@ -126,7 +126,7 @@ public class RecipeCoreT1 {
 	}
 
 	/* REMOVE RECIPES */
-	public static NanaSmelterRecipe removeRecipe(ItemStack input) {
+	public static RecipeT1 removeRecipe(ItemStack input) {
 
 		return recipeMap.remove(convertInput(input));
 	}

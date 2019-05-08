@@ -16,7 +16,7 @@ import net.minecraftforge.items.IItemHandler;
 public interface IMultiblockCore extends ICapabilityProvider, IInventoryZero, IEnergyReceiver, IEnergyProvider {
 	
 	/**
-	 * Get TileEntity localized name, there's an error when using NBTEdit which not compatible with ITextComponent in some cases.
+	 * Get TileEntity localized name, there's an error when using NBTEdit which not compatible with ITextComponent in some cases. (Bug Fix)
 	 */
 	String getName();
 	

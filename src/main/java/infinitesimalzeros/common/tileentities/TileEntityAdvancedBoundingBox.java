@@ -187,6 +187,9 @@ public class TileEntityAdvancedBoundingBox extends TileEntityBoundingBox impleme
 		if(capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && func == 9)
 			return (T) new FluidHandlerZero(advTile, facing);
 		
+		if(capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing == null)
+			return (T) new FluidHandlerZero(advTile, facing);
+		
 		if(advTile == null)
 			return super.getCapability(capability, facing);
 		

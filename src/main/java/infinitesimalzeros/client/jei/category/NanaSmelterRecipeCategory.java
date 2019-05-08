@@ -4,10 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import infinitesimalzeros.client.gui.GuiNanaSmelter;
+import infinitesimalzeros.client.jei.CategoryIds;
 import infinitesimalzeros.client.jei.RecipeCategoryCore;
 import infinitesimalzeros.client.jei.recipe.NanaSmelterRecipeWrapper;
 import infinitesimalzeros.common.blocks.BlockTileEntityCore.MachineTypes;
-import infinitesimalzeros.common.recipe.NanaSmelterRecipe;
+import infinitesimalzeros.common.recipe.RecipeT1;
 import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
@@ -22,7 +23,7 @@ public class NanaSmelterRecipeCategory extends RecipeCategoryCore<NanaSmelterRec
 	
 	public NanaSmelterRecipeCategory(IGuiHelper guiHelper) {
 		
-		name = I18n.format("tile.Machine1.NanaSmelter.name");
+		name = I18n.format("tile.InfinitesimalZeros.Machine1.NanaSmelter.name");
 		background = guiHelper.drawableBuilder(GuiNanaSmelter.TEXTURES, 64, 64, 128, 64).build();
 	}
 	
@@ -31,16 +32,16 @@ public class NanaSmelterRecipeCategory extends RecipeCategoryCore<NanaSmelterRec
 		IJeiHelpers jeiHelpers = registry.getJeiHelpers();
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
 		
-		registry.addRecipes(getRecipes(guiHelper), "infinitesimalzeros.nanasmelter");
-		registry.addRecipeClickArea(GuiNanaSmelter.class, 50, 50, 20, 20, "infinitesimalzeros.nanasmelter");
-		registry.addRecipeCatalyst(MachineTypes.Smelter.getStack(), "infinitesimalzeros.nanasmelter");
+		registry.addRecipes(getRecipes(guiHelper), CategoryIds.NanaSmelter);
+		//registry.addRecipeClickArea(GuiNanaSmelter.class, 50, 50, 20, 20, CategoryIds.NanaSmelter);
+		registry.addRecipeCatalyst(MachineTypes.Smelter.getStack(), CategoryIds.NanaSmelter);
 	}
 	
 	public static List<NanaSmelterRecipeWrapper> getRecipes(IGuiHelper guiHelper) {
 
 		List<NanaSmelterRecipeWrapper> recipes = new ArrayList<>();
 
-		for (NanaSmelterRecipe recipe : RecipeCoreT1.getRecipeList()) {
+		for (RecipeT1 recipe : RecipeCoreT1.getRecipeList()) {
 			recipes.add(new NanaSmelterRecipeWrapper(guiHelper, recipe));
 		}
 		return recipes;
@@ -49,7 +50,7 @@ public class NanaSmelterRecipeCategory extends RecipeCategoryCore<NanaSmelterRec
 	@Override
 	public String getUid() {
 		
-		return "infinitesimalzeros.nanasmelter";
+		return CategoryIds.NanaSmelter;
 	}
 
 	@Override

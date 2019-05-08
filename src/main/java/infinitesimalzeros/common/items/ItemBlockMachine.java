@@ -1,6 +1,7 @@
 package infinitesimalzeros.common.items;
 
 import cofh.redstoneflux.api.IEnergyContainerItem;
+import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.interfaces.IEnergizedItem;
 import infinitesimalzeros.api.interfaces.ISustainedData;
 import infinitesimalzeros.api.interfaces.ISustainedInventory;

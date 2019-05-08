@@ -15,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public abstract class TileEntityBoundingBox extends TileEntity implements ITileNetwork {
 	
@@ -22,12 +23,17 @@ public abstract class TileEntityBoundingBox extends TileEntity implements ITileN
 	
 	public void setCorePosition(BlockPos pos) {
 		
-		if(!world.isRemote) {
+		corePos = pos;
+		
+		PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
+		
+		//if(!world.isRemote) {
 			
-			corePos = pos;
+			//corePos = pos;
 			
-			PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
-		}
+			//PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
+		//}
+		
 	}
 	
 	@Override
@@ -35,10 +41,13 @@ public abstract class TileEntityBoundingBox extends TileEntity implements ITileN
 		
 		super.validate();
 		
+		// Both side
+		//PacketHandler.sendToServer(new DataRequestMessage(Coord4D.get(this)));
+		
 		if(world.isRemote) {
-			
 			PacketHandler.sendToServer(new DataRequestMessage(Coord4D.get(this)));
 		}
+		
 	}
 	
 	@Override
@@ -65,7 +74,7 @@ public abstract class TileEntityBoundingBox extends TileEntity implements ITileN
 	@Override
 	public void handlePacketData(ByteBuf dataStream) {
 		
-		if(world.isRemote) {
+		if(FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			
 			corePos = new BlockPos(dataStream.readInt(), dataStream.readInt(), dataStream.readInt());
 		}

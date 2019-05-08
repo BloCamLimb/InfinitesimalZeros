@@ -7,11 +7,9 @@ import infinitesimalzeros.common.tileentities.advanced.TileEntityFunctionalMachi
 import infinitesimalzeros.common.tileentities.basic.TileEntityBasicBlock;
 import net.minecraft.client.gui.GuiScreen;
 
-public class GuiTabNetwork extends GuiTabCore {
-	
-	public GuiTabNetwork() {}
+public class GuiTabSecurity extends GuiTabCore {
 
-	public GuiTabNetwork(GuiScreen g, TileEntityFunctionalMachineT0 t) {
+	public GuiTabSecurity(GuiScreen g, TileEntityFunctionalMachineT0 t) {
 		
 		super(g, t);
 	}

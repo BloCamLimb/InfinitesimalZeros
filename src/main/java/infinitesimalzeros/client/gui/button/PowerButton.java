@@ -2,7 +2,7 @@ package infinitesimalzeros.client.gui.button;
 
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.client.gui.tab.GuiTabCore;
-import infinitesimalzeros.client.gui.tab.GuiTabNetwork;
+import infinitesimalzeros.client.gui.tab.GuiTabSecurity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;

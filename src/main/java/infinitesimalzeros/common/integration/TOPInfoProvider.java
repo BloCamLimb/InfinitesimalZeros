@@ -39,9 +39,19 @@ public class TOPInfoProvider implements Function<ITheOneProbe, Void>, IProbeInfo
 			TileEntity adv = world.getTileEntity(data.getPos());
 			
 			
-			if(adv instanceof TileEntityAdvancedBoundingBox) {
-				TileEntityFunctionalMachineT0 tile = (TileEntityFunctionalMachineT0) ((TileEntityAdvancedBoundingBox) adv).getCoreT0();
-				probeInfo.text(TextStyleClass.INFO + "Owner: " + UsernameCache.getLastKnownUsername(UUID.fromString(tile.ownerUUID)));
+			if(adv instanceof TileEntityAdvancedBoundingBox || adv instanceof TileEntityFunctionalMachineT0) {
+				
+				TileEntityFunctionalMachineT0 tile;
+				
+				if(adv instanceof TileEntityAdvancedBoundingBox)
+					tile = (TileEntityFunctionalMachineT0) ((TileEntityAdvancedBoundingBox) adv).getCoreT0();
+				else
+					tile = (TileEntityFunctionalMachineT0) adv;
+				
+				if(!tile.ownerUUID.equals(""))
+					probeInfo.text(TextStyleClass.INFO + "Owner: " + UsernameCache.getLastKnownUsername(UUID.fromString(tile.ownerUUID)));
+				else
+					probeInfo.text(TextStyleClass.INFO + "No Owner");
 			}
 		//}
 		

@@ -6,14 +6,14 @@ import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.client.gui.button.NavigationButton;
 import infinitesimalzeros.client.gui.button.PowerButton;
-import infinitesimalzeros.common.container.ContainerBasic;
-import infinitesimalzeros.common.container.ContainerDryingBed;
+import infinitesimalzeros.common.container.ContainerCore;
+import infinitesimalzeros.common.container.ContainerSaltTank;
 import infinitesimalzeros.common.container.ContainerNanaSmelter;
 import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.network.TileNetworkList;
 import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
 import infinitesimalzeros.common.registry.RegistrySounds;
-import infinitesimalzeros.common.tileentities.TileEntityDryingPool;
+import infinitesimalzeros.common.tileentities.TileEntitySaltTank;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import infinitesimalzeros.common.tileentities.advanced.TileEntityFunctionalMachineT0;
 import net.minecraft.client.Minecraft;
@@ -22,14 +22,14 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
-public class GuiDryingBed extends GuiTileEntityCore<TileEntityFunctionalMachineT0> {
+public class GuiSaltTank extends GuiTileEntityCore<TileEntityFunctionalMachineT0> {
 	
 	public static final ResourceLocation TEXTURES = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/guidefault.png");
 	private static final ResourceLocation SLIDEBAR = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/slide_bar.png");
 	private static final ResourceLocation LAFFY = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/lafei_g.png");
 	
 	private final InventoryPlayer player;
-	private final TileEntityDryingPool tileEntity;
+	private final TileEntitySaltTank tileEntity;
 	
 	public int backgroundColor = 0xffffff;
 	
@@ -50,9 +50,9 @@ public class GuiDryingBed extends GuiTileEntityCore<TileEntityFunctionalMachineT
 	public int barHeight;
 	public int energyHeight;
 	
-	public GuiDryingBed(InventoryPlayer player, TileEntityDryingPool tileEntity) {
+	public GuiSaltTank(InventoryPlayer player, TileEntitySaltTank tileEntity) {
 		
-		super(tileEntity, new ContainerDryingBed(player, tileEntity));
+		super(tileEntity, new ContainerSaltTank(player, tileEntity));
 		this.player = player;
 		this.tileEntity = tileEntity;
 		
@@ -166,8 +166,9 @@ public class GuiDryingBed extends GuiTileEntityCore<TileEntityFunctionalMachineT
 		tabExpandSpeed = Math.max(1, Math.round(maxHeight / Minecraft.getDebugFPS()));
 		//int i = 1;
 		//buttonList.add(new GuiButton(1,0,0,20,20, ""));
-		NavigationButtons.add(new NavigationButton(0, width / 2 - 60, height / 2 - 116, 0, "Security"));
-		NavigationButtons.add(new NavigationButton(0, width / 2 - 75, height / 2 - 116, 1, "Home"));
+		NavigationButtons.add(new NavigationButton(width / 2 - 75, height / 2 - 116, NavigationButton.HOME));
+		NavigationButtons.add(new NavigationButton(width / 2 - 60, height / 2 - 116, NavigationButton.SECURITY));
+		NavigationButtons.add(new NavigationButton(width / 2 - 45, height / 2 - 116, NavigationButton.RECIPE));
 		PowerButtons.add(new PowerButton(0, width / 2 + 60, height / 2 - 116));
 		/*for(GuiTabs tab : tabs) {
 			

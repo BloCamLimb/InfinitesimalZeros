@@ -9,7 +9,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class ContainerTestTE extends ContainerBasic {
+public class ContainerTestTE extends ContainerCore {
 	
 	private final NanaFurnaceTE tileEntity;
 	

@@ -165,8 +165,9 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityFunctionalMachin
 		tabExpandSpeed = Math.max(1, Math.round(maxHeight / Minecraft.getDebugFPS()));
 		//int i = 1;
 		//buttonList.add(new GuiButton(1,0,0,20,20, ""));
-		NavigationButtons.add(new NavigationButton(0, width / 2 - 60, height / 2 - 116, 0, "Security"));
-		NavigationButtons.add(new NavigationButton(0, width / 2 - 75, height / 2 - 116, 1, "Home"));
+		NavigationButtons.add(new NavigationButton(width / 2 - 75, height / 2 - 116, NavigationButton.HOME));
+		NavigationButtons.add(new NavigationButton(width / 2 - 60, height / 2 - 116, NavigationButton.SECURITY));
+		NavigationButtons.add(new NavigationButton(width / 2 - 45, height / 2 - 116, NavigationButton.RECIPE));
 		PowerButtons.add(new PowerButton(0, width / 2 + 60, height / 2 - 116));
 		/*for(GuiTabs tab : tabs) {
 			

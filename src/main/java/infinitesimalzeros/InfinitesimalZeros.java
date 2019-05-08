@@ -23,6 +23,7 @@ public class InfinitesimalZeros {
 	
 	public static final String MODID = "infinitesimalzeros";
 	public static final String NAME = "Infinitesimal Zeros";
+	public static final String NAME_GAPLESS = "InfinitesimalZeros";
 	public static final String VERSION = "1.12.2-b1";
 	
 	static {
@@ -32,7 +33,7 @@ public class InfinitesimalZeros {
 	@Instance(MODID)
 	public static InfinitesimalZeros instance;
 	
-	public static Logger logger = (Logger) LogManager.getLogger("InfinitesimalZeros");
+	public static Logger logger = (Logger) LogManager.getLogger(NAME_GAPLESS);
 	
 	@SidedProxy(clientSide = "infinitesimalzeros.client.ClientProxy", serverSide = "infinitesimalzeros.common.CommonProxy")
 	public static CommonProxy proxy;

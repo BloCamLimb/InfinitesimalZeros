@@ -1,14 +1,14 @@
 package infinitesimalzeros.common.core.handler;
 
-import infinitesimalzeros.client.gui.GuiDryingBed;
+import infinitesimalzeros.client.gui.GuiSaltTank;
 import infinitesimalzeros.client.gui.GuiNanaSmelter;
 import infinitesimalzeros.client.gui.GuiTestTE;
 import infinitesimalzeros.common.blocks.NanaFurnaceTE;
 import infinitesimalzeros.common.container.ContainerTestTE;
-import infinitesimalzeros.common.container.ContainerBasic;
-import infinitesimalzeros.common.container.ContainerDryingBed;
+import infinitesimalzeros.common.container.ContainerCore;
+import infinitesimalzeros.common.container.ContainerSaltTank;
 import infinitesimalzeros.common.container.ContainerNanaSmelter;
-import infinitesimalzeros.common.tileentities.TileEntityDryingPool;
+import infinitesimalzeros.common.tileentities.TileEntitySaltTank;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
@@ -27,7 +27,7 @@ public class GUIHandler implements IGuiHandler {
 			case 1:
 				return new ContainerTestTE(player.inventory, (NanaFurnaceTE) world.getTileEntity(new BlockPos(x, y, z)));
 			case 2:
-				return new ContainerDryingBed(player.inventory, (TileEntityDryingPool) world.getTileEntity(new BlockPos(x, y, z)));
+				return new ContainerSaltTank(player.inventory, (TileEntitySaltTank) world.getTileEntity(new BlockPos(x, y, z)));
 		}
 		
 		return null;
@@ -42,7 +42,7 @@ public class GUIHandler implements IGuiHandler {
 			case 1:
 				return new GuiTestTE(player.inventory, (NanaFurnaceTE) world.getTileEntity(new BlockPos(x, y, z)));
 			case 2:
-				return new GuiDryingBed(player.inventory, (TileEntityDryingPool) world.getTileEntity(new BlockPos(x, y, z)));
+				return new GuiSaltTank(player.inventory, (TileEntitySaltTank) world.getTileEntity(new BlockPos(x, y, z)));
 		}
 
 		return null;

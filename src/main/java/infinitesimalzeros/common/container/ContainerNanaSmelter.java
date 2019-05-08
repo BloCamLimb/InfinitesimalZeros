@@ -13,7 +13,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class ContainerNanaSmelter extends ContainerBasic {
+public class ContainerNanaSmelter extends ContainerCore {
 	
 	public ContainerNanaSmelter(InventoryPlayer player, TileEntitySmelter tileEntity) {
 		

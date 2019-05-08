@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.client.gui.button.NavigationButton;
+import infinitesimalzeros.client.gui.tab.GuiTabCore;
 import infinitesimalzeros.common.registry.RegistrySounds;
 import infinitesimalzeros.common.tileentities.advanced.TileEntityFunctionalMachineT0;
 import infinitesimalzeros.common.tileentities.basic.TileEntityBasicBlock;
@@ -12,12 +13,12 @@ import net.minecraft.inventory.Container;
 
 public abstract class GuiTileEntityCore<TileEntityT0 extends TileEntityFunctionalMachineT0> extends GuiContainerCore {
 	
-	protected TileEntityT0 tileEntityT0;
+	protected TileEntityT0 tileEntity;
 
 	public GuiTileEntityCore(TileEntityT0 tileEntity, Container inventorySlotsIn) {
 		
 		super(inventorySlotsIn);
-		this.tileEntityT0 = tileEntity;
+		this.tileEntity = tileEntity;
 	}
 	
 	@Override
@@ -28,8 +29,12 @@ public abstract class GuiTileEntityCore<TileEntityT0 extends TileEntityFunctiona
 		if(mouseButton == 0)
 			for (NavigationButton buttons : NavigationButtons)
 				if (buttons.isMouseHovered(mc, mouseX, mouseY))
-					if(mc.currentScreen instanceof GuiTileEntityCore) {
-						buttons.switchTab(buttons.buttonNavigationId, mc.currentScreen, tileEntityT0);
+					if(mc.currentScreen instanceof GuiTabCore) {
+						buttons.switchTab(buttons.buttonNavigationId, tileEntity);
+						mc.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(RegistrySounds.BUTTONCLICK, 1.0F));
+						
+					} else {
+						buttons.switchTab(buttons.buttonNavigationId, tileEntity, mc.currentScreen);
 						mc.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(RegistrySounds.BUTTONCLICK, 1.0F));
 					}
 	}

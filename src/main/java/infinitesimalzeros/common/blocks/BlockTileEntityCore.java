@@ -19,7 +19,7 @@ import infinitesimalzeros.common.blocks.state.BlockStateFacing;
 import infinitesimalzeros.common.blocks.state.BlockStateMachine;
 import infinitesimalzeros.common.blocks.state.BlockStateMachine.MachineBlockPredicate;
 import infinitesimalzeros.common.registry.RegistryBlocks;
-import infinitesimalzeros.common.tileentities.TileEntityDryingPool;
+import infinitesimalzeros.common.tileentities.TileEntitySaltTank;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import infinitesimalzeros.common.tileentities.basic.TileEntityBasicBlock;
 import infinitesimalzeros.common.tileentities.basic.TileEntityElectricBlock;
@@ -138,10 +138,10 @@ public abstract class BlockTileEntityCore extends Block {
 		
 	}
 	
-	// All machine types, matched their set and meta.
+	// All machine types, matched their set and meta. Enum name for blockstate json, parameter name for localization.
 	public static enum MachineTypes implements IStringSerializable {
 		Smelter(MachineSets.Machine_Set_A, 0, "NanaSmelter", 0, TileEntitySmelter.class, true, true, Plane.HORIZONTAL),
-		Drying_Bed(MachineSets.Machine_Set_A, 1, "DryingBed", 2, TileEntityDryingPool.class, true, true, Plane.HORIZONTAL);
+		SaltTank(MachineSets.Machine_Set_A, 1, "SaltTank", 2, TileEntitySaltTank.class, true, true, Plane.HORIZONTAL);
 		//Smelting_Factory(MachineSets.Machine_Set_A, 2, "SmelterFactory", 0, TileEntitySmeltingFactory.class, true, true, Plane.HORIZONTAL),
 		//Ori_Furnace(MachineSets.Machine_Set_B, 0, "OriSmelter", 0, NanaFurnaceTE.class, true, true, Plane.HORIZONTAL);
 		
@@ -394,11 +394,12 @@ public abstract class BlockTileEntityCore extends Block {
 		
 		TileEntityBasicBlock tileEntity = (TileEntityBasicBlock) worldIn.getTileEntity(pos);
 		
+		worldIn.removeTileEntity(pos);
+		
 		if(tileEntity instanceof IMultiblockCore) {
 			((IMultiblockCore) tileEntity).onBreak();
 		}
 		
-		super.breakBlock(worldIn, pos, state);
 	}
 	
 	@Override

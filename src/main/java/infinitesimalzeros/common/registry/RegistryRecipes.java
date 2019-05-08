@@ -7,6 +7,7 @@ import java.util.Map;
 
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
+import infinitesimalzeros.common.recipe.core.RecipeCoreT2;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.ItemStackHelper;
@@ -23,6 +24,7 @@ public class RegistryRecipes {
 	
 	public static void initMainRecipes() {
 		RecipeCoreT1.initialize();
+		RecipeCoreT2.initialize();
 		regsiterCraftingRecipe();
 	}
 

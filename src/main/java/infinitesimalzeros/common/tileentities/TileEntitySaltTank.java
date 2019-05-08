@@ -6,6 +6,7 @@ import cofh.core.util.helpers.FluidHelper;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.api.Range4D;
+import infinitesimalzeros.common.core.FluidHandlerZero;
 import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.network.TileNetworkList;
 import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
@@ -16,6 +17,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -37,14 +39,11 @@ import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.IItemHandler;
 
-public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
+public class TileEntitySaltTank extends TileEntityFunctionalMachineT2 {
 	
-	private long c = 0;
-	private boolean cheated = false;
-	
-	public TileEntityDryingPool() {
+	public TileEntitySaltTank() {
 		
-		super("DryingBed", 0);
+		super("SaltTank", 0);
 		
 	}
 	
@@ -71,7 +70,8 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 		
 		super.onUpdate();
 		
-		//PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
+		if(!world.isRemote && isKeyTime(2))
+			PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
 	}
 	
 	@Override
@@ -149,15 +149,13 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 	@Override
 	public boolean canFillTankFrom(int iTank, EnumFacing side, FluidStack resource) {
 		
-		// TODO Auto-generated method stub
 		return resource.getFluid() == FluidRegistry.WATER;
 	}
 
 	@Override
 	public boolean canDrainTankFrom(int iTank, EnumFacing side) {
 		
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -166,7 +164,7 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 		if(!world.canSeeSky(pos.up()))
 			return false;
 		
-		return world.isDaytime() && !world.isRaining();
+		return world.isDaytime() && !world.isRaining() && inventory.get(0).getCount() < 64;
 	}
 	
 	@Override
@@ -174,6 +172,17 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 		
 		if(!isKeyTime(20))
 			return;
+		
+		if(world.isRaining())
+			inputTank.fill(new FluidStack(FluidRegistry.WATER, 10), true);
+		
+		if(!canProcess())
+			return;
+		
+		if(inputTank.getFluidAmount() < energyPerTick)
+			return;
+		
+		inputTank.drain((int) energyPerTick, true);
 		
 		operatingTicks++;
 		
@@ -188,6 +197,12 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 		
 		super.doFinish();
 		
+		if (inventory.get(0).isEmpty()) {
+			inventory.set(0, new ItemStack(Items.DIAMOND));
+		} else {
+			inventory.get(0).grow(1);
+		}
+		
 		if(!canProcess())
 			turnOff();
 	}
@@ -197,8 +212,11 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 		
 		super.turnOn();
 		
-		// Actually in seconds
-		ticksRequired = 25;
+		// Actually in seconds 24 15 10 6
+		ticksRequired = 24;
+		
+		// Actually mb/s
+		energyPerTick = 10;
 	}
 	
 	@Override
@@ -208,42 +226,13 @@ public class TileEntityDryingPool extends TileEntityFunctionalMachineT2 {
 	}
 	
 	@Override
-	public <T> T getCapability(Capability<T> capability, final EnumFacing from) {
+	public <T> T getCapability(Capability<T> capability, final EnumFacing facing) {
 
-		/*if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+		if (capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing == null) {
 			
-			return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.cast(new IFluidHandler() {
-
-				@Override
-				public IFluidTankProperties[] getTankProperties() {
-
-					FluidTankInfo inputInfo = inputTank.getInfo();
-					return null;//new IFluidTankProperties[] { new FluidTankProperties(inputInfo.fluid, inputInfo.capacity)};
-				}
-
-				@Override
-				public int fill(FluidStack resource, boolean doFill) {
-
-
-					return 0;//inputTank.fill(resource, doFill);
-				}
-
-				@Nullable
-				@Override
-				public FluidStack drain(FluidStack resource, boolean doDrain) {
-
-					return null;//inputTank.drain(resource, doDrain);
-				}
-
-				@Nullable
-				@Override
-				public FluidStack drain(int maxDrain, boolean doDrain) {
-
-					return null;//inputTank.drain(maxDrain, doDrain);
-				}
-			});
-		}*/
-		return super.getCapability(capability, from);
+			return (T) new FluidHandlerZero(this, facing);
+		}
+		return super.getCapability(capability, facing);
 	}
 
 	@Override

@@ -24,13 +24,13 @@ public class ContainerCloud implements IInventory {
 	@Override
 	public String getName() {
 		
-		return tileEntity.getBlockType().getUnlocalizedName();
+		return "";
 	}
 	
 	@Override
 	public boolean hasCustomName() {
 		
-		return true;
+		return false;
 	}
 	
 	@Override

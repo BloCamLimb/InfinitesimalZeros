@@ -36,7 +36,7 @@ public class RegistryBlocks {
 	
 	public static Block init(Block block, String name) {
 		
-		return block.setUnlocalizedName(name).setRegistryName("infinitesimalzeros:" + name);
+		return block.setUnlocalizedName(InfinitesimalZeros.NAME_GAPLESS + "." + name).setRegistryName("infinitesimalzeros:" + name);
 	}
 	
 	public static void initRenderRegistry() {

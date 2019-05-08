@@ -4,6 +4,7 @@ import cofh.api.block.IDismantleable;
 import cofh.api.item.IToolHammer;
 import cofh.core.util.helpers.ServerHelper;
 import infinitesimalzeros.InfinitesimalZeros;
+import infinitesimalzeros.common.blocks.BlockBoundingBox;
 import infinitesimalzeros.common.blocks.BlockTileEntityCore;
 import infinitesimalzeros.common.registry.ItemRegister;
 import net.minecraft.block.Block;
@@ -38,9 +39,21 @@ public class ItemWrench extends ItemRegister implements IToolHammer {
 		IBlockState state = world.getBlockState(pos);
 		Block block = state.getBlock();
 		
-		if (ServerHelper.isServerWorld(world) && player.isSneaking() && (block instanceof BlockTileEntityCore || (block instanceof IDismantleable && ((IDismantleable) block).canDismantle(world, pos, state, player)))) {
-			//((IDismantleable) block).dismantleBlock(world, pos, state, player, false);
-			((BlockTileEntityCore) block).dismantleMachine(state, world, pos);
+		if (!world.isRemote && player.isSneaking() && (block instanceof BlockTileEntityCore || block instanceof BlockBoundingBox)) {
+			
+			if(block instanceof BlockTileEntityCore)
+				((BlockTileEntityCore) block).dismantleMachine(state, world, pos);
+			
+			if(block instanceof BlockBoundingBox) {
+				
+				BlockPos cPos = ((BlockBoundingBox) block).getCoreBlockPos(world, pos);
+				IBlockState cState = world.getBlockState(cPos);
+				BlockTileEntityCore cBlock = ((BlockBoundingBox) block).getCoreBlock(world, pos);
+				
+				if(cBlock != null)
+					cBlock.dismantleMachine(cState, world, cPos);
+			}
+			
 			return EnumActionResult.SUCCESS;
 		}
 		
