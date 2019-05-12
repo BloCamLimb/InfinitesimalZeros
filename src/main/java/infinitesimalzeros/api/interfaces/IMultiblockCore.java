@@ -13,7 +13,7 @@ import net.minecraftforge.items.IItemHandler;
 @InterfaceList({
 	@Interface(iface = "cofh.redstoneflux.api.IEnergyProvider", modid = "redstoneflux"),
 	@Interface(iface = "cofh.redstoneflux.api.IEnergyReceiver", modid = "redstoneflux")})
-public interface IMultiblockCore extends ICapabilityProvider, IInventoryZero, IEnergyReceiver, IEnergyProvider {
+public interface IMultiblockCore extends ICapabilityProvider, ITileNetwork, IInventoryZero, IEnergyReceiver, IEnergyProvider {
 	
 	/**
 	 * Get TileEntity localized name, there's an error when using NBTEdit which not compatible with ITextComponent in some cases. (Bug Fix)

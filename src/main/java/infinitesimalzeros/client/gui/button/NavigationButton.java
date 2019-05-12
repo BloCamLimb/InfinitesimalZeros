@@ -22,7 +22,7 @@ public class NavigationButton extends GuiButtonCore {
 	
 	public static final int SECURITY = 0;
 	public static final int HOME = 1;
-	public static final int RECIPE = 2;
+	public static final int RECIPE = 3;
 	
 	public int buttonNavigationId;
 

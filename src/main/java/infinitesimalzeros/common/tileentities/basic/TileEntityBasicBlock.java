@@ -11,18 +11,19 @@ import infinitesimalzeros.api.interfaces.ITileComponent;
 import infinitesimalzeros.api.interfaces.ITileNetwork;
 import infinitesimalzeros.common.capabilities.Capabilities;
 import infinitesimalzeros.common.core.handler.PacketHandler;
-import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
 import infinitesimalzeros.common.network.PacketDataRequest.DataRequestMessage;
+import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
 import infinitesimalzeros.common.network.TileNetworkList;
 import infinitesimalzeros.common.util.IZUtils;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.Rotation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -68,10 +69,25 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 		if(!world.isRemote) {
 			if(doAutoSync && playersUsing.size() > 0) {
 				for(EntityPlayer player : playersUsing) {
-					PacketHandler.network.sendTo(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), (EntityPlayerMP) player);
+					//PacketHandler.network.sendTo(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), (EntityPlayerMP) player);
+					IBlockState state = world.getBlockState(pos);
+					//world.markAndNotifyBlock(pos, null, state, state, 11);
+					world.notifyBlockUpdate(pos, state, state, 3);
 				}
 			}
 		}
+	}
+	
+	@Override
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		//InfinitesimalZeros.logger.info("get");
+		return new SPacketUpdateTileEntity(pos, -1, writeToNBT(new NBTTagCompound()));
+	}
+	
+	@Override
+	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
+		//InfinitesimalZeros.logger.info("sync");
+		readFromNBT(pkt.getNbtCompound());
 	}
 	
 	public void open(EntityPlayer player) {
@@ -124,7 +140,6 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 			}
 		}
 	}
-	
 	
 	@Override
 	public TileNetworkList getNetworkedData(TileNetworkList data) {

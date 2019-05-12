@@ -13,6 +13,7 @@ import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
 import infinitesimalzeros.common.tileentities.basic.TileEntityBasicMachine;
 import infinitesimalzeros.common.util.IZUtils;
 import io.netty.buffer.ByteBuf;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -27,6 +28,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -56,7 +58,6 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 	
 	// Fluid tank list.
 	public FluidTankCore inputTank;
-	public IFluidTank outputTank;
 	
 	public TileEntityFunctionalMachineT0(String name, double maxEnergy) {
 		
@@ -180,8 +181,8 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		
 		super.onUpdate();
 		
-		if(!world.isRemote && !verified)
-			return;
+		//if(!world.isRemote && !verified)
+		//	return;
 		
 		if(world.isRemote)
 			return;
@@ -224,7 +225,7 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		
 		isActive = true;
 		isHighActivity = true;
-		PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
+		sendPacketToReceivers();
 	}
 	
 	protected void turnOff() {
@@ -233,7 +234,7 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		ticksRequired = 0;
 		isActive = false;
 		isHighActivity = false;
-		PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
+		sendPacketToReceivers();
 	}
 	
 	public void masterControlOn() {
@@ -245,6 +246,24 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		
 		masterControl = false;
 		turnOff();
+	}
+	
+	protected FluidStack updateRenderFluid(IFluidTank tank, FluidStack prev) {
+		
+		if((tank.getFluid() == null && prev != null) || (tank.getFluid() != null && !tank.getFluid().isFluidStackIdentical(prev)))
+			sendPacketToReceivers();
+		else
+			return prev;
+		
+		return tank.getFluid() != null ? tank.getFluid().copy() : null;
+	}
+	
+	protected void sendPacketToReceivers() {
+		
+		IBlockState state = world.getBlockState(pos);
+		//world.markAndNotifyBlock(pos, null, state, state, 11);
+		world.notifyBlockUpdate(pos, state, state, 3);
+		//PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
 	}
 	
 	@Override

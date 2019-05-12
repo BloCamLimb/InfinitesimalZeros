@@ -13,6 +13,9 @@ import infinitesimalzeros.common.registry.RegistrySounds;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.inventory.Container;
 
 
@@ -62,6 +65,19 @@ public abstract class GuiContainerCore extends GuiContainer implements IGuiZero 
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		
 	}
+	
+	public void drawTexturedRectangular(double x, double y, double textureX, double textureY, double width, double height)
+    {
+        float f = 0.00390625F;
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+        bufferbuilder.pos(x + 0, y + height, zLevel).tex(textureX * f, (textureY + height) * f).endVertex();
+        bufferbuilder.pos(x + width, y + height, zLevel).tex((textureX + width) * f, (textureY + height) * f).endVertex();
+        bufferbuilder.pos(x + width, y + 0, zLevel).tex((textureX + width) * f, textureY * f).endVertex();
+        bufferbuilder.pos(x + 0, y + 0, zLevel).tex(textureX * f, textureY * f).endVertex();
+        tessellator.draw();
+    }
 	
 	
 }

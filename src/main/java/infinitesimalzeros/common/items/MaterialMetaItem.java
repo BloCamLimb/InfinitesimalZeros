@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Preconditions;
 
 import gnu.trove.map.hash.TShortObjectHashMap;
+import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.common.unification.MaterialBasis;
 import infinitesimalzeros.common.unification.MaterialSetIcon;
 import infinitesimalzeros.common.unification.OrePrefix;
@@ -36,12 +37,14 @@ public class MaterialMetaItem extends StandardMetaItem {
 		Preconditions.checkArgument(orePrefixes.length <= 32, "Max allowed OrePrefix count on MaterialMetaItem is 32.");
 		this.orePrefixes = orePrefixes;
 		for(MaterialBasis material : MaterialBasis.MATERIAL_REGISTRY) {
+			InfinitesimalZeros.logger.info("reg checked");
 			int i = MaterialBasis.MATERIAL_REGISTRY.getIDForObject(material);
 			for(int j = 0; j < orePrefixes.length; j++) {
 				OrePrefix orePrefix = orePrefixes[j];
-				if(orePrefix != null) {
+				if(orePrefix != null && canGenerate(orePrefix, material)) {
 					short metadata = (short) (j * 1000 + i);
 					generatedItems.add(metadata);
+					InfinitesimalZeros.logger.info("Metaitem: "+metadata);
 				}
 			}
 		}

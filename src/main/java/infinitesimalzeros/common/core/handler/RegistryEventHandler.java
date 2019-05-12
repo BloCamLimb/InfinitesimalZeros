@@ -40,10 +40,11 @@ public class RegistryEventHandler {
 		event.getRegistry().registerAll(RegistryItems.ITEMS.toArray(new Item[0]));
 		IForgeRegistry<Item> registry = event.getRegistry();
 		
-		for(MetaItem<?> item : MetaItems.ITEMS) {
-			registry.register(item);
-			item.registerSubItems();
-		}
+		
+		//for(MetaItem<?> item : MetaItems.ITEMS) {
+		//	registry.register(item);
+		//	item.registerSubItems();
+		//}
 		
 		
 	}
@@ -66,7 +67,7 @@ public class RegistryEventHandler {
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
 		
-		MetaItems.registerModels();
+		//MetaItems.registerModels();
 		RegistryBlocks.registerBlockRender();
 		
 		for(Item item : RegistryItems.ITEMS) {
@@ -80,6 +81,7 @@ public class RegistryEventHandler {
 				((IModelRender) block).registerModels();
 			}
 		}
+		
 	}
 	
 	@SubscribeEvent

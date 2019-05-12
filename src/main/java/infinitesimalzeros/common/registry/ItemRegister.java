@@ -12,6 +12,7 @@ public class ItemRegister extends Item implements IModelRender {
 		setRegistryName(name);
 		setCreativeTab(InfinitesimalZeros.proxy.creativeTab);
 		RegistryItems.ITEMS.add(this);
+		InfinitesimalZeros.logger.info("Now Register Item: "+this.getRegistryName());
 	}
 	
 	@Override

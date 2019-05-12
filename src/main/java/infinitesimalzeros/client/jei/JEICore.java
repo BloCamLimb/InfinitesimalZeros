@@ -1,5 +1,6 @@
 package infinitesimalzeros.client.jei;
 
+import java.util.Arrays;
 import java.util.List;
 
 import infinitesimalzeros.client.jei.category.NanaSmelterRecipeCategory;
@@ -11,7 +12,6 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
-import scala.actors.threadpool.Arrays;
 
 @JEIPlugin
 public class JEICore implements IModPlugin {

@@ -22,6 +22,8 @@ public class RegistryItemsRender {
 	public static void registerItemModels(ModelRegistryEvent event) {
 		
 		//registerItemModel(RegistryItems.neutron);
+		//for(short i = 0; i <= 1; i++)
+			//ModelLoader.setCustomModelResourceLocation(RegistryItems.material, i, new ModelResourceLocation("infinitesimalzeros:ingot", "inventory"));
 	}
 	
 	private static void registerItemModel(Item item) {

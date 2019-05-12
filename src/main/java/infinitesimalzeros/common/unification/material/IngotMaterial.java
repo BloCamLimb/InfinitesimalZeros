@@ -1,5 +1,6 @@
 package infinitesimalzeros.common.unification.material;
 
+import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.common.unification.MaterialBasis;
 import infinitesimalzeros.common.unification.MaterialSetIcon;
 
@@ -10,7 +11,7 @@ public class IngotMaterial extends DustMaterial {
 	public IngotMaterial(int metaItemSubId, String name, int materialRGB, MaterialSetIcon materialIconSet) {
 		
 		super(metaItemSubId, name, materialRGB, materialIconSet);
-		
+		InfinitesimalZeros.logger.info("NowRegister"+name);
 	}
 	
 }

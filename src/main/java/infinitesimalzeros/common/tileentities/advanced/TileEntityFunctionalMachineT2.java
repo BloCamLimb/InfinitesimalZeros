@@ -8,7 +8,7 @@ import net.minecraft.util.NonNullList;
 
 // 1 fluid input, 1 item output
 public abstract class TileEntityFunctionalMachineT2 extends TileEntityFunctionalMachineT0 {
-
+	
 	public TileEntityFunctionalMachineT2(String name, double maxEnergy) {
 		
 		super(name, maxEnergy);

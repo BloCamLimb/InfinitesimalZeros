@@ -18,7 +18,10 @@ import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import infinitesimalzeros.common.tileentities.advanced.TileEntityFunctionalMachineT0;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
 
@@ -44,10 +47,10 @@ public class GuiSaltTank extends GuiTileEntityCore<TileEntityFunctionalMachineT0
 	public static int tabExpandSpeed;
 	
 	public int maxWidth = 99;
-	public int barWidth;
+	public float barWidth;
 	
 	public int maxHeight = 140;
-	public int barHeight;
+	public float barHeight;
 	public int energyHeight;
 	
 	public GuiSaltTank(InventoryPlayer player, TileEntitySaltTank tileEntity) {
@@ -74,7 +77,6 @@ public class GuiSaltTank extends GuiTileEntityCore<TileEntityFunctionalMachineT0
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		
 		super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
-		
 		GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 		this.mc.getTextureManager().bindTexture(TEXTURES);
 		this.drawTexturedModalRect(width / 2 - 128, height / 2 - 128, 0, 0, 256, 256);
@@ -84,7 +86,7 @@ public class GuiSaltTank extends GuiTileEntityCore<TileEntityFunctionalMachineT0
 		 * if(NanaFurnaceTE.isBurning(tileentity)) { int k = this.getBurnLeftScaled(13); this.drawTexturedModalRect(this.guiLeft + 8, this.guiTop + 54 + 12 -
 		 * k, 176, 12 - k, 14, k + 1); }
 		 */
-		update();
+		update(partialTicks);
 		drawSlideBar();
 		if(fullOpen)
 			drawCat();
@@ -125,8 +127,8 @@ public class GuiSaltTank extends GuiTileEntityCore<TileEntityFunctionalMachineT0
 		GlStateManager.color(colorR, colorG, colorB, 1.0F);
 		GlStateManager.pushMatrix();
 		this.mc.renderEngine.bindTexture(SLIDEBAR);
-		this.drawTexturedModalRect(width / 2 - 108, height / 2 - 88, 100, 0, 4, barHeight);
-		this.drawTexturedModalRect(width / 2 - 208, height / 2 - 88, barWidth - 100, 0, 100, 140);
+		this.drawTexturedRectangular(width / 2 - 108, height / 2 - 88, 100, 0, 4, barHeight);
+		this.drawTexturedRectangular(width / 2 - 208, height / 2 - 88, barWidth - 100, 0, 100, 140);
 		// this.drawTexturedModalRect(0, 4, 0, 256 - currentHeight + 4, 4, currentHeight
 		// - 4);
 		
@@ -177,21 +179,21 @@ public class GuiSaltTank extends GuiTileEntityCore<TileEntityFunctionalMachineT0
 		}*/
 	}
 	
-	public void update() {
+	public void update(float i) {
 		
 		if((!open || !fullOpen) && !close) {
 			
 			if(!open) {
-				if(barHeight <= maxHeight - tabExpandSpeed * 2)
-					barHeight += tabExpandSpeed * 2;
+				if(barHeight <= maxHeight - i*16)
+					barHeight += i*16;//tabExpandSpeed * 2;
 				else {
 					barHeight = maxHeight;
 					open = true;
 				}
 			} else {
 				
-				if(barWidth <= maxWidth - tabExpandSpeed)
-					barWidth += tabExpandSpeed;
+				if(barWidth <= maxWidth - i*8)
+					barWidth += i*8;//tabExpandSpeed;
 				else {
 					barWidth = maxWidth;
 					fullOpen = true;
@@ -209,7 +211,7 @@ public class GuiSaltTank extends GuiTileEntityCore<TileEntityFunctionalMachineT0
 		if(close) {
 			
 			if(barWidth >= tabExpandSpeed) {
-				barWidth -= tabExpandSpeed;
+				barWidth -= i*16;
 				energyHeight = 0;
 				fullOpen = false;
 			}

@@ -1,50 +1,41 @@
 package infinitesimalzeros.common.tileentities;
 
-import javax.annotation.Nullable;
-
-import cofh.core.util.helpers.FluidHelper;
+import cofh.core.network.ITileInfoPacketHandler;
+import cofh.core.network.PacketBase;
+import cofh.core.network.PacketHandler;
+import cofh.core.network.PacketTileInfo;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.api.Range4D;
 import infinitesimalzeros.common.core.FluidHandlerZero;
-import infinitesimalzeros.common.core.handler.PacketHandler;
-import infinitesimalzeros.common.network.TileNetworkList;
 import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
+import infinitesimalzeros.common.network.TileNetworkList;
 import infinitesimalzeros.common.tileentities.advanced.TileEntityFunctionalMachineT2;
 import infinitesimalzeros.common.util.FluidUtils;
 import infinitesimalzeros.common.util.IZUtils;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.minecraftforge.fluids.capability.FluidTankProperties;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidTankProperties;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.items.IItemHandler;
 
 public class TileEntitySaltTank extends TileEntityFunctionalMachineT2 {
 	
+	private FluidStack prevFluid = new FluidStack(FluidRegistry.WATER, 0);
+	
 	public TileEntitySaltTank() {
 		
 		super("SaltTank", 0);
-		
+		doAutoSync = false;
 	}
 	
 	@Override
@@ -58,10 +49,9 @@ public class TileEntitySaltTank extends TileEntityFunctionalMachineT2 {
 		
 		return true;
 	}
-
+	
 	@Override
 	public void doGraphicalUpdates(int slot) {
-		
 		
 	}
 	
@@ -70,8 +60,16 @@ public class TileEntitySaltTank extends TileEntityFunctionalMachineT2 {
 		
 		super.onUpdate();
 		
-		if(!world.isRemote && isKeyTime(2))
-			PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
+		if(!world.isRemote) {
+			prevFluid = updateRenderFluid(inputTank, prevFluid);
+		}
+
+	}
+	
+	@Override
+	public double getMaxRenderDistanceSquared() {
+		
+		return Math.pow(128, 2);
 	}
 	
 	@Override
@@ -246,6 +244,5 @@ public class TileEntitySaltTank extends TileEntityFunctionalMachineT2 {
 		
 		return extractionHandler;
 	}
-
 	
 }

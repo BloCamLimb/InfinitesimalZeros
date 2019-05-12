@@ -20,6 +20,7 @@ import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.obj.OBJLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class ClientProxy extends CommonProxy {
@@ -27,9 +28,9 @@ public class ClientProxy extends CommonProxy {
 	private static final IStateMapper machineMapper = new MachineBlockStateMapper();
 	
 	@Override
-	public void preInit() {
+	public void preInit(FMLPreInitializationEvent event) {
 		
-		super.preInit();
+		super.preInit(event);
 		OBJLoader.INSTANCE.addDomain(InfinitesimalZeros.MODID);
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySmelter.class, new NanaSmelterTESR());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySaltTank.class, new SaltTankTESR());

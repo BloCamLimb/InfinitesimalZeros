@@ -3,9 +3,11 @@ package infinitesimalzeros.common.unification;
 import java.util.ArrayList;
 import java.util.List;
 
+import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.interfaces.IMaterialHandler;
 import infinitesimalzeros.common.util.ControlledRegistry;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -27,6 +29,7 @@ public abstract class MaterialBasis implements Comparable<MaterialBasis> {
 		
 		this.materialRGB = materialRGB;
 		this.materialIconSet = materialIconSet;
+		InfinitesimalZeros.logger.info("Now Register "+name);
 		registerMaterial(metaItemSubId, name);
 	}
 	

@@ -28,7 +28,7 @@ public class RegistryBlocks {
 	public static final List<Block> BLOCKS = new ArrayList<Block>();
 	public static Map<String, ModelResourceLocation> machineResources = new HashMap<>();
 	
-	public static final Block NanaBlock = new NanaBlock("nana_block");
+	//public static final Block NanaBlock = new NanaBlock("nana_block");
 	//public static final Block NanaFurnace = new NanaFurnace();
 	public static final Block TEBlock1 = BlockTileEntityCore.getBlockMachine(MachineSets.Machine_Set_A);
 	//public static final Block TEBlock2 = BlockTileEntityCore.getBlockMachine(MachineSets.Machine_Set_B);
