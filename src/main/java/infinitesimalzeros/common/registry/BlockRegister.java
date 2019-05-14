@@ -1,14 +1,14 @@
 package infinitesimalzeros.common.registry;
 
 import infinitesimalzeros.InfinitesimalZeros;
-import infinitesimalzeros.api.interfaces.IModelRender;
+import infinitesimalzeros.api.interfaces.IModelRegister;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 
-public abstract class BlockRegister extends Block implements IModelRender {
+public abstract class BlockRegister extends Block implements IModelRegister {
 	
 	public BlockRegister(String name, Material material) {
 		

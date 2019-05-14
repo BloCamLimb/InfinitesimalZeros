@@ -1,7 +1,7 @@
 package infinitesimalzeros.common.core.handler;
 
 import infinitesimalzeros.InfinitesimalZeros;
-import infinitesimalzeros.api.interfaces.IModelRender;
+import infinitesimalzeros.api.interfaces.IModelRegister;
 import infinitesimalzeros.client.render.CoreRenderer;
 import infinitesimalzeros.common.capabilities.Capabilities;
 import infinitesimalzeros.common.items.MetaItem;
@@ -71,14 +71,14 @@ public class RegistryEventHandler {
 		RegistryBlocks.registerBlockRender();
 		
 		for(Item item : RegistryItems.ITEMS) {
-			if(item instanceof IModelRender) {
-				((IModelRender) item).registerModels();
+			if(item instanceof IModelRegister) {
+				((IModelRegister) item).registerModels();
 			}
 		}
 		
 		for(Block block : RegistryBlocks.BLOCKS) {
-			if(block instanceof IModelRender) {
-				((IModelRender) block).registerModels();
+			if(block instanceof IModelRegister) {
+				((IModelRegister) block).registerModels();
 			}
 		}
 		

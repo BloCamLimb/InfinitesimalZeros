@@ -34,11 +34,9 @@ public class ItemMaterial extends ItemRegister {
 	@Override
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		
-		super.getSubItems(tab, items);
-		
-		for(MaterialTypes m : MaterialTypes.values()) {
-			items.add(new ItemStack(this, 1, m.meta));
-		}
+		if(isInCreativeTab(tab))
+			for(MaterialTypes m : MaterialTypes.values())
+				items.add(new ItemStack(this, 1, m.meta));
 	}
 
 	@Override

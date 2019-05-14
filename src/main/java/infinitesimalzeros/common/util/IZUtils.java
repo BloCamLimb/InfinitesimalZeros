@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.lwjgl.opengl.GL11;
 
 import infinitesimalzeros.api.Coord4D;
-import infinitesimalzeros.api.interfaces.IActiveState;
 import infinitesimalzeros.common.registry.RegistryBlocks;
 import infinitesimalzeros.common.tileentities.TileEntityAdvancedBoundingBox;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -36,13 +35,9 @@ public class IZUtils {
 	 */
 	public static void updateBlock(World world, BlockPos pos) {
 		
-		if(!(world.getTileEntity(pos) instanceof IActiveState) || ((IActiveState) world.getTileEntity(pos)).renderUpdate()) {
 			world.markBlockRangeForRenderUpdate(pos, pos);
-		}
 		
-		if(!(world.getTileEntity(pos) instanceof IActiveState) || ((IActiveState) world.getTileEntity(pos)).lightUpdate()) {
 			updateAllLightTypes(world, pos);
-		}
 	}
 	
 	/**
@@ -69,26 +64,6 @@ public class IZUtils {
 		}
 		
 		tileEntity.getWorld().markChunkDirty(tileEntity.getPos(), tileEntity);
-	}
-	
-	/**
-	 * Checks if a machine is in it's active state.
-	 * 
-	 * @param world World of the machine to check
-	 * @param pos   The position of the machine
-	 * @return if machine is active
-	 */
-	public static boolean isActive(IBlockAccess world, BlockPos pos) {
-		
-		TileEntity tileEntity = world.getTileEntity(pos);
-		
-		if(tileEntity != null) {
-			if(tileEntity instanceof IActiveState) {
-				return ((IActiveState) tileEntity).getActive();
-			}
-		}
-		
-		return false;
 	}
 	
 	public static ResourceLocation getResource(ResourceType type, String name) {

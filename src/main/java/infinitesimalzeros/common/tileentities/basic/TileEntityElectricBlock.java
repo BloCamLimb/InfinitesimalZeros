@@ -5,6 +5,7 @@ import infinitesimalzeros.common.capabilities.Capabilities;
 import infinitesimalzeros.common.capabilities.CapabilityWrapperManager;
 import infinitesimalzeros.common.integration.ForgeEnergyIntegration;
 import infinitesimalzeros.common.network.TileNetworkList;
+import infinitesimalzeros.common.tileentities.advanced.TileEntityFunctionalMachineT0;
 import infinitesimalzeros.common.util.IZUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,16 +20,12 @@ public abstract class TileEntityElectricBlock extends TileEntityBasicBlock imple
 	/** How much energy is stored in this block. */
 	public double electricityStored;
 	
-	/** Maximum amount of energy this machine can hold. */
-	public double BASE_MAX_ENERGY;
-	
 	/** Actual maximum energy storage, including upgrades */
 	public double maxEnergy;
 	
 	public TileEntityElectricBlock(double baseMaxEnergy) {
 		
-		BASE_MAX_ENERGY = baseMaxEnergy;
-		maxEnergy = BASE_MAX_ENERGY;
+		maxEnergy = baseMaxEnergy;
 	}
 	
 	@Override
@@ -228,7 +225,10 @@ public abstract class TileEntityElectricBlock extends TileEntityBasicBlock imple
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
 		
-		return capability == CapabilityEnergy.ENERGY || super.hasCapability(capability, facing);
+		if(capability == CapabilityEnergy.ENERGY && maxEnergy > 0)
+			return capability == CapabilityEnergy.ENERGY;
+		
+		return super.hasCapability(capability, facing);
 	}
 	
 	private CapabilityWrapperManager<IEnergyWrapper, ForgeEnergyIntegration> forgeEnergyManager = new CapabilityWrapperManager<>(IEnergyWrapper.class, ForgeEnergyIntegration.class);
@@ -236,7 +236,7 @@ public abstract class TileEntityElectricBlock extends TileEntityBasicBlock imple
 	@Override
 	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
 		
-		if(capability == CapabilityEnergy.ENERGY) {
+		if(capability == CapabilityEnergy.ENERGY & maxEnergy > 0) {
 			return (T) forgeEnergyManager.getWrapper(this, facing);
 		}
 		

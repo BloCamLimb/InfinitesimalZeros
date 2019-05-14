@@ -7,7 +7,6 @@ import infinitesimalzeros.common.recipe.RecipeT1;
 import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
 import infinitesimalzeros.common.registry.RegistryItems;
 import infinitesimalzeros.common.tileentities.advanced.TileEntityFunctionalMachineT1;
-import infinitesimalzeros.common.tileentities.basic.TileEntityElectricMachine;
 import infinitesimalzeros.common.util.IZUtils;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -27,7 +26,6 @@ public class TileEntitySmelter extends TileEntityFunctionalMachineT1 {
 	public TileEntitySmelter() {
 		
 		super("NanaSmelter", 5000000);
-		
 		
 	}
 

@@ -43,10 +43,10 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityFunctionalMachin
 	public static int tabExpandSpeed;
 	
 	public int maxWidth = 99;
-	public int barWidth;
+	public float barWidth;
 	
 	public int maxHeight = 140;
-	public int barHeight;
+	public float barHeight;
 	public int energyHeight;
 	
 	public GuiNanaSmelter(InventoryPlayer player, TileEntitySmelter tileEntity) {
@@ -83,7 +83,7 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityFunctionalMachin
 		 * if(NanaFurnaceTE.isBurning(tileentity)) { int k = this.getBurnLeftScaled(13); this.drawTexturedModalRect(this.guiLeft + 8, this.guiTop + 54 + 12 -
 		 * k, 176, 12 - k, 14, k + 1); }
 		 */
-		update();
+		update(partialTicks);
 		drawSlideBar();
 		if(fullOpen)
 			drawCat();
@@ -124,8 +124,8 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityFunctionalMachin
 		GlStateManager.color(colorR, colorG, colorB, 1.0F);
 		GlStateManager.pushMatrix();
 		this.mc.renderEngine.bindTexture(SLIDEBAR);
-		this.drawTexturedModalRect(width / 2 - 108, height / 2 - 88, 100, 0, 4, barHeight);
-		this.drawTexturedModalRect(width / 2 - 208, height / 2 - 88, barWidth - 100, 0, 100, 140);
+		this.drawTexturedRectangular(width / 2 - 108, height / 2 - 88, 100, 0, 4, barHeight);
+		this.drawTexturedRectangular(width / 2 - 208, height / 2 - 88, barWidth - 100, 0, 100, 140);
 		// this.drawTexturedModalRect(0, 4, 0, 256 - currentHeight + 4, 4, currentHeight
 		// - 4);
 		
@@ -176,21 +176,21 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityFunctionalMachin
 		}*/
 	}
 	
-	public void update() {
+	public void update(float i) {
 		
 		if((!open || !fullOpen) && !close) {
 			
 			if(!open) {
-				if(barHeight <= maxHeight - tabExpandSpeed * 2)
-					barHeight += tabExpandSpeed * 2;
+				if(barHeight <= maxHeight - i*16)
+					barHeight += i*16;//tabExpandSpeed * 2;
 				else {
 					barHeight = maxHeight;
 					open = true;
 				}
 			} else {
 				
-				if(barWidth <= maxWidth - tabExpandSpeed)
-					barWidth += tabExpandSpeed;
+				if(barWidth <= maxWidth - i*8)
+					barWidth += i*8;
 				else {
 					barWidth = maxWidth;
 					fullOpen = true;
@@ -198,8 +198,8 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityFunctionalMachin
 			}
 		} else if(fullOpen) {
 			
-			if(energyHeight <= tileEntity.getScaledEnergyLevel(100) - tabExpandSpeed)
-				energyHeight += tabExpandSpeed;
+			if(energyHeight <= tileEntity.getScaledEnergyLevel(100) - i*6)
+				energyHeight += i*6;
 			else {
 				energyHeight = tileEntity.getScaledEnergyLevel(100);
 			}
@@ -207,8 +207,8 @@ public class GuiNanaSmelter extends GuiTileEntityCore<TileEntityFunctionalMachin
 		
 		if(close) {
 			
-			if(barWidth >= tabExpandSpeed) {
-				barWidth -= tabExpandSpeed;
+			if(barWidth >= i*8) {
+				barWidth -= i*8;
 				energyHeight = 0;
 				fullOpen = false;
 			}

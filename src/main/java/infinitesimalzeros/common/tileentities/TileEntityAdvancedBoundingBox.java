@@ -7,6 +7,7 @@ import infinitesimalzeros.api.interfaces.IMultiblockCore;
 import infinitesimalzeros.common.capabilities.Capabilities;
 import infinitesimalzeros.common.core.FluidHandlerZero;
 import infinitesimalzeros.common.network.TileNetworkList;
+import infinitesimalzeros.common.tileentities.basic.TileEntityBoundingBox;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;

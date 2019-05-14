@@ -19,20 +19,39 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-public abstract class TileEntityBasicMachine extends TileEntityOperationalMachine implements ISecurityComponent {
-	
-	public ResourceLocation guiLocation;
+public abstract class TileEntityBasicMachine extends TileEntityElectricBlock implements ISecurityComponent {
 	
 	public boolean verified;
 	
-	public String ownerUUID = "";
-	public String securityCode = "";
+	public boolean isActive;
 	
-	// public RECIPE cachedRecipe = null;
+	public int energyPerTick;
+	
+	public int operatingTicks;
+	
+	public int ticksRequired;
+	
+	public String ownerUUID = "";
+	
+	public String securityCode = "";
 	
 	public TileEntityBasicMachine(double maxEnergy) {
 		
 		super(maxEnergy);
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbtTags) {
+		
+		super.readFromNBT(nbtTags);
+		
+		isActive = nbtTags.getBoolean("isActive");
+		
+		operatingTicks = nbtTags.getInteger("operatingTicks");
+		ticksRequired = nbtTags.getInteger("ticksRequired");
+		
+		ownerUUID = nbtTags.getString("OwnerUUID");
+		securityCode = nbtTags.getString("SecurityCode");
 		
 	}
 	
@@ -41,20 +60,15 @@ public abstract class TileEntityBasicMachine extends TileEntityOperationalMachin
 		
 		super.writeToNBT(nbtTags);
 		
+		nbtTags.setBoolean("isActive", isActive);
+		
+		nbtTags.setInteger("operatingTicks", operatingTicks);
+		nbtTags.setInteger("ticksRequired", ticksRequired);
+		
 		nbtTags.setString("OwnerUUID", ownerUUID);
 		nbtTags.setString("SecurityCode", securityCode);
 		
 		return nbtTags;
-	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound nbtTags) {
-		
-		super.readFromNBT(nbtTags);
-		
-		ownerUUID = nbtTags.getString("OwnerUUID");
-		securityCode = nbtTags.getString("SecurityCode");
-		
 	}
 	
 	@Override
@@ -70,8 +84,6 @@ public abstract class TileEntityBasicMachine extends TileEntityOperationalMachin
 	
 	@Override
 	public void onUpdate() {
-
-		super.onUpdate();
 		
 		if(doAutoAntiCheat && isKeyTime(15) && !world.isRemote)
 			antiCheatCheck();
@@ -86,6 +98,17 @@ public abstract class TileEntityBasicMachine extends TileEntityOperationalMachin
 		
 	}
 	
+	public double getScaledProgress() {
+		
+		return ((double) operatingTicks) / (double) ticksRequired;
+	}
+	
+	@Override
+	public boolean canSetFacing(int facing) {
+		
+		return facing != 0 && facing != 1;
+	}
+	
 	protected void antiCheatCheck() {
 		
 	}
@@ -94,16 +117,5 @@ public abstract class TileEntityBasicMachine extends TileEntityOperationalMachin
 		
 		return world.getWorldTime() % key == 0;
 	}
-	
-	@Override
-    public void setActive(boolean active) {
-		
-        boolean stateChange = (isActive != active);
-
-        if (stateChange) {
-            isActive = active;
-            PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
-        }
-    }
 	
 }

@@ -34,8 +34,8 @@ public class TileEntitySaltTank extends TileEntityFunctionalMachineT2 {
 	
 	public TileEntitySaltTank() {
 		
-		super("SaltTank", 0);
-		doAutoSync = false;
+		super("SaltTank");
+		
 	}
 	
 	@Override

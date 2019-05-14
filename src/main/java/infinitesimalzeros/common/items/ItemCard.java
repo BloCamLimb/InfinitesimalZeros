@@ -6,7 +6,9 @@ import com.mojang.authlib.GameProfile;
 
 import infinitesimalzeros.api.interfaces.ISecurityComponent;
 import infinitesimalzeros.common.registry.ItemRegister;
+import infinitesimalzeros.common.tileentities.basic.TileEntityBasicMachine;
 import infinitesimalzeros.common.util.ItemDataUtils;
+import infinitesimalzeros.common.util.SecurityUtils;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -61,8 +63,9 @@ public class ItemCard extends ItemRegister {
 		
 		TileEntity tileEntity = world.getTileEntity(pos);
 		
-		if(!world.isRemote && player.isSneaking() && tileEntity instanceof ISecurityComponent) {
-			((ISecurityComponent)tileEntity).setSecurityCode(stack);
+		if(!world.isRemote && player.isSneaking() && tileEntity instanceof TileEntityBasicMachine) {
+			((TileEntityBasicMachine)tileEntity).setSecurityCode(stack);
+			((TileEntityBasicMachine)tileEntity).verified = SecurityUtils.verifySecurityCode(((TileEntityBasicMachine)tileEntity).securityCode, ((TileEntityBasicMachine)tileEntity).ownerUUID);
 			return EnumActionResult.SUCCESS;
 		}
 		

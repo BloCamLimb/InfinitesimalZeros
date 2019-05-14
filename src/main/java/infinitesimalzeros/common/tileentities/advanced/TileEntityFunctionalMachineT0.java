@@ -11,6 +11,7 @@ import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.network.TileNetworkList;
 import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
 import infinitesimalzeros.common.tileentities.basic.TileEntityBasicMachine;
+import infinitesimalzeros.common.tileentities.basic.TileEntityElectricBlock;
 import infinitesimalzeros.common.util.IZUtils;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.state.IBlockState;
@@ -62,7 +63,6 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 	public TileEntityFunctionalMachineT0(String name, double maxEnergy) {
 		
 		super(maxEnergy);
-		
 		this.name = name;
 	}
 
@@ -181,13 +181,10 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		
 		super.onUpdate();
 		
-		//if(!world.isRemote && !verified)
-		//	return;
-		
 		if(world.isRemote)
 			return;
 		
-		if(!masterControl)
+		if(!verified || !masterControl)
 			return;
 		
 		if(isHighActivity)
@@ -204,16 +201,6 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 	
 	protected void process() {
 		
-		if(electricityStored < energyPerTick)
-			return;
-		
-		electricityStored -= energyPerTick;
-		operatingTicks++;
-        
-		if(operatingTicks < ticksRequired)
-			return;
-		
-		doFinish();
 	}
 	
 	protected void doFinish() {
@@ -225,7 +212,7 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		
 		isActive = true;
 		isHighActivity = true;
-		sendPacketToReceivers();
+		sendPackets();
 	}
 	
 	protected void turnOff() {
@@ -234,7 +221,7 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 		ticksRequired = 0;
 		isActive = false;
 		isHighActivity = false;
-		sendPacketToReceivers();
+		sendPackets();
 	}
 	
 	public void masterControlOn() {
@@ -251,19 +238,11 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 	protected FluidStack updateRenderFluid(IFluidTank tank, FluidStack prev) {
 		
 		if((tank.getFluid() == null && prev != null) || (tank.getFluid() != null && !tank.getFluid().isFluidStackIdentical(prev)))
-			sendPacketToReceivers();
+			sendPackets();
 		else
 			return prev;
 		
 		return tank.getFluid() != null ? tank.getFluid().copy() : null;
-	}
-	
-	protected void sendPacketToReceivers() {
-		
-		IBlockState state = world.getBlockState(pos);
-		//world.markAndNotifyBlock(pos, null, state, state, 11);
-		world.notifyBlockUpdate(pos, state, state, 3);
-		//PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
 	}
 	
 	@Override

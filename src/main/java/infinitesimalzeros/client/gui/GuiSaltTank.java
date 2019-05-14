@@ -201,8 +201,8 @@ public class GuiSaltTank extends GuiTileEntityCore<TileEntityFunctionalMachineT0
 			}
 		} else if(fullOpen) {
 			
-			if(energyHeight <= tileEntity.getScaledEnergyLevel(100) - tabExpandSpeed)
-				energyHeight += tabExpandSpeed;
+			if(energyHeight <= tileEntity.getScaledEnergyLevel(100) - i*8)
+				energyHeight += i*8;
 			else {
 				energyHeight = tileEntity.getScaledEnergyLevel(100);
 			}
@@ -210,7 +210,7 @@ public class GuiSaltTank extends GuiTileEntityCore<TileEntityFunctionalMachineT0
 		
 		if(close) {
 			
-			if(barWidth >= tabExpandSpeed) {
+			if(barWidth >= i*16) {
 				barWidth -= i*16;
 				energyHeight = 0;
 				fullOpen = false;

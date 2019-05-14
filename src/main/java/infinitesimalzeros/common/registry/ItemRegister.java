@@ -1,10 +1,10 @@
 package infinitesimalzeros.common.registry;
 
 import infinitesimalzeros.InfinitesimalZeros;
-import infinitesimalzeros.api.interfaces.IModelRender;
+import infinitesimalzeros.api.interfaces.IModelRegister;
 import net.minecraft.item.Item;
 
-public class ItemRegister extends Item implements IModelRender {
+public class ItemRegister extends Item implements IModelRegister {
 	
 	public ItemRegister(String name) {
 		

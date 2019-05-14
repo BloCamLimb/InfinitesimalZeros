@@ -66,8 +66,7 @@ public abstract class GuiContainerCore extends GuiContainer implements IGuiZero 
 		
 	}
 	
-	public void drawTexturedRectangular(double x, double y, double textureX, double textureY, double width, double height)
-    {
+	public void drawTexturedRectangular(double x, double y, double textureX, double textureY, double width, double height) {
         float f = 0.00390625F;
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();

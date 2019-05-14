@@ -10,7 +10,6 @@ import com.google.common.base.Predicates;
 
 import cofh.core.util.RayTracer;
 import infinitesimalzeros.InfinitesimalZeros;
-import infinitesimalzeros.api.interfaces.IActiveState;
 import infinitesimalzeros.api.interfaces.IMultiblockCore;
 import infinitesimalzeros.api.interfaces.IEnergizedItem;
 import infinitesimalzeros.api.interfaces.ISustainedData;
@@ -22,6 +21,7 @@ import infinitesimalzeros.common.registry.RegistryBlocks;
 import infinitesimalzeros.common.tileentities.TileEntitySaltTank;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
 import infinitesimalzeros.common.tileentities.basic.TileEntityBasicBlock;
+import infinitesimalzeros.common.tileentities.basic.TileEntityBasicMachine;
 import infinitesimalzeros.common.tileentities.basic.TileEntityElectricBlock;
 import infinitesimalzeros.common.util.IZUtils;
 import net.minecraft.block.Block;
@@ -101,8 +101,8 @@ public abstract class BlockTileEntityCore extends Block {
 			state = state.withProperty(BlockStateFacing.facingProperty, ((TileEntityBasicBlock) tileEntity).facing);
 		}
 		
-		if(tileEntity instanceof IActiveState) {
-			state = state.withProperty(BlockStateMachine.activeProperty, ((IActiveState) tileEntity).getActive());
+		if(tileEntity instanceof TileEntityBasicMachine) {
+			state = state.withProperty(BlockStateMachine.activeProperty, ((TileEntityBasicMachine) tileEntity).isActive);
 		}
 		
 		return state;

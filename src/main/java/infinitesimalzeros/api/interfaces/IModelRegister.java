@@ -1,6 +1,6 @@
 package infinitesimalzeros.api.interfaces;
 
-public interface IModelRender {
+public interface IModelRegister {
 	
 	public void registerModels();
 	

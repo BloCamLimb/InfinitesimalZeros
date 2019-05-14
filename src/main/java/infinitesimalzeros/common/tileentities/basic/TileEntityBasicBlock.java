@@ -32,8 +32,6 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 	
 	public EnumFacing facing = EnumFacing.NORTH;
 	
-	public EnumFacing clientFacing = facing;
-	
 	public HashSet<EntityPlayer> playersUsing = new HashSet<>();
 	
 	public boolean doAutoSync = true;
@@ -46,48 +44,44 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 	
 	protected boolean checkedSecurity;
 	
-	public List<ITileComponent> components = new ArrayList<>();
-	
-	@Override
-	public void onLoad() {
-		
-		super.onLoad();
-		if(world.isRemote) {
-			PacketHandler.network.sendToServer((IMessage) new DataRequestMessage(Coord4D.get(this)));
-		}
-	}
-	
 	@Override
 	public void update() {
 		
-		for(ITileComponent component : components) {
-			component.tick();
-		}
-		
 		onUpdate();
 		
-		if(!world.isRemote) {
-			if(doAutoSync && playersUsing.size() > 0) {
-				for(EntityPlayer player : playersUsing) {
-					//PacketHandler.network.sendTo(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), (EntityPlayerMP) player);
-					IBlockState state = world.getBlockState(pos);
-					//world.markAndNotifyBlock(pos, null, state, state, 11);
-					world.notifyBlockUpdate(pos, state, state, 3);
-				}
-			}
-		}
+		if(!world.isRemote && doAutoSync && playersUsing.size() > 0)
+			sendPackets();
+			
 	}
 	
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
-		//InfinitesimalZeros.logger.info("get");
+		
 		return new SPacketUpdateTileEntity(pos, -1, writeToNBT(new NBTTagCompound()));
 	}
 	
 	@Override
 	public void onDataPacket(NetworkManager net, SPacketUpdateTileEntity pkt) {
-		//InfinitesimalZeros.logger.info("sync");
+		
 		readFromNBT(pkt.getNbtCompound());
+	}
+	
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		
+		return writeToNBT(super.getUpdateTag());
+	}
+	
+	@Override
+	public void handleUpdateTag(NBTTagCompound tag) {
+		
+		readFromNBT(tag);
+	}
+	
+	protected void sendPackets() {
+		
+		IBlockState state = world.getBlockState(pos);
+		world.notifyBlockUpdate(pos, state, state, 3);
 	}
 	
 	public void open(EntityPlayer player) {
@@ -126,29 +120,11 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 	@Override
 	public void handlePacketData(ByteBuf dataStream) {
 		
-		if(FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			facing = EnumFacing.getFront(dataStream.readInt());
-			
-			if(clientFacing != facing) {
-				IZUtils.updateBlock(world, getPos());
-				world.notifyNeighborsOfStateChange(getPos(), world.getBlockState(getPos()).getBlock(), true);
-				clientFacing = facing;
-			}
-			
-			for(ITileComponent component : components) {
-				component.read(dataStream);
-			}
-		}
+		if(FMLCommonHandler.instance().getEffectiveSide().isClient()) {}
 	}
 	
 	@Override
 	public TileNetworkList getNetworkedData(TileNetworkList data) {
-		
-		data.add(facing == null ? -1 : facing.ordinal());
-		
-		for(ITileComponent component : components) {
-			component.write(data);
-		}
 		
 		return data;
 	}
@@ -172,10 +148,6 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 	public void invalidate() {
 		
 		super.invalidate();
-		
-		for(ITileComponent component : components) {
-			component.invalidate();
-		}
 	}
 	
 	@Override
@@ -197,37 +169,7 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 	
 	public void setFacing(short direction) {
 		
-		if(canSetFacing(direction)) {
-			facing = EnumFacing.getFront(direction);
-		}
-		
-		if(!(facing == clientFacing || world.isRemote)) {
-			PacketHandler.sendToReceivers(new TileEntityMessage(Coord4D.get(this), getNetworkedData(new TileNetworkList())), new Range4D(Coord4D.get(this)));
-			markDirty();
-			clientFacing = facing;
-		}
-	}
-	
-	public int getLightLevel() {
-		return 0;
-	}
-	
-	@Override
-	public NBTTagCompound getUpdateTag() {
-		
-		// Forge writes only x/y/z/id info to a new NBT Tag Compound. This is fine, we have a custom network system
-		// to send other data so we don't use this one (yet).
-		return super.getUpdateTag();
-	}
-	
-	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
-		
-		// The super implementation of handleUpdateTag is to call this readFromNBT. But, the given TagCompound
-		// only has x/y/z/id data, so our readFromNBT will set a bunch of default values which are wrong.
-		// So simply call the super's readFromNBT, to let Forge do whatever it wants, but don't treat this like
-		// a full NBT object, don't pass it to our custom read methods.
-		super.readFromNBT(tag);
+		facing = EnumFacing.getFront(direction);
 	}
 	
 }

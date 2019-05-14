@@ -1,6 +1,7 @@
 package infinitesimalzeros.common.tileentities.advanced;
 
 import infinitesimalzeros.common.core.InventoryHandlerZero;
+import infinitesimalzeros.common.tileentities.basic.TileEntityElectricBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.items.IItemHandler;
@@ -37,6 +38,21 @@ public abstract class TileEntityFunctionalMachineT1 extends TileEntityFunctional
 		super.onUpdate();
 		
 		
+	}
+	
+	@Override
+	protected void process() {
+		
+		if(electricityStored < energyPerTick)
+			return;
+		
+		electricityStored -= energyPerTick;
+		operatingTicks++;
+        
+		if(operatingTicks < ticksRequired)
+			return;
+		
+		doFinish();
 	}
 	
 	
