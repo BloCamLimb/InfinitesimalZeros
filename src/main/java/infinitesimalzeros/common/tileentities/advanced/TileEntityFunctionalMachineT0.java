@@ -226,7 +226,10 @@ public abstract class TileEntityFunctionalMachineT0 extends TileEntityBasicMachi
 	
 	public void masterControlOn() {
 		
-		masterControl = true;
+		checkSecurityCode();
+		
+		if(verified)
+			masterControl = true;
 	}
 	
 	public void masterControlOff() {

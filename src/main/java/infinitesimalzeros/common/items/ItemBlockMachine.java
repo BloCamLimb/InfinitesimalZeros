@@ -78,6 +78,27 @@ public class ItemBlockMachine extends ItemBlock implements IEnergizedItem, ISust
 			}
 		}
 		
+		if(type == MachineTypes.SaltTank) {
+			
+			BlockPos.MutableBlockPos iPos = new BlockPos.MutableBlockPos();
+			
+			for(int x = -2; x <= 2; x++) {
+				
+				for(int y = 0; y <= 0; y++) {
+					
+					for(int z = -2; z <= 2; z++) {
+						
+						iPos.setPos(pos.getX()+x, pos.getY()+y, pos.getZ()+z);
+						Block iBlock = world.getBlockState(iPos).getBlock();
+						
+						if(!world.isValid(iPos) || !world.isBlockLoaded(iPos, false) || !iBlock.isReplaceable(world, iPos)) {
+							placeable = false;
+						}
+					}
+				}
+			}
+		}
+		
 		if(placeable && super.placeBlockAt(stack, player, world, pos, side, hitX, hitY, hitZ, newState)) {
 			
 			TileEntityBasicBlock tileEntity = (TileEntityBasicBlock) world.getTileEntity(pos);

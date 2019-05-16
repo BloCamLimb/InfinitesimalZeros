@@ -17,6 +17,7 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -31,6 +32,8 @@ import net.minecraftforge.items.IItemHandler;
 public class TileEntitySaltTank extends TileEntityFunctionalMachineT2 {
 	
 	private FluidStack prevFluid = new FluidStack(FluidRegistry.WATER, 0);
+	
+	public boolean isDaytime;
 	
 	public TileEntitySaltTank() {
 		
@@ -62,7 +65,11 @@ public class TileEntitySaltTank extends TileEntityFunctionalMachineT2 {
 		
 		if(!world.isRemote) {
 			prevFluid = updateRenderFluid(inputTank, prevFluid);
+			if(isKeyTime(20))
+				if(world.isRaining())
+					inputTank.fill(new FluidStack(FluidRegistry.WATER, 10), true);
 		}
+		
 
 	}
 	
@@ -70,6 +77,24 @@ public class TileEntitySaltTank extends TileEntityFunctionalMachineT2 {
 	public double getMaxRenderDistanceSquared() {
 		
 		return Math.pow(128, 2);
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbtTags) {
+		
+		super.readFromNBT(nbtTags);
+		
+		isDaytime = nbtTags.getBoolean("isDaytime");
+	}
+	
+	@Override
+	protected NBTTagCompound writeNetworkedNBT(NBTTagCompound nbtTags) {
+		
+		super.writeNetworkedNBT(nbtTags);
+		
+		nbtTags.setBoolean("isDaytime", world.isDaytime());
+		
+		return nbtTags;
 	}
 	
 	@Override
@@ -171,11 +196,11 @@ public class TileEntitySaltTank extends TileEntityFunctionalMachineT2 {
 		if(!isKeyTime(20))
 			return;
 		
-		if(world.isRaining())
-			inputTank.fill(new FluidStack(FluidRegistry.WATER, 10), true);
-		
-		if(!canProcess())
+		if(!canProcess()) {
+			isActive = false;
+			isHighActivity = false;
 			return;
+		}
 		
 		if(inputTank.getFluidAmount() < energyPerTick)
 			return;

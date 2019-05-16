@@ -65,7 +65,6 @@ public class ItemCard extends ItemRegister {
 		
 		if(!world.isRemote && player.isSneaking() && tileEntity instanceof TileEntityBasicMachine) {
 			((TileEntityBasicMachine)tileEntity).setSecurityCode(stack);
-			((TileEntityBasicMachine)tileEntity).verified = SecurityUtils.verifySecurityCode(((TileEntityBasicMachine)tileEntity).securityCode, ((TileEntityBasicMachine)tileEntity).ownerUUID);
 			return EnumActionResult.SUCCESS;
 		}
 		

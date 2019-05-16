@@ -2,6 +2,9 @@ package infinitesimalzeros.client.gui;
 
 import java.io.IOException;
 
+import org.lwjgl.opengl.GL11;
+
+import cofh.core.util.helpers.RenderHelper;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.client.gui.button.NavigationButton;
@@ -24,12 +27,15 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidStack;
 
 public class GuiSaltTank extends GuiTileEntityCore<TileEntityFunctionalMachineT0> {
 	
 	public static final ResourceLocation TEXTURES = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/guidefault.png");
 	private static final ResourceLocation SLIDEBAR = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/slide_bar.png");
 	private static final ResourceLocation LAFFY = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/lafei_g.png");
+	private static final ResourceLocation WEATHER = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/weather_icon.png");
+	private static final ResourceLocation GUI = new ResourceLocation(InfinitesimalZeros.MODID + ":textures/gui/salt_tank_gui.png");
 	
 	private final InventoryPlayer player;
 	private final TileEntitySaltTank tileEntity;
@@ -86,6 +92,8 @@ public class GuiSaltTank extends GuiTileEntityCore<TileEntityFunctionalMachineT0
 		 * if(NanaFurnaceTE.isBurning(tileentity)) { int k = this.getBurnLeftScaled(13); this.drawTexturedModalRect(this.guiLeft + 8, this.guiTop + 54 + 12 -
 		 * k, 176, 12 - k, 14, k + 1); }
 		 */
+		drawWeather();
+		drawMain();
 		update(partialTicks);
 		drawSlideBar();
 		if(fullOpen)
@@ -100,6 +108,53 @@ public class GuiSaltTank extends GuiTileEntityCore<TileEntityFunctionalMachineT0
 		// int l = this.getCookProgressScaled(24);
 		// this.drawTexturedModalRect(this.guiLeft + 44, this.guiTop + 36, 176, 14, l +
 		// 1, 16);
+	}
+	
+	private void drawWeather() {
+		
+		GlStateManager.pushMatrix();
+		
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 0.8F);
+		
+		this.mc.getTextureManager().bindTexture(WEATHER);
+		
+		drawTexturedModalRect(width / 2 - 70, height / 2 - 80, tileEntity.getWorld().isRaining() ? 24 : tileEntity.isDaytime ? 0 : 48, 0, 24, 24);
+		
+		GlStateManager.popMatrix();
+	}
+	
+	private void drawMain() {
+		
+		GlStateManager.pushMatrix();
+		
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 0.9F);
+		
+		this.mc.getTextureManager().bindTexture(GUI);
+		
+		drawTexturedModalRect(width / 2 - 50, height / 2 - 30, 0, 0, 100, 16);
+		
+		drawTexturedModalRect(width / 2 - 40, height / 2 - 50, tileEntity.isActive ? 100 : 130, 0, 30, 16);
+		drawTexturedModalRect(width / 2 + 10, height / 2 - 50, tileEntity.isActive ? 100 : 130, 0, 30, 16);
+		
+		FluidStack fluid = tileEntity.inputTank.getFluid();
+		
+		if (fluid != null) {
+			GlStateManager.pushMatrix();
+			
+			RenderHelper.setBlockTextureSheet();
+			
+			int color = fluid.getFluid().getColor(fluid);
+			RenderHelper.setGLColorFromInt(color);
+			
+			for(int i = 0; i < 7; i++) {
+				int l = 14 * fluid.amount / 8000;
+				drawTexturedModalRect(width / 2 - 49 + 14 * i, height / 2 - 16 - l, RenderHelper.getTexture(fluid.getFluid().getStill(fluid)), 14, l);
+			}
+			
+			GlStateManager.popMatrix();
+		}
+		
+		GlStateManager.popMatrix();
 	}
 	
 	protected void drawCat() {

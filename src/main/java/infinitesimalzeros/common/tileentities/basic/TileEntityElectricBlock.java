@@ -67,7 +67,7 @@ public abstract class TileEntityElectricBlock extends TileEntityBasicBlock imple
 	public void setEnergy(double energy) {
 		
 		electricityStored = Math.max(Math.min(energy, getMaxEnergy()), 0);
-		IZUtils.saveChunk(this);
+		//IZUtils.saveChunk(this);
 	}
 	
 	@Override
@@ -82,7 +82,7 @@ public abstract class TileEntityElectricBlock extends TileEntityBasicBlock imple
 		super.handlePacketData(dataStream);
 		
 		if(FMLCommonHandler.instance().getEffectiveSide().isClient()) {
-			setEnergy(dataStream.readDouble());
+			//setEnergy(dataStream.readDouble());
 		}
 	}
 	
@@ -91,7 +91,7 @@ public abstract class TileEntityElectricBlock extends TileEntityBasicBlock imple
 		
 		super.getNetworkedData(data);
 		
-		data.add(getEnergy());
+		//data.add(getEnergy());
 		
 		return data;
 	}

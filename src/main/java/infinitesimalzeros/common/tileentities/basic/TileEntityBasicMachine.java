@@ -53,6 +53,8 @@ public abstract class TileEntityBasicMachine extends TileEntityElectricBlock imp
 		ownerUUID = nbtTags.getString("OwnerUUID");
 		securityCode = nbtTags.getString("SecurityCode");
 		
+		verified = nbtTags.getBoolean("verified");
+		
 	}
 	
 	@Override
@@ -72,12 +74,22 @@ public abstract class TileEntityBasicMachine extends TileEntityElectricBlock imp
 	}
 	
 	@Override
+	protected NBTTagCompound writeNetworkedNBT(NBTTagCompound nbtTags) {
+		
+		super.writeNetworkedNBT(nbtTags);
+		
+		nbtTags.setBoolean("verified", verified);
+		
+		return nbtTags;
+	}
+	
+	@Override
 	public void validate() {
 		
 		super.validate();
 		
 		if(!world.isRemote && !checkedSecurity && ownerUUID.length() == 36 && securityCode.length() == 36) {
-			verified = SecurityUtils.verifySecurityCode(securityCode, ownerUUID);
+			checkSecurityCode();
 			checkedSecurity = true;
 		}
 	}
@@ -85,7 +97,7 @@ public abstract class TileEntityBasicMachine extends TileEntityElectricBlock imp
 	@Override
 	public void onUpdate() {
 		
-		if(doAutoAntiCheat && isKeyTime(15) && !world.isRemote)
+		if(!world.isRemote && doAutoAntiCheat && isKeyTime(15))
 			antiCheatCheck();
 			
 	}
@@ -93,9 +105,15 @@ public abstract class TileEntityBasicMachine extends TileEntityElectricBlock imp
 	@Override
 	public void setSecurityCode(ItemStack stack) {
 		
-		this.ownerUUID = ItemDataUtils.getString(stack, "PlayerUUID");
-		this.securityCode = SecurityUtils.encryptMasterUUID(ownerUUID);
+		ownerUUID = ItemDataUtils.getString(stack, "PlayerUUID");
+		securityCode = SecurityUtils.encryptMasterUUID(ownerUUID);
+		checkSecurityCode();
 		
+	}
+	
+	public void checkSecurityCode() {
+		
+		verified = SecurityUtils.verifySecurityCode(securityCode, ownerUUID);
 	}
 	
 	public double getScaledProgress() {

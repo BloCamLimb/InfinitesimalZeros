@@ -1,13 +1,14 @@
 package infinitesimalzeros.common.util;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.UUID;
 
 import net.minecraft.client.Minecraft;
 
 public final class SecurityUtils {
 	
-	private static final int m[] = {0x98, 0xef, 0x75, 0x8e, 0x0f, 0x05, 0x40, 0xa0, 0xd8, 0xf9, 0x25, 0x53, 0x8e, 0xa8, 0xb1, 0xd8};
+	/*private static final int m[] = {0x98, 0xef, 0x75, 0x8e, 0x0f, 0x05, 0x40, 0xa0, 0xd8, 0xf9, 0x25, 0x53, 0x8e, 0xa8, 0xb1, 0xd8};
 	
 	public final static String encryptMasterUUID(String player) {
 		
@@ -40,6 +41,36 @@ public final class SecurityUtils {
 			q[l] = q[l] - p[l] & 0xff;
 		
 		return Arrays.equals(q, m);
+	}*/
+	
+	public final static String encryptMasterUUID(String player) {
+		
+		int p[] = toInts(player);
+		
+		int q[] = new int[16];
+		for(int i = 0; i < 16; i++)
+			if(i == 0)
+				q[i] = p[i] + new Random().nextInt(0x100) & 0xff;
+			else
+				q[i] = p[i] + q[i-1] - i & 0xff;
+		
+		return toString(q);
+	}
+	
+	public final static boolean verifySecurityCode(String security, String player) {
+		
+		int c[] = toInts(security);
+		int p[] = toInts(player);
+		
+		int q[] = new int[15];
+		for(int i = 14; i >= 0; i--)
+			q[i] = c[i+1] - c[i] + i + 1 & 0xff;
+		
+		for(int i = 0; i < 15; i++)
+			if(q[i] != p[i+1])
+				return false;
+		
+		return true;
 	}
 	
 	private final static String toString(int[] t) {

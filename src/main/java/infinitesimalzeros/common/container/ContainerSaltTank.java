@@ -20,7 +20,7 @@ public class ContainerSaltTank extends ContainerCore {
 		
 		inv.openInventory(player.player);
 		
-		addSlotToContainer(new SlotOutput(this, inv, 0, 118, 30));
+		addSlotToContainer(new SlotOutput(this, inv, 0, 148, 40));
 		
 		slotCount = 1;
 		

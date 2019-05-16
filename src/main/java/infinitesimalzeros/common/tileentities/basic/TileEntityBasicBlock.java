@@ -57,7 +57,7 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
 		
-		return new SPacketUpdateTileEntity(pos, -1, writeToNBT(new NBTTagCompound()));
+		return new SPacketUpdateTileEntity(pos, -1, writeNetworkedNBT(new NBTTagCompound()));
 	}
 	
 	@Override
@@ -102,7 +102,6 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 		if(compound.hasKey("facing")) {
 			facing = EnumFacing.getFront(compound.getInteger("facing"));
 		}
-		
 	}
 	
 	@Override
@@ -115,6 +114,13 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 		}
 		
 		return compound;
+	}
+
+	protected NBTTagCompound writeNetworkedNBT(NBTTagCompound nbtTags) {
+		
+		writeToNBT(nbtTags);
+		
+		return nbtTags;
 	}
 	
 	@Override
