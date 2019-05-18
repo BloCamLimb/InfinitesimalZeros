@@ -51,6 +51,7 @@ public class RegistryBlocks {
 		//registry.register(init(NanaFurnace, "nana_furnace"));
 		
 		RegistryItems.ITEMS.add(new ItemBlockMachine(TEBlock1).setRegistryName(TEBlock1.getRegistryName()));
+		//RegistryItems.ITEMS.add(new ItemBlock(NanaFurnace).setRegistryName(NanaFurnace.getRegistryName()));
 		
 	}
 	

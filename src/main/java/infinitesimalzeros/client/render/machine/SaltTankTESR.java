@@ -38,8 +38,6 @@ public class SaltTankTESR extends TileEntitySpecialRenderer<TileEntitySaltTank> 
 		BlockPos blockPos = tileEntity.getPos();
 		IBlockState state = getWorld().getBlockState(blockPos);
 
-		state = state.getBlock().getActualState(state, getWorld(), blockPos);
-		
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder worldRenderer = tessellator.getBuffer();
 
@@ -107,11 +105,11 @@ public class SaltTankTESR extends TileEntitySpecialRenderer<TileEntitySaltTank> 
                 
                 if (data.fluidType.getFluid().getStill(tileEntity.inputTank.getFluid()) != null) {
                     toReturn.minX = 0 + .01;
-                    toReturn.minY = 0 + .01;
+                    toReturn.minY = 0;
                     toReturn.minZ = 0 + .01;
-
+                    
                     toReturn.maxX = data.length - .01;
-                    toReturn.maxY = (double) tileEntity.inputTank.getFluidAmount() / tileEntity.inputTank.getCapacity() - .01;
+                    toReturn.maxY = (double) tileEntity.inputTank.getFluidAmount() / tileEntity.inputTank.getCapacity() + .01;
                     toReturn.maxZ = data.width - .01;
 
                     CoreRenderer.renderObject(toReturn);

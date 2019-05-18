@@ -7,6 +7,7 @@ import codechicken.lib.CodeChickenLib;
 import cofh.CoFHCore;
 import cofh.redstoneflux.RedstoneFluxProps;
 import infinitesimalzeros.common.CommonProxy;
+import infinitesimalzeros.common.config.ConfigGuiFactory;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -17,7 +18,7 @@ import net.minecraftforge.fml.common.event.FMLModIdMappingEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = InfinitesimalZeros.MODID, name = InfinitesimalZeros.NAME, version = InfinitesimalZeros.VERSION, dependencies = RedstoneFluxProps.VERSION_GROUP + CoFHCore.VERSION_GROUP + CodeChickenLib.MOD_VERSION_DEP + "required-after:forge@[14.23.4.2814,)", acceptedMinecraftVersions = "[1.12.2]")
+@Mod(modid = InfinitesimalZeros.MODID, name = InfinitesimalZeros.NAME, version = InfinitesimalZeros.VERSION, dependencies = RedstoneFluxProps.VERSION_GROUP + CoFHCore.VERSION_GROUP + CodeChickenLib.MOD_VERSION_DEP + "required-after:forge@[14.23.4.2814,)", guiFactory = "infinitesimalzeros.common.config.ConfigGuiFactory", acceptedMinecraftVersions = "[1.12.2]")
 
 public class InfinitesimalZeros {
 	

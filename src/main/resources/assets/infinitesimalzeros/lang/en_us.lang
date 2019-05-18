@@ -16,3 +16,5 @@ itemGroup.infinitesimalzeros=Infinitesimal Zeros
 info.InfinitesimalZeros.Button.Home=Home
 info.InfinitesimalZeros.Button.Security=Security
 info.InfinitesimalZeros.Button.Recipe=Recipe
+
+config.iz.general.tooltip=General Configs

@@ -24,6 +24,8 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,7 +33,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
-public class NanaFurnaceTE extends TileEntityBasicBlock implements ITickable, IInventoryZero {
+public class NanaFurnaceTE extends TileEntityBasicBlock implements ITickable, IInventoryZero, IEnergyStorage {
 	
 	public EnumFacing facing = EnumFacing.NORTH;
 	
@@ -59,10 +61,7 @@ public class NanaFurnaceTE extends TileEntityBasicBlock implements ITickable, II
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
 		
-		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY&&(facing==EnumFacing.UP||facing==EnumFacing.EAST))
-			return true;
-		else
-			return false;
+		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
 	}
 	
 	@Override
@@ -77,6 +76,8 @@ public class NanaFurnaceTE extends TileEntityBasicBlock implements ITickable, II
 				return (T) this.outputSlots;
 			}
 		}
+		if(capability == CapabilityEnergy.ENERGY)
+			return (T) this;
 			
 		return super.getCapability(capability, facing);
 	}
@@ -316,6 +317,48 @@ public class NanaFurnaceTE extends TileEntityBasicBlock implements ITickable, II
 
 	@Override
 	public boolean isStackValid(int slot, ItemStack stack) {
+		
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int receiveEnergy(int maxReceive, boolean simulate) {
+		
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int extractEnergy(int maxExtract, boolean simulate) {
+		
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getEnergyStored() {
+		
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getMaxEnergyStored() {
+		
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean canExtract() {
+		
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean canReceive() {
 		
 		// TODO Auto-generated method stub
 		return false;

@@ -23,7 +23,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 
 @InterfaceList({ @Interface(iface = "cofh.redstoneflux.api.IEnergyProvider", modid = "redstoneflux"), @Interface(iface = "cofh.redstoneflux.api.IEnergyReceiver", modid = "redstoneflux") })
 
-public class TileEntityAdvancedBoundingBox extends TileEntityBoundingBox implements IEnergyReceiver, IEnergyProvider {
+public class TileEntityAdvancedBoundingBox extends TileEntityBoundingBox {
 	
 	public int func;
 	
@@ -86,7 +86,7 @@ public class TileEntityAdvancedBoundingBox extends TileEntityBoundingBox impleme
 		return new TextComponentString(getCoreT0().getName());
 	}
 	
-	@Override
+	/*@Override
 	@Method(modid = "redstoneflux")
 	public int getEnergyStored(EnumFacing from) {
 		
@@ -149,7 +149,7 @@ public class TileEntityAdvancedBoundingBox extends TileEntityBoundingBox impleme
 		}
 		
 		return advTile.receiveEnergy(from, maxReceive, simulate);
-	}
+	}*/
 	
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
@@ -186,9 +186,6 @@ public class TileEntityAdvancedBoundingBox extends TileEntityBoundingBox impleme
 			return (T) advTile.getExtractionHandler();
 		
 		if(capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && func == 9)
-			return (T) new FluidHandlerZero(advTile, facing);
-		
-		if(capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY && facing == null)
 			return (T) new FluidHandlerZero(advTile, facing);
 		
 		if(advTile == null)

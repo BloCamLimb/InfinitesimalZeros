@@ -36,8 +36,6 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 	
 	public boolean doAutoSync = true;
 	
-	public boolean doAutoAntiCheat = true;
-	
 	protected long c = 0;
 	
 	protected boolean cheated;
@@ -161,9 +159,9 @@ public abstract class TileEntityBasicBlock extends TileEntity implements ITickab
 		
 		super.validate();
 		
-		if(world.isRemote) {
+		/*if(world.isRemote) {
 			PacketHandler.network.sendToServer(new DataRequestMessage(Coord4D.get(this)));
-		}
+		}*/
 	}
 	
 	public abstract void onUpdate();

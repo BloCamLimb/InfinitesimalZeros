@@ -27,6 +27,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
 public class TileEntitySaltTank extends TileEntityFunctionalMachineT2 {
@@ -186,6 +187,8 @@ public class TileEntitySaltTank extends TileEntityFunctionalMachineT2 {
 		
 		if(!world.canSeeSky(pos.up()))
 			return false;
+		if(inputTank.getFluid() == null)
+			return false;
 		
 		return world.isDaytime() && !world.isRaining() && inventory.get(0).getCount() < 64;
 	}
@@ -245,7 +248,7 @@ public class TileEntitySaltTank extends TileEntityFunctionalMachineT2 {
 	@Override
 	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
 		
-		return super.hasCapability(capability, facing) || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY;
+		return super.hasCapability(capability, facing) || capability == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY || capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
 	}
 	
 	@Override
@@ -255,6 +258,12 @@ public class TileEntitySaltTank extends TileEntityFunctionalMachineT2 {
 			
 			return (T) new FluidHandlerZero(this, facing);
 		}
+		
+		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && facing == null) {
+			
+			return (T) extractionHandler;
+		}
+		
 		return super.getCapability(capability, facing);
 	}
 

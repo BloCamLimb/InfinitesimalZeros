@@ -3,6 +3,7 @@ package infinitesimalzeros.common;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.client.render.ColorItemRenderer;
 import infinitesimalzeros.common.capabilities.Capabilities;
+import infinitesimalzeros.common.config.Config;
 import infinitesimalzeros.common.core.handler.KeybindHandler;
 import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.integration.TOPInfoProvider;
@@ -32,6 +33,7 @@ public class CommonProxy {
 		
 		Capabilities.register();
 		
+		Config.init(event.getModConfigurationDirectory());
 		//KeybindHandler.init();
 		//MaterialBasis.runMaterialHandlers();
 		//MaterialBasis.freezeRegistry();

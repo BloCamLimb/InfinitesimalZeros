@@ -1,25 +1,22 @@
 package infinitesimalzeros.api.interfaces;
 
 public interface IMicroEnergyStorage {
-	
+
 	/**
-	 * Gets the amount of energy this TileEntity is currently storing.
-	 * 
-	 * @return stored energy
+	 * Get amount of energy currently stored in TileEntity.
+	 * @return
 	 */
 	double getEnergy();
-	
+
 	/**
-	 * Sets the amount of stored energy of this TileEntity to a new amount.
-	 * 
-	 * @param energy - new energy value
+	 * Set energy to given value.
+	 * @param energy
 	 */
 	void setEnergy(double energy);
-	
+
 	/**
-	 * Gets the maximum amount of energy this TileEntity can store.
-	 * 
-	 * @return maximum energy
+	 * Get max energy can be stored in TileEntity.
+	 * @return
 	 */
 	double getMaxEnergy();
 	

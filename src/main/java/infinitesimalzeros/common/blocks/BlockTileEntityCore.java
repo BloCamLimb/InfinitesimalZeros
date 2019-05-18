@@ -9,6 +9,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
 import cofh.core.util.RayTracer;
+import cofh.core.util.helpers.FluidHelper;
 import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.interfaces.IMultiblockCore;
 import infinitesimalzeros.api.interfaces.IEnergizedItem;
@@ -20,6 +21,7 @@ import infinitesimalzeros.common.blocks.state.BlockStateMachine.MachineBlockPred
 import infinitesimalzeros.common.registry.RegistryBlocks;
 import infinitesimalzeros.common.tileentities.TileEntitySaltTank;
 import infinitesimalzeros.common.tileentities.TileEntitySmelter;
+import infinitesimalzeros.common.tileentities.advanced.TileEntityFunctionalMachineT0;
 import infinitesimalzeros.common.tileentities.basic.TileEntityBasicBlock;
 import infinitesimalzeros.common.tileentities.basic.TileEntityBasicMachine;
 import infinitesimalzeros.common.tileentities.basic.TileEntityElectricBlock;
@@ -36,6 +38,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -47,11 +51,16 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public abstract class BlockTileEntityCore extends Block {
 	
@@ -358,6 +367,41 @@ public abstract class BlockTileEntityCore extends Block {
 			
 			MachineTypes type = MachineTypes.get(getMachineBlock(), metadata);
 			
+			if(type == MachineTypes.SaltTank) {
+				/*if(stack.getItem() == Items.WATER_BUCKET && ((TileEntitySaltTank)tileEntity).inputTank.getFluidAmount() <= 7000) {
+					
+					playerIn.setHeldItem(hand, new ItemStack(Items.BUCKET));
+					
+					((TileEntitySaltTank)tileEntity).inputTank.fill(new FluidStack(FluidRegistry.WATER, 1000), true);
+					
+					worldIn.playSound((EntityPlayer)null, pos, SoundEvents.ITEM_BUCKET_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
+					
+					return true;
+					
+				} else if(stack.getItem() == Items.BUCKET && ((TileEntitySaltTank)tileEntity).inputTank.getFluidAmount() >= 1000) {
+					
+					((TileEntitySaltTank)tileEntity).inputTank.drain(new FluidStack(FluidRegistry.WATER, 1000), true);
+					
+					stack.shrink(1);
+
+                    if(stack.isEmpty()) {
+                        playerIn.setHeldItem(hand, new ItemStack(Items.WATER_BUCKET));
+                    } else if(!playerIn.inventory.addItemStackToInventory(new ItemStack(Items.WATER_BUCKET))) {
+                        playerIn.dropItem(new ItemStack(Items.WATER_BUCKET), false);
+                    }
+					
+                    worldIn.playSound((EntityPlayer)null, pos, SoundEvents.ITEM_BUCKET_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    
+                    return true;
+				}*/
+				
+				if (FluidHelper.isFluidHandler(stack)) {
+					IFluidHandler handler = tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);
+					FluidHelper.interactWithHandler(stack, handler, playerIn, hand);
+					return true;
+				}
+			}
+			
 			if(!playerIn.isSneaking() && type.guiId >= 0) {
 				
 				playerIn.openGui(InfinitesimalZeros.instance, type.guiId, worldIn, pos.getX(), pos.getY(), pos.getZ());
@@ -438,7 +482,7 @@ public abstract class BlockTileEntityCore extends Block {
 			((ISustainedData) tileEntity).writeSustainedData(itemStack);
 		}
 		
-		if(tileEntity instanceof TileEntitySmelter && ((TileEntitySmelter) tileEntity).inventory.size() > 0) {
+		if(tileEntity instanceof ISustainedInventory && ((TileEntityFunctionalMachineT0) tileEntity).inventory.size() > 0) {
 			
 			ISustainedInventory inventory = (ISustainedInventory) itemStack.getItem();
 			inventory.setInventory(((ISustainedInventory) tileEntity).getRInventory(), itemStack);

@@ -6,13 +6,26 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.common.Optional.Interface;
 import net.minecraftforge.fml.common.Optional.InterfaceList;
 
-@InterfaceList({ @Interface(iface = "cofh.redstoneflux.api.IEnergyProvider", modid = "redstoneflux"), @Interface(iface = "cofh.redstoneflux.api.IEnergyReceiver", modid = "redstoneflux") })
-public interface IEnergyWrapper extends IMicroEnergyReceiver, IMicroEnergyTransmitter, IMicroEnergyStorage, IEnergyReceiver, IEnergyProvider {
+public interface IEnergyWrapper extends IMicroEnergyReceiver, IMicroEnergyTransmitter, IMicroEnergyStorage {
 	
+	/**
+	 * If given side can input energy.
+	 * @param side
+	 * @return
+	 */
+	boolean sideIsInput(EnumFacing side);
+	
+	/**
+	 * If given side can output energy.
+	 * @param side
+	 * @return
+	 */
 	boolean sideIsOutput(EnumFacing side);
 	
-	boolean sideIsConsumer(EnumFacing side);
-	
+	/**
+	 * Get max output.
+	 * @return
+	 */
 	double getMaxOutput();
 	
 }

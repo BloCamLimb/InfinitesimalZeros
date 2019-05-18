@@ -1,5 +1,6 @@
 package infinitesimalzeros.common.util;
 
+import java.text.NumberFormat;
 import java.util.Collection;
 
 import org.lwjgl.opengl.GL11;
@@ -109,19 +110,7 @@ public class IZUtils {
 			
 			tile.setCorePosition(core.getPos());
 			
-			switch(index) {
-				case 1:
-					tile.func = 1;
-					break;
-				case 2:
-					tile.func = 2;
-					break;
-				case 9:
-					tile.func = 9;
-					break;
-				default:
-					break;
-			}
+			tile.func = index;
 		}
 	}
 	
@@ -198,6 +187,45 @@ public class IZUtils {
         }
 
         GL11.glPopAttrib();
+    }
+    
+    public static enum TypeNumberFormat {
+        FULL,                   // Full format
+        COMPACT,                // Compact format (like 3.5M)
+        COMMAS,                 // Language dependent comma separated format
+        NONE                    // No output (empty string)
+    }
+    
+    public static String format(long in, TypeNumberFormat style, String suffix) {
+        switch (style) {
+            case FULL:
+                return Long.toString(in) + suffix;
+            case COMPACT: {
+                int unit = 1000;
+                if (in < unit) {
+                    return Long.toString(in) + " " + suffix;
+                }
+                int exp = (int) (Math.log(in) / Math.log(unit));
+                char pre;
+                if (suffix.startsWith("m")) {
+                    suffix = suffix.substring(1);
+                    if (exp - 2 >= 0) {
+                        pre = "kMGTPE".charAt(exp - 2);
+                        return String.format("%.1f %s", in / Math.pow(unit, exp), pre) + suffix;
+                    } else {
+                        return String.format("%.1f %s", in / Math.pow(unit, exp), suffix);
+                    }
+                } else {
+                    pre = "kMGTPE".charAt(exp - 1);
+                    return String.format("%.1f %s", in / Math.pow(unit, exp), pre) + suffix;
+                }
+            }
+            case COMMAS:
+                return NumberFormat.getInstance().format(in) + suffix;
+            case NONE:
+                return suffix;
+        }
+        return Long.toString(in);
     }
 	
 }

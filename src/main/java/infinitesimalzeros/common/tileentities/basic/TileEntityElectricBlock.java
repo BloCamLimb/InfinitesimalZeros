@@ -17,10 +17,8 @@ import net.minecraftforge.fml.common.Optional.Method;
 
 public abstract class TileEntityElectricBlock extends TileEntityBasicBlock implements IEnergyWrapper {
 	
-	/** How much energy is stored in this block. */
 	public double electricityStored;
 	
-	/** Actual maximum energy storage, including upgrades */
 	public double maxEnergy;
 	
 	public TileEntityElectricBlock(double baseMaxEnergy) {
@@ -46,7 +44,7 @@ public abstract class TileEntityElectricBlock extends TileEntityBasicBlock imple
 	}
 	
 	@Override
-	public boolean sideIsConsumer(EnumFacing side) {
+	public boolean sideIsInput(EnumFacing side) {
 		
 		return true;
 	}
@@ -67,7 +65,6 @@ public abstract class TileEntityElectricBlock extends TileEntityBasicBlock imple
 	public void setEnergy(double energy) {
 		
 		electricityStored = Math.max(Math.min(energy, getMaxEnergy()), 0);
-		//IZUtils.saveChunk(this);
 	}
 	
 	@Override
@@ -144,7 +141,7 @@ public abstract class TileEntityElectricBlock extends TileEntityBasicBlock imple
 	}
 	
 	@Override
-	public boolean canOutputMicroEnergy(EnumFacing side) {
+	public boolean canTransmitMicroEnergy(EnumFacing side) {
 		
 		return sideIsOutput(side);
 	}
@@ -152,10 +149,10 @@ public abstract class TileEntityElectricBlock extends TileEntityBasicBlock imple
 	@Override
 	public boolean canReceiveMicroEnergy(EnumFacing side) {
 		
-		return sideIsConsumer(side);
+		return sideIsInput(side);
 	}
 	
-	@Override
+	/*@Override
 	@Method(modid = "redstoneflux")
 	public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate) {
 		
@@ -166,14 +163,14 @@ public abstract class TileEntityElectricBlock extends TileEntityBasicBlock imple
 	@Method(modid = "redstoneflux")
 	public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate) {
 		
-		return (int) Math.round(Math.min(Integer.MAX_VALUE, transMicroEnergy(from, maxExtract, simulate)));
+		return (int) Math.round(Math.min(Integer.MAX_VALUE, transmitMicroEnergy(from, maxExtract, simulate)));
 	}
 	
 	@Override
 	@Method(modid = "redstoneflux")
 	public boolean canConnectEnergy(EnumFacing from) {
 		
-		return sideIsConsumer(from) || sideIsOutput(from);
+		return sideIsInput(from) || sideIsOutput(from);
 	}
 	
 	@Override
@@ -188,14 +185,14 @@ public abstract class TileEntityElectricBlock extends TileEntityBasicBlock imple
 	public int getMaxEnergyStored(EnumFacing from) {
 		
 		return (int) Math.round(Math.min(Integer.MAX_VALUE, getMaxEnergy()));
-	}
+	}*/
 	
 	@Override
 	public double receiveMicroEnergy(EnumFacing side, double amount, boolean simulate) {
 		
 		double toUse = Math.min(getMaxEnergy() - getEnergy(), amount);
 		
-		if(toUse < 0.0001 || (side != null && !sideIsConsumer(side))) {
+		if(toUse < 0.0001 || (side != null && !sideIsInput(side))) {
 			return 0;
 		}
 		
@@ -207,7 +204,7 @@ public abstract class TileEntityElectricBlock extends TileEntityBasicBlock imple
 	}
 	
 	@Override
-	public double transMicroEnergy(EnumFacing side, double amount, boolean simulate) {
+	public double transmitMicroEnergy(EnumFacing side, double amount, boolean simulate) {
 		
 		double toGive = Math.min(getEnergy(), amount);
 		

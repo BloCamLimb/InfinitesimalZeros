@@ -25,7 +25,7 @@ public class ForgeEnergyIntegration implements IEnergyStorage {
 	@Override
 	public int extractEnergy(int maxExtract, boolean simulate) {
 		
-		return URToForge(tileEntity.transMicroEnergy(side, forgeToUR(maxExtract), simulate));
+		return URToForge(tileEntity.transmitMicroEnergy(side, forgeToUR(maxExtract), simulate));
 	}
 	
 	@Override
@@ -49,16 +49,16 @@ public class ForgeEnergyIntegration implements IEnergyStorage {
 	@Override
 	public boolean canReceive() {
 		
-		return tileEntity.sideIsConsumer(side);
+		return tileEntity.sideIsInput(side);
 	}
 	
 	public static double forgeToUR(int forge) {
 		
-		return forge;
+		return forge / 10;
 	}
 	
 	public static int URToForge(double ur) {
 		
-		return (int) Math.round(ur);
+		return (int) Math.round(ur * 10);
 	}
 }

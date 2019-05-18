@@ -14,10 +14,15 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
 public class TileEntitySmelter extends TileEntityFunctionalMachineT1 {
 	
@@ -189,6 +194,19 @@ public class TileEntitySmelter extends TileEntityFunctionalMachineT1 {
 		return false;
 	}
 	
+	@Override
+	public boolean hasCapability(Capability<?> capability, EnumFacing facing) {
+		
+		return super.hasCapability(capability, facing) || capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY;
+	}
 	
+	@Override
+	public <T> T getCapability(Capability<T> capability, EnumFacing facing) {
+		
+		if(capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && facing == null)
+			return (T) new CombinedInvWrapper((IItemHandlerModifiable) insertionHandler, (IItemHandlerModifiable) extractionHandler);
+		
+		return super.getCapability(capability, facing);
+	}
 
 }

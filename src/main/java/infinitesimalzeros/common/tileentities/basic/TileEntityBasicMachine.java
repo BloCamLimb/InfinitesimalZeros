@@ -4,6 +4,7 @@ import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.api.Range4D;
 import infinitesimalzeros.api.interfaces.ISecurityComponent;
+import infinitesimalzeros.common.config.Config;
 import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.network.PacketTileEntity.TileEntityMessage;
 import infinitesimalzeros.common.util.SecurityUtils;
@@ -97,7 +98,7 @@ public abstract class TileEntityBasicMachine extends TileEntityElectricBlock imp
 	@Override
 	public void onUpdate() {
 		
-		if(!world.isRemote && doAutoAntiCheat && isKeyTime(15))
+		if(!world.isRemote && Config.doAntiCheat && isKeyTime(15))
 			antiCheatCheck();
 			
 	}

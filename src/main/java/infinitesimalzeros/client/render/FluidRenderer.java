@@ -22,7 +22,7 @@ public final class FluidRenderer {
     //private static Map<ValveRenderData, DisplayInteger> cachedValveFluids = new HashMap<>();
 
     public static void translateToOrigin(Coord4D origin) {
-        GL11.glTranslated(getX(origin.x)-1.875, getY(origin.y)+0.125, getZ(origin.z)-1.875);
+        GL11.glTranslated(getX(origin.x)-1.875, getY(origin.y)+0.12, getZ(origin.z)-1.875);
     }
 
     public static int getStages(RenderData data) {

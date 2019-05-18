@@ -43,8 +43,6 @@ public class NanaSmelterTESR extends TileEntitySpecialRenderer<TileEntitySmelter
 		BlockPos blockPos = tileEntity.getPos();
 		IBlockState state = getWorld().getBlockState(blockPos);
 
-		state = state.getBlock().getActualState(state, getWorld(), blockPos);
-		
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder worldRenderer = tessellator.getBuffer();
 

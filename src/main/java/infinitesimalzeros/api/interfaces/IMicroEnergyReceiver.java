@@ -5,19 +5,18 @@ import net.minecraft.util.EnumFacing;
 public interface IMicroEnergyReceiver {
 	
 	/**
-	 * Transfer a certain amount of energy to this acceptor.
-	 * 
-	 * @param amount   - amount to transfer
-	 * @param simulate - if the operation should be simulated
-	 * @return energy used
+	 * Simulate a TileEntity receive energy.
+	 * @param side to receive
+	 * @param amount of energy
+	 * @param is simulate
+	 * @return
 	 */
 	double receiveMicroEnergy(EnumFacing side, double amount, boolean simulate);
 	
 	/**
-	 * Whether or not this tile entity can accept energy from a certain side.
-	 * 
-	 * @param side - side to check
-	 * @return if tile entity accepts energy
+	 * Can receive energy for given side.
+	 * @param side to receive
+	 * @return
 	 */
 	boolean canReceiveMicroEnergy(EnumFacing side);
 	
