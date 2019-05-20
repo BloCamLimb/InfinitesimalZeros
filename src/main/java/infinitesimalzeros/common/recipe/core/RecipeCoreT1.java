@@ -8,7 +8,6 @@ import cofh.core.inventory.OreValidator;
 import cofh.core.util.helpers.ItemHelper;
 import cofh.core.util.helpers.StringHelper;
 import infinitesimalzeros.InfinitesimalZeros;
-import infinitesimalzeros.common.recipe.RecipeT1;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -129,6 +128,48 @@ public class RecipeCoreT1 {
 	public static RecipeT1 removeRecipe(ItemStack input) {
 
 		return recipeMap.remove(convertInput(input));
+	}
+	
+	public static class RecipeT1 {
+		
+		public final ItemStack input;
+		public final ItemStack primaryOutput;
+		public final int power;
+		public final int time;
+
+		public RecipeT1(ItemStack input, ItemStack primaryOutput, int power, int time) {
+
+			this.input = input;
+			this.primaryOutput = primaryOutput;
+			this.power = power;
+			this.time = time;
+		}
+
+		public ItemStack getInput() {
+
+			return input;
+		}
+
+		public ItemStack getPrimaryOutput() {
+
+			return primaryOutput;
+		}
+
+		public int getPower() {
+
+			return power;
+		}
+		
+		public int getTime() {
+			
+			return time;
+		}
+		
+		public int getEnergy() {
+			
+			return power * time;
+		}
+		
 	}
 	
 }

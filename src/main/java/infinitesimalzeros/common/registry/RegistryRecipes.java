@@ -9,6 +9,7 @@ import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
 import infinitesimalzeros.common.recipe.core.RecipeCoreT2;
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
@@ -30,7 +31,9 @@ public class RegistryRecipes {
 
 	public static void regsiterCraftingRecipe() {
 		
-		addShapedOreRecipe(new ItemStack(RegistryItems.card), new Object[] {" R ", "RSR", " R ", 'R', "dustRedstone", 'S', "plateSteel"});
+		addShapedOreRecipe(new ItemStack(RegistryItems.card), new Object[] {"   ", "RSL", "   ", 'R', "dustRedstone", 'S', "ingotIron", 'L', "gemLapis"});
+		addShapedOreRecipe(new ItemStack(RegistryItems.wrench), new Object[] {" GO", " OG", "O  ", 'G', "ingotGold", 'O', "obsidian"});
+		addShapedOreRecipe(new ItemStack(RegistryItems.TEBlockItem1, 1, 1), new Object[] {"   ", "O O", "BBB", 'O', "obsidian", 'B', new ItemStack(Blocks.CONCRETE, 1, 15)});
 	}
 	
 	private static final Map<String, Integer> RECIPE_COUNT_MAP = new HashMap<String, Integer>();

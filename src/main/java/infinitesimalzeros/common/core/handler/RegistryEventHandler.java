@@ -4,8 +4,6 @@ import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.interfaces.IModelRegister;
 import infinitesimalzeros.client.render.CoreRenderer;
 import infinitesimalzeros.common.capabilities.Capabilities;
-import infinitesimalzeros.common.items.MetaItem;
-import infinitesimalzeros.common.items.MetaItems;
 import infinitesimalzeros.common.registry.RegistryBlocks;
 import infinitesimalzeros.common.registry.RegistryFluid;
 import infinitesimalzeros.common.registry.RegistryItems;
@@ -40,12 +38,7 @@ public class RegistryEventHandler {
 		event.getRegistry().registerAll(RegistryItems.ITEMS.toArray(new Item[0]));
 		IForgeRegistry<Item> registry = event.getRegistry();
 		
-		
-		//for(MetaItem<?> item : MetaItems.ITEMS) {
-		//	registry.register(item);
-		//	item.registerSubItems();
-		//}
-		
+
 		
 	}
 	
@@ -67,7 +60,6 @@ public class RegistryEventHandler {
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
 		
-		//MetaItems.registerModels();
 		RegistryBlocks.registerBlockRender();
 		
 		for(Item item : RegistryItems.ITEMS) {
@@ -87,7 +79,6 @@ public class RegistryEventHandler {
 	@SubscribeEvent
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		
-		MetaItems.registerOreDict();
 	}
 	
 	@SubscribeEvent

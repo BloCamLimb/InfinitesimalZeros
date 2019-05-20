@@ -4,16 +4,14 @@ import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.client.render.ColorItemRenderer;
 import infinitesimalzeros.common.capabilities.Capabilities;
 import infinitesimalzeros.common.config.Config;
+import infinitesimalzeros.common.core.handler.CapabilityHandler;
 import infinitesimalzeros.common.core.handler.KeybindHandler;
 import infinitesimalzeros.common.core.handler.PacketHandler;
 import infinitesimalzeros.common.integration.TOPInfoProvider;
-import infinitesimalzeros.common.items.AnnotatedItem;
-import infinitesimalzeros.common.items.MetaItems;
 import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
 import infinitesimalzeros.common.registry.RegistryFluid;
 import infinitesimalzeros.common.registry.RegistryItems;
 import infinitesimalzeros.common.registry.RegistryRecipes;
-import infinitesimalzeros.common.unification.MaterialBasis;
 import mekanism.api.MekanismAPI;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.creativetab.CreativeTabs;
@@ -34,16 +32,7 @@ public class CommonProxy {
 		Capabilities.register();
 		
 		Config.init(event.getModConfigurationDirectory());
-		//KeybindHandler.init();
-		//MaterialBasis.runMaterialHandlers();
-		//MaterialBasis.freezeRegistry();
-		//AnnotatedItem.discoverAndLoadAnnotatedMaterialHandlers(event.getAsmData());
-		//MaterialBasis.runMaterialHandlers();
-		//MetaItems.init();
-		
-		/*
-		 * InfinitesimalZeros.logger.info("Init Items"); MetaItems.init();
-		 */
+
 	}
 	
 	public void Init() {
@@ -60,6 +49,8 @@ public class CommonProxy {
 		
 		RegistryRecipes.initMainRecipes();
 		
+		MinecraftForge.EVENT_BUS.register(new CapabilityHandler());
+		
 	}
 	
 	public void registerOreDictEntries() {
@@ -70,7 +61,6 @@ public class CommonProxy {
 	
 	public void registerColors() {
 		
-		MetaItems.registerColors();
 		ColorItemRenderer render = new ColorItemRenderer();
 		render.renderItem();
 	}

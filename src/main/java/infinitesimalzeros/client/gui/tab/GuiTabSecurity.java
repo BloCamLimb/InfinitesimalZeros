@@ -28,6 +28,7 @@ public class GuiTabSecurity extends GuiTabCore {
 		
 		fontRenderer.drawString("BloCamLimb Creates World", width / 2 - 40, height / 2 - 30, 0xFFCCFF);
 		fontRenderer.drawString("Security Verified: " + tileEntity.verified, width / 2 - 40, height / 2 - 50, 0xFFCCFF);
+		
 	}
 	
 	@Override

@@ -3,17 +3,13 @@ package infinitesimalzeros.client.jei.category;
 import java.util.ArrayList;
 import java.util.List;
 
-import infinitesimalzeros.client.gui.GuiSaltTank;
 import infinitesimalzeros.client.gui.GuiNanaSmelter;
 import infinitesimalzeros.client.jei.CategoryIds;
 import infinitesimalzeros.client.jei.RecipeCategoryCore;
-import infinitesimalzeros.client.jei.recipe.NanaSmelterRecipeWrapper;
 import infinitesimalzeros.client.jei.recipe.SaltTankRecipeWrapper;
 import infinitesimalzeros.common.blocks.BlockTileEntityCore.MachineTypes;
-import infinitesimalzeros.common.recipe.RecipeT1;
-import infinitesimalzeros.common.recipe.RecipeT2;
-import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
 import infinitesimalzeros.common.recipe.core.RecipeCoreT2;
+import infinitesimalzeros.common.recipe.core.RecipeCoreT2.RecipeT2;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.IJeiHelpers;
 import mezz.jei.api.IModRegistry;
@@ -23,8 +19,6 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 
 public class SaltTankRecipeCategory extends RecipeCategoryCore<SaltTankRecipeWrapper> {
 	

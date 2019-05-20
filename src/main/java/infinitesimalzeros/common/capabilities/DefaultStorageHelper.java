@@ -1,7 +1,10 @@
 package infinitesimalzeros.common.capabilities;
 
+import infinitesimalzeros.api.interfaces.IBank;
 import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTPrimitive;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
@@ -31,6 +34,22 @@ public class DefaultStorageHelper {
 				}
 			}
 		}
+	}
+	
+	public static class BankStorage implements IStorage<IBank> {
+
+		@Override
+		public NBTBase writeNBT(Capability<IBank> capability, IBank instance, EnumFacing side) {
+			
+			return instance.writeToNBT(new NBTTagCompound());
+		}
+
+		@Override
+		public void readNBT(Capability<IBank> capability, IBank instance, EnumFacing side, NBTBase nbt) {
+			
+			instance.readFromNBT((NBTTagCompound)nbt);
+		}
+		
 	}
 	
 	public static class NullStorage<T> implements IStorage<T> {

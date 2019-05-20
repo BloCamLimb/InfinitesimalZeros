@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 
 import cofh.core.inventory.ComparableItemStackValidated;
 import cofh.core.util.helpers.FluidHelper;
-import infinitesimalzeros.common.recipe.RecipeT2;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -35,7 +34,7 @@ public class RecipeCoreT2 {
 
 	public static void initialize() {
 
-		addRecipe(0, new FluidStack(FluidRegistry.WATER, 240), new ItemStack(Items.DIAMOND));
+		addRecipe(0, new FluidStack(FluidRegistry.WATER, 240), new ItemStack(Items.COOKED_FISH));
 	}
 
 	public static void refresh() {
@@ -55,6 +54,48 @@ public class RecipeCoreT2 {
 	public static RecipeT2 removeRecipe(FluidStack input) {
 
 		return recipeMap.remove(FluidHelper.getFluidHash(input));
+	}
+	
+	public static class RecipeT2 {
+		
+		public final FluidStack input;
+		public final ItemStack primaryOutput;
+		public final int power;
+		public final int time;
+
+		public RecipeT2(FluidStack input, ItemStack primaryOutput, int power, int time) {
+
+			this.input = input;
+			this.primaryOutput = primaryOutput;
+			this.power = power;
+			this.time = time;
+		}
+
+		public FluidStack getInputFluid() {
+
+			return input;
+		}
+
+		public ItemStack getOutputItem() {
+
+			return primaryOutput;
+		}
+
+		public int getPower() {
+
+			return power;
+		}
+		
+		public int getTime() {
+			
+			return time;
+		}
+		
+		public int getEnergy() {
+			
+			return power * time;
+		}
+		
 	}
 	
 }

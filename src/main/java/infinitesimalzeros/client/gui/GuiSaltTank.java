@@ -9,6 +9,7 @@ import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
 import infinitesimalzeros.client.gui.button.NavigationButton;
 import infinitesimalzeros.client.gui.button.PowerButton;
+import infinitesimalzeros.common.capabilities.Capabilities;
 import infinitesimalzeros.common.container.ContainerCore;
 import infinitesimalzeros.common.container.ContainerSaltTank;
 import infinitesimalzeros.common.container.ContainerNanaSmelter;
@@ -69,8 +70,7 @@ public class GuiSaltTank extends GuiTileEntityCore<TileEntityFunctionalMachineT0
 		String tileName = this.tileEntity.getDisplayName().getFormattedText();
 
 		this.fontRenderer.drawString(tileName, this.xSize / 2 - this.fontRenderer.getStringWidth(tileName) / 2 + 3, -12, 0xFFFFFF);
-
-
+		
 	}
 	
 	@Override
@@ -83,7 +83,7 @@ public class GuiSaltTank extends GuiTileEntityCore<TileEntityFunctionalMachineT0
 		this.mc.getTextureManager().bindTexture(TEXTURES);
 		
 		this.drawTexturedModalRect(width / 2 - 128, height / 2 - 128, 0, 0, 256, 256);
-
+		
 		drawWeather();
 		drawMain();
 

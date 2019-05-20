@@ -10,17 +10,13 @@ import infinitesimalzeros.common.blocks.BlockBoundingBox;
 import infinitesimalzeros.common.blocks.BlockTileEntityCore;
 import infinitesimalzeros.common.blocks.BlockTileEntityCore.MachineSets;
 import infinitesimalzeros.common.blocks.BlockTileEntityCore.MachineTypes;
-import infinitesimalzeros.common.blocks.NanaBlock;
-import infinitesimalzeros.common.blocks.NanaFurnace;
 import infinitesimalzeros.common.items.ItemBlockMachine;
-import infinitesimalzeros.common.items.ItemTestMachine;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class RegistryBlocks {
@@ -28,11 +24,10 @@ public class RegistryBlocks {
 	public static final List<Block> BLOCKS = new ArrayList<Block>();
 	public static Map<String, ModelResourceLocation> machineResources = new HashMap<>();
 	
-	//public static final Block NanaBlock = new NanaBlock("nana_block");
-	//public static final Block NanaFurnace = new NanaFurnace();
 	public static final Block TEBlock1 = BlockTileEntityCore.getBlockMachine(MachineSets.Machine_Set_A);
 	//public static final Block TEBlock2 = BlockTileEntityCore.getBlockMachine(MachineSets.Machine_Set_B);
 	public static final Block BBBlock = new BlockBoundingBox();
+
 	
 	public static Block init(Block block, String name) {
 		
@@ -48,10 +43,8 @@ public class RegistryBlocks {
 		registry.register(init(TEBlock1, "Machine1"));
 		//registry.register(init(TEBlock2, "Machine2"));
 		registry.register(init(BBBlock, "BoundingBox"));
-		//registry.register(init(NanaFurnace, "nana_furnace"));
 		
-		RegistryItems.ITEMS.add(new ItemBlockMachine(TEBlock1).setRegistryName(TEBlock1.getRegistryName()));
-		//RegistryItems.ITEMS.add(new ItemBlock(NanaFurnace).setRegistryName(NanaFurnace.getRegistryName()));
+		
 		
 	}
 	

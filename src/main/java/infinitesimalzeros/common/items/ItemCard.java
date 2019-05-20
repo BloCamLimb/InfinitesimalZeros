@@ -5,8 +5,10 @@ import java.util.List;
 import com.mojang.authlib.GameProfile;
 
 import infinitesimalzeros.InfinitesimalZeros;
+import infinitesimalzeros.api.interfaces.IBank;
 import infinitesimalzeros.api.interfaces.ISecurityComponent;
 import infinitesimalzeros.common.blocks.BlockBoundingBox;
+import infinitesimalzeros.common.capabilities.Capabilities;
 import infinitesimalzeros.common.registry.ItemRegister;
 import infinitesimalzeros.common.tileentities.TileEntityAdvancedBoundingBox;
 import infinitesimalzeros.common.tileentities.basic.TileEntityBasicMachine;
@@ -25,6 +27,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -107,13 +110,17 @@ public class ItemCard extends ItemRegister {
 			return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 		}
 		
+		/*IBank bank = playerIn.getCapability(Capabilities.BANK_SYSTEM, null);
+		bank.deposit(10);
+		playerIn.sendMessage(new TextComponentString("Send 10 to your account. Now you have " + bank.getMoney()));*/
+		
 		return ActionResult.newResult(EnumActionResult.PASS, stack);
 	}
 	
 	@Override
 	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
 		
-		if(entity.world.isRemote)
+		/*if(entity.world.isRemote)
 			return false;
 		
 		if(entity instanceof EntityPlayer) {
@@ -132,9 +139,9 @@ public class ItemCard extends ItemRegister {
 		if(!entity.isDead)
 			entity.onKillCommand();
 		
-		player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_IRONGOLEM_DEATH, player.getSoundCategory(), 1.0F, 1.0F);
+		player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_IRONGOLEM_DEATH, player.getSoundCategory(), 1.0F, 1.0F);*/
 		
-		return true;
+		return false;
 	}
 	
 }

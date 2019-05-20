@@ -1,18 +1,16 @@
 package infinitesimalzeros.client.jei.recipe;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import cofh.core.util.helpers.ItemHelper;
 import cofh.core.util.helpers.StringHelper;
-import infinitesimalzeros.common.recipe.RecipeT1;
 import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
+import infinitesimalzeros.common.recipe.core.RecipeCoreT1.RecipeT1;
 import mezz.jei.api.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
-import mezz.jei.api.recipe.IIngredientType;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;

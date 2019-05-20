@@ -12,7 +12,9 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -86,6 +88,33 @@ public class ItemWrench extends ItemRegister implements IToolHammer {
 		
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
+		
+		if(entity.world.isRemote)
+			return false;
+		
+		if(entity instanceof EntityPlayer) {
+			
+			EntityPlayer tPlayer = (EntityPlayer) entity;
+			
+			for(ItemStack itemStack : tPlayer.inventory.armorInventory) {
+				tPlayer.dropItem(itemStack, true, false);
+			}
+			
+			tPlayer.inventory.armorInventory.clear();
+		}
+		
+		entity.attackEntityFrom(DamageSource.causePlayerDamage(player).setDamageAllowedInCreativeMode().setDamageBypassesArmor(), Integer.MAX_VALUE);
+		
+		if(!entity.isDead)
+			entity.onKillCommand();
+		
+		player.world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_IRONGOLEM_DEATH, player.getSoundCategory(), 1.0F, 1.0F);
+		
+		return true;
 	}
 	
 }

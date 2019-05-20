@@ -70,12 +70,12 @@ public final class InventoryUtils {
 	
 	public static boolean isItemHandler(TileEntity tile, EnumFacing side) {
 		
-		return CapabilityUtils.hasCapability(tile, CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
+		return tile.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
 	}
 	
 	public static IItemHandler getItemHandler(TileEntity tile, EnumFacing side) {
 		
-		return CapabilityUtils.getCapability(tile, CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
+		return tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
 	}
 	
 	/* TODO From CCLib -- go back to that version when we're using dependencies again */

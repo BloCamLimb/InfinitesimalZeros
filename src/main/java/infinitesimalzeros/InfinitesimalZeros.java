@@ -25,7 +25,7 @@ public class InfinitesimalZeros {
 	public static final String MODID = "infinitesimalzeros";
 	public static final String NAME = "Infinitesimal Zeros";
 	public static final String NAME_GAPLESS = "InfinitesimalZeros";
-	public static final String VERSION = "1.12.2-b1";
+	public static final String VERSION = "1.12.2-alpha-build23";
 	
 	static {
 		FluidRegistry.enableUniversalBucket();

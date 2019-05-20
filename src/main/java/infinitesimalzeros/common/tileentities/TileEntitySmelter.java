@@ -1,17 +1,12 @@
 package infinitesimalzeros.common.tileentities;
 
-import infinitesimalzeros.InfinitesimalZeros;
 import infinitesimalzeros.api.Coord4D;
-import infinitesimalzeros.common.core.InventoryHandlerZero;
-import infinitesimalzeros.common.recipe.RecipeT1;
 import infinitesimalzeros.common.recipe.core.RecipeCoreT1;
-import infinitesimalzeros.common.registry.RegistryItems;
+import infinitesimalzeros.common.recipe.core.RecipeCoreT1.RecipeT1;
 import infinitesimalzeros.common.tileentities.advanced.TileEntityFunctionalMachineT1;
 import infinitesimalzeros.common.util.IZUtils;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
@@ -20,7 +15,6 @@ import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 

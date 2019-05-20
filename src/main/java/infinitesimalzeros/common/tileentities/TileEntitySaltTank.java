@@ -68,7 +68,8 @@ public class TileEntitySaltTank extends TileEntityFunctionalMachineT2 {
 			prevFluid = updateRenderFluid(inputTank, prevFluid);
 			if(isKeyTime(20))
 				if(world.isRaining())
-					inputTank.fill(new FluidStack(FluidRegistry.WATER, 10), true);
+					if(world.canSeeSky(pos.up()))
+						inputTank.fill(new FluidStack(FluidRegistry.WATER, 10), true);
 		}
 		
 
@@ -224,7 +225,7 @@ public class TileEntitySaltTank extends TileEntityFunctionalMachineT2 {
 		super.doFinish();
 		
 		if (inventory.get(0).isEmpty()) {
-			inventory.set(0, new ItemStack(Items.DIAMOND));
+			inventory.set(0, new ItemStack(Items.COOKED_FISH));
 		} else {
 			inventory.get(0).grow(1);
 		}
